@@ -37,6 +37,7 @@ CONFIGFILES[azure]="${HOME}/.azure/osServicePrincipal.json;eyJzdWJzY3JpcHRpb25JZ
 # install-config templates
 INSTALLTEMPLATES[aws-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gaHlwZXJ0aHJlYWRpbmc6IEVuYWJsZWQKICBuYW1lOiB3b3JrZXIKICBwbGF0Zm9ybToKICAgIGF3czoKICAgICAgdHlwZTogbTUuMnhsYXJnZQogIHJlcGxpY2FzOiAzCmNvbnRyb2xQbGFuZToKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiAzCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE9wZW5TaGlmdFNETgogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICBhd3M6CiAgICByZWdpb246IFJFR0lPTgpwdWJsaXNoOiBFeHRlcm5hbAo=
 INSTALLTEMPLATES[azure-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IDMKY29udHJvbFBsYW5lOgogIGFyY2hpdGVjdHVyZTogYW1kNjQKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiAzCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE9wZW5TaGlmdFNETgogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICBhenVyZToKICAgIGJhc2VEb21haW5SZXNvdXJjZUdyb3VwTmFtZTogUkVTT1VSQ0VHUk9VUAogICAgcmVnaW9uOiBSRUdJT04KcHVibGlzaDogRXh0ZXJuYWwK
+INSTALLTEMPLATES[vsphere-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IDMKY29udHJvbFBsYW5lOgogIGFyY2hpdGVjdHVyZTogYW1kNjQKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiAzCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE9wZW5TaGlmdFNETgogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICB2c3BoZXJlOgogICAgYXBpVklQOiBWU1BIRVJFLVZJUC1BUEkKICAgIGNsdXN0ZXI6IFZTUEhFUkUtQ0xVU1RFUgogICAgZGF0YWNlbnRlcjogVlNQSEVSRS1EQVRBQ0VOVEVSCiAgICBkZWZhdWx0RGF0YXN0b3JlOiBWU1BIRVJFLURBVEFTVE9SRQogICAgaW5ncmVzc1ZJUDogVlNQSEVSRS1WSVAtSU5HUkVTUwogICAgbmV0d29yazogVlNQSEVSRS1ORVRXT1JLCiAgICBwYXNzd29yZDogVlNQSEVSRS1QQVNTV09SRAogICAgdXNlcm5hbWU6IFZTUEhFUkUtVVNFUgogICAgdkNlbnRlcjogVlNQSEVSRS1WQ0VOVEVSCnB1Ymxpc2g6IEV4dGVybmFsCg==
 
 # cleanup on exit
 cleanup_on_exit() {
@@ -77,21 +78,30 @@ OpenShift installation wrapper for IPI installations. Version: ${VERSION}
 Usage: `basename ${0}` [--init|--install|--destroy|--customize] [options]
 
 Options:
-  --name <name>              - name of the cluster
-  --domain <domain>          - name of the domain for the cluster
-  --version <version>        - version to install
-  --platform <name>          - cloud provider (only aws supported for now)
-  --region <name>            - cloud provider region
-  --force                    - force installation (cleanup files if required)
-  --init                     - initialize the tool and credentials
-  --install                  - install the cluster
-  --destroy                  - destroy the cluster
-  --customize                - customize the cluster with some post-install actions
-  --list                     - lists all existing clusters
-  --verbose                  - shows more information during the execution
-  --quiet                    - quiet mode (no output at all)
-  --help|-h                  - shows this message
-  --azure-resource-group     - provide the ResourceGroup where the domain exists
+  --name <name>                  - name of the cluster
+  --domain <domain>              - name of the domain for the cluster
+  --version <version>            - version to install
+  --platform <name>              - cloud provider (only aws supported for now)
+  --region <name>                - cloud provider region
+  --vsphere-vcenter <name>       - fqdn or IP address of vCenter
+  --vsphere-user <username>      - username to login to vCenter
+  --vsphere-password <password>  - password to login to vCenter 
+  --vsphere-cluster <name>       - vCenter cluster name
+  --vsphere-datacenter <name>    - vCenter datacenter name 
+  --vsphere-datastore <name>     - vCenter datastore name 
+  --vsphere-network <name>       - vCenter network name 
+  --vsphere-vip-api <IP>         - IP address the cluster's API
+  --vsphere-vip-ingress <IP>     - IP address for the cluster's ingress
+  --force                        - force installation (cleanup files if required)
+  --init                         - initialize the tool and credentials
+  --install                      - install the cluster
+  --destroy                      - destroy the cluster
+  --customize                    - customize the cluster with some post-install actions
+  --list                         - lists all existing clusters
+  --verbose                      - shows more information during the execution
+  --quiet                        - quiet mode (no output at all)
+  --help|-h                      - shows this message
+  --azure-resource-group         - provide the ResourceGroup where the domain exists
 EOF
   exit 0
 }
@@ -171,6 +181,18 @@ create_install_config() {
   sed -i "s/NAME/${INSTALLOPTS[name]}/g;" ${clusterdir}/install-config.yaml
   sed -i "s/DOMAIN/${INSTALLOPTS[domain]}/g;" ${clusterdir}/install-config.yaml
   sed -i "s/REGION/${INSTALLOPTS[region]}/g;" ${clusterdir}/install-config.yaml
+  if [[ ${INSTALLOPTS[platform]} == "vsphere" ]]; then
+    sed -i "s/VSPHERE-VIP-API/${INSTALLOPTS[vsphere-vip-api]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/VSPHERE-CLUSTER/${INSTALLOPTS[vsphere-cluster]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/VSPHERE-DATACENTER/${INSTALLOPTS[vsphere-datacenter]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/VSPHERE-DATASTORE/${INSTALLOPTS[vsphere-datastore]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/VSPHERE-VIP-INGRESS/${INSTALLOPTS[vsphere-vip-ingress]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/VSPHERE-NETWORK/${INSTALLOPTS[vsphere-network]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/VSPHERE-PASSWORD/${INSTALLOPTS[vsphere-password]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/VSPHERE-USER/${INSTALLOPTS[vsphere-username]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/VSPHERE-VCENTER/${INSTALLOPTS[vsphere-vcenter]}/g;" ${clusterdir}/install-config.yaml
+  fi
+
   if [[ ! -f ${__configdir}/pull-secret.json ]]; then
     die "Missing pull secret in ${__configdir}/pull-secret.json. Please create the file before trying again."
   fi
@@ -288,8 +310,19 @@ validate_options() {
       require_option domain
       require_option version
       require_option platform
-      require_option region
+      [[ ${INSTALLOPTS[platform]} == "aws" ]] || [[ ${INSTALLOPTS[platform]} == "azure" ]] && require_option region
       [[ ${INSTALLOPTS[platform]} == "azure" ]] && require_option azure-resource-group
+      if [[ ${INSTALLOPTS[platform]} == "vsphere" ]]; then 
+	require_option vsphere-vcenter
+        require_option vsphere-username
+        require_option vsphere-password
+        require_option vsphere-cluster
+        require_option vsphere-datacenter
+        require_option vsphere-datastore
+        require_option vsphere-network
+        require_option vsphere-vip-api
+        require_option vsphere-vip-ingress
+      fi
       ;;
     destroy)
       require_option name
@@ -317,6 +350,9 @@ validate_options() {
         verbose "  Platform: ${INSTALLOPTS[platform]}"
         verify_cloud_credentials
         ;;
+      vsphere)
+        verbose "  Platform: ${INSTALLOPTS[platform]}"
+        ;;
       *)
         die "Error: Platform ${INSTALLOPTS[platform]} not yet supported by this script"
         ;;
@@ -335,6 +371,15 @@ main() {
       --version)     shift; INSTALLOPTS[version]="${1}";;
       --platform)    shift; INSTALLOPTS[platform]="${1}";;
       --region)      shift; INSTALLOPTS[region]="${1}";;
+      --vsphere-vcenter)     shift; INSTALLOPTS[vsphere-vcenter]="${1}";;
+      --vsphere-username)    shift; INSTALLOPTS[vsphere-username]="${1}";;
+      --vsphere-password)    shift; INSTALLOPTS[vsphere-password]="${1}";;
+      --vsphere-cluster)     shift; INSTALLOPTS[vsphere-cluster]="${1}";;
+      --vsphere-datacenter)  shift; INSTALLOPTS[vsphere-datacenter]="${1}";;
+      --vsphere-datastore)   shift; INSTALLOPTS[vsphere-datastore]="${1}";;
+      --vsphere-network)     shift; INSTALLOPTS[vsphere-network]="${1}";;
+      --vsphere-vip-api)     shift; INSTALLOPTS[vsphere-vip-api]="${1}";;
+      --vsphere-vip-ingress) shift; INSTALLOPTS[vsphere-vip-ingress]="${1}";;
       --force)       FORCE=1;;
       --init)        ACTION=init;;
       --install)     ACTION=install;;
