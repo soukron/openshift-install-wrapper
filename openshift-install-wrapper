@@ -116,7 +116,7 @@ download_tools() {
       out "→ Checking if installer for ${version} is already present..."
       verbose "  File: ${__bindir}/openshift-install-${version}"
       if [ ! -f ${__bindir}/openshift-install-${version} ]; then
-        err "Installer has not found. Downloading it..."
+        err "Installer not found. Downloading it..."
         if [[ ${VERBOSE} -eq 1 ]]; then
           wget ${__baseurl}/${version}/openshift-install-linux-${version}.tar.gz -O ${TMPDIR}/openshift-install-linux-${version}.tar.gz
         else
