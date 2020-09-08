@@ -33,11 +33,13 @@ declare -A INSTALLTEMPLATES
 # sample credentials files
 CONFIGFILES[aws]="${HOME}/.aws/credentials;W2RlZmF1bHRdCmF3c19hY2Nlc3Nfa2V5X2lkID0gMTIzNDU2Nzg5MEFCQ0RFRkdISUoKYXdzX3NlY3JldF9hY2Nlc3Nfa2V5ID0gMTIzNDU2Nzg5MEFCQ0RFRkdISUpLTE1OT2FiY2RlZmdoaWprbG1ubwo="
 CONFIGFILES[azure]="${HOME}/.azure/osServicePrincipal.json;eyJzdWJzY3JpcHRpb25JZCI6IjEyMzQ1YWJjLTEyYWItMTJhYi0xMmFiLTEyMzQ1NmFiY2RlZiIsImNsaWVudElkIjoiMTIzNGFiY2QtMTJhYi0xMmFiLTEyYWItMTIzNDU2YWJjZGVmIiwiY2xpZW50U2VjcmV0IjoiMUFfMTIzNDU2YWJjZGVmZzEyMzQ1NTZhYmMuW1x1MDAzY1x1MDAyNmRAWkoja1x1MDAzZSIsInRlbmFudElkIjoiMTIzNDVhYmMtMTJhYi0xMmFiLTEyYWItMTIzNDU2YWJjZGVmIn0K"
+CONFIGFILES[ovirt]="${HOME}/.ovirt/ovirt-config.yaml;b3ZpcnRfdXJsOiBodHRwczovL09WSVJUX0ZRRE4vb3ZpcnQtZW5naW5lL2FwaQpvdmlydF91c2VybmFtZTogYWRtaW5AaW50ZXJuYWwKb3ZpcnRfcGFzc3dvcmQ6IHNlY3JldFBhc3N3b3JkCm92aXJ0X2luc2VjdXJlOiB0cnVlCg=="
 
 # install-config templates
 INSTALLTEMPLATES[aws-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gaHlwZXJ0aHJlYWRpbmc6IEVuYWJsZWQKICBuYW1lOiB3b3JrZXIKICBwbGF0Zm9ybToKICAgIGF3czoKICAgICAgdHlwZTogbTUuMnhsYXJnZQogIHJlcGxpY2FzOiAzCmNvbnRyb2xQbGFuZToKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiAzCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE9wZW5TaGlmdFNETgogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICBhd3M6CiAgICByZWdpb246IFJFR0lPTgpwdWJsaXNoOiBFeHRlcm5hbAo=
 INSTALLTEMPLATES[azure-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IDMKY29udHJvbFBsYW5lOgogIGFyY2hpdGVjdHVyZTogYW1kNjQKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiAzCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE9wZW5TaGlmdFNETgogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICBhenVyZToKICAgIGJhc2VEb21haW5SZXNvdXJjZUdyb3VwTmFtZTogUkVTT1VSQ0VHUk9VUAogICAgcmVnaW9uOiBSRUdJT04KcHVibGlzaDogRXh0ZXJuYWwK
 INSTALLTEMPLATES[vsphere-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IDMKY29udHJvbFBsYW5lOgogIGFyY2hpdGVjdHVyZTogYW1kNjQKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiAzCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE9wZW5TaGlmdFNETgogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICB2c3BoZXJlOgogICAgYXBpVklQOiBWU1BIRVJFLVZJUC1BUEkKICAgIGNsdXN0ZXI6IFZTUEhFUkUtQ0xVU1RFUgogICAgZGF0YWNlbnRlcjogVlNQSEVSRS1EQVRBQ0VOVEVSCiAgICBkZWZhdWx0RGF0YXN0b3JlOiBWU1BIRVJFLURBVEFTVE9SRQogICAgaW5ncmVzc1ZJUDogVlNQSEVSRS1WSVAtSU5HUkVTUwogICAgbmV0d29yazogVlNQSEVSRS1ORVRXT1JLCiAgICBwYXNzd29yZDogVlNQSEVSRS1QQVNTV09SRAogICAgdXNlcm5hbWU6IFZTUEhFUkUtVVNFUgogICAgdkNlbnRlcjogVlNQSEVSRS1WQ0VOVEVSCnB1Ymxpc2g6IEV4dGVybmFsCg==
+INSTALLTEMPLATES[ovirt-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbnRyb2xQbGFuZToKICBuYW1lOiBtYXN0ZXIKICBwbGF0Zm9ybToKICAgIG92aXJ0OgogICAgICBjcHU6CiAgICAgICAgY29yZXM6IDQKICAgICAgICBzb2NrZXRzOiAyCiAgICAgIG1lbW9yeU1COiAxNjM4NAogICAgICBvc0Rpc2s6CiAgICAgICAgc2l6ZUdCOiA1MAogICAgICB2bVR5cGU6IHNlcnZlcgogIHJlcGxpY2FzOiAzCmNvbXB1dGU6Ci0gbmFtZTogd29ya2VyCiAgcGxhdGZvcm06CiAgICBvdmlydDoKICAgICAgY3B1OgogICAgICAgIGNvcmVzOiA0CiAgICAgICAgc29ja2V0czogNAogICAgICBtZW1vcnlNQjogMTYzODQKICAgICAgb3NEaXNrOgogICAgICAgIHNpemVHQjogNTAKICAgICAgdm1UeXBlOiBzZXJ2ZXIKICByZXBsaWNhczogMwptZXRhZGF0YToKICBuYW1lOiBOQU1FCnBsYXRmb3JtOgogIG92aXJ0OgogICAgYXBpX3ZpcDogT1ZJUlQtVklQLUFQSQogICAgaW5ncmVzc192aXA6IE9WSVJULVZJUC1JTkdSRVNTCiAgICBkbnNfdmlwOiBPVklSVC1WSVAtRE5TCiAgICBvdmlydF9jbHVzdGVyX2lkOiBPVklSVC1DTFVTVEVSCiAgICBvdmlydF9zdG9yYWdlX2RvbWFpbl9pZDogT1ZJUlQtU1RPUkFHRURPTUFOCiAgICBvdmlydF9uZXR3b3JrX25hbWU6IE9WSVJULU5FVFdPUksKCg==
 
 # cleanup on exit
 cleanup_on_exit() {
@@ -92,6 +94,14 @@ Options:
   --vsphere-network <name>       - vCenter network name 
   --vsphere-vip-api <IP>         - IP address the cluster's API
   --vsphere-vip-ingress <IP>     - IP address for the cluster's ingress
+
+  --ovirt-cluster UUID         - ovirt cluster UUID
+  --ovirt-storagedomain UUID   - ovirt storage domain UUID
+  --ovirt-network <name>         - ovirt network name 
+  --ovirt-vip-api <IP>           - IP address the cluster's API
+  --ovirt-vip-ingress <IP>       - IP address for the cluster's ingress
+  --ovirt-vip-dns <IP>           - IP address for the cluster's dns
+
   --force                        - force installation (cleanup files if required)
   --init                         - initialize the tool and credentials
   --install                      - install the cluster
@@ -191,6 +201,14 @@ create_install_config() {
     sed -i "s/VSPHERE-PASSWORD/${INSTALLOPTS[vsphere-password]}/g;" ${clusterdir}/install-config.yaml
     sed -i "s/VSPHERE-USER/${INSTALLOPTS[vsphere-username]}/g;" ${clusterdir}/install-config.yaml
     sed -i "s/VSPHERE-VCENTER/${INSTALLOPTS[vsphere-vcenter]}/g;" ${clusterdir}/install-config.yaml
+  fi
+  if [[ ${INSTALLOPTS[platform]} == "ovirt" ]]; then
+    sed -i "s/OVIRT-VIP-API/${INSTALLOPTS[ovirt-vip-api]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/OVIRT-VIP-DNS/${INSTALLOPTS[ovirt-vip-dns]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/OVIRT-VIP-INGRESS/${INSTALLOPTS[ovirt-vip-ingress]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/OVIRT-CLUSTER/${INSTALLOPTS[ovirt-cluster]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/OVIRT-STORAGEDOMAN/${INSTALLOPTS[ovirt-storagedomain]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/OVIRT-NETWORK/${INSTALLOPTS[ovirt-network]}/g;" ${clusterdir}/install-config.yaml
   fi
 
   if [[ ! -f ${__configdir}/pull-secret.json ]]; then
@@ -313,7 +331,7 @@ validate_options() {
       [[ ${INSTALLOPTS[platform]} == "aws" ]] || [[ ${INSTALLOPTS[platform]} == "azure" ]] && require_option region
       [[ ${INSTALLOPTS[platform]} == "azure" ]] && require_option azure-resource-group
       if [[ ${INSTALLOPTS[platform]} == "vsphere" ]]; then 
-	require_option vsphere-vcenter
+        require_option vsphere-vcenter
         require_option vsphere-username
         require_option vsphere-password
         require_option vsphere-cluster
@@ -322,6 +340,13 @@ validate_options() {
         require_option vsphere-network
         require_option vsphere-vip-api
         require_option vsphere-vip-ingress
+      elif [[ ${INSTALLOPTS[platform]} == "ovirt" ]]; then
+        require_option ovirt-cluster
+        require_option ovirt-storagedomain
+        require_option ovirt-network
+        require_option ovirt-vip-api
+        require_option ovirt-vip-ingress
+        require_option ovirt-vip-dns
       fi
       ;;
     destroy)
@@ -351,6 +376,9 @@ validate_options() {
         verify_cloud_credentials
         ;;
       vsphere)
+        verbose "  Platform: ${INSTALLOPTS[platform]}"
+        ;;
+      ovirt)
         verbose "  Platform: ${INSTALLOPTS[platform]}"
         ;;
       *)
@@ -390,6 +418,12 @@ main() {
       --vsphere-network)     shift; INSTALLOPTS[vsphere-network]="${1}";;
       --vsphere-vip-api)     shift; INSTALLOPTS[vsphere-vip-api]="${1}";;
       --vsphere-vip-ingress) shift; INSTALLOPTS[vsphere-vip-ingress]="${1}";;
+      --ovirt-cluster)       shift; INSTALLOPTS[ovirt-cluster]="${1}";;
+      --ovirt-storagedomain) shift; INSTALLOPTS[ovirt-storagedomain]="${1}";;
+      --ovirt-network)       shift; INSTALLOPTS[ovirt-network]="${1}";;
+      --ovirt-vip-api)       shift; INSTALLOPTS[ovirt-vip-api]="${1}";;
+      --ovirt-vip-ingress)   shift; INSTALLOPTS[ovirt-vip-ingress]="${1}";;
+      --ovirt-vip-dns)       shift; INSTALLOPTS[ovirt-vip-dns]="${1}";;
       *)
         die "Error: Invalid option ${1}.\n"
         ;;
