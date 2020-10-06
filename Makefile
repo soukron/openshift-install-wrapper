@@ -1,5 +1,5 @@
 ###############
-# BOILERPLATE # 
+# BOILERPLATE #
 ###############
 # Import config.
 # You can change the default config with `make CONFIG="config_special.env" build`
@@ -23,7 +23,20 @@ version: ## Output the current version.
 ###########
 # INSTALL #
 ###########
-install: ## Installs the script 
+.ONESHELL:
+merge-scripts: ## Merge the scripts in the main script
+	@echo Merging scripts into openshift-install-wrapper
+	cd scripts && \
+	rm -f functions && \
+	for file in hello_world bye_world; do \
+           echo Procesando $${file}
+	   sed -n -e '/# start main/,/# end main/{ /#.*/d;p }' $${file} | sed "s/^main/$${file}/g" >> functions; \
+	done && \
+        sed "s/#__CUSTOM_SCRIPTS__/$( shell cat functions )/" ../openshift-install-wrapper > openshift-install-wrapper
+
+
+
+install: ## Installs the script
 	@echo Creating target directory $(TARGETDIR)...
 	@mkdir -p $(TARGETDIR)/{bin,clusters,config}
 	@echo Copying script...
