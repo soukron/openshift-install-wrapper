@@ -42,15 +42,8 @@ INSTALLTEMPLATES[vsphere-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCm
 INSTALLTEMPLATES[ovirt-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbnRyb2xQbGFuZToKICBuYW1lOiBtYXN0ZXIKICBwbGF0Zm9ybToKICAgIG92aXJ0OgogICAgICBjcHU6CiAgICAgICAgY29yZXM6IDQKICAgICAgICBzb2NrZXRzOiAyCiAgICAgIG1lbW9yeU1COiAxNjM4NAogICAgICBvc0Rpc2s6CiAgICAgICAgc2l6ZUdCOiA1MAogICAgICB2bVR5cGU6IHNlcnZlcgogIHJlcGxpY2FzOiAzCmNvbXB1dGU6Ci0gbmFtZTogd29ya2VyCiAgcGxhdGZvcm06CiAgICBvdmlydDoKICAgICAgY3B1OgogICAgICAgIGNvcmVzOiA0CiAgICAgICAgc29ja2V0czogNAogICAgICBtZW1vcnlNQjogMTYzODQKICAgICAgb3NEaXNrOgogICAgICAgIHNpemVHQjogNTAKICAgICAgdm1UeXBlOiBzZXJ2ZXIKICByZXBsaWNhczogMwptZXRhZGF0YToKICBuYW1lOiBOQU1FCnBsYXRmb3JtOgogIG92aXJ0OgogICAgYXBpX3ZpcDogT1ZJUlQtVklQLUFQSQogICAgaW5ncmVzc192aXA6IE9WSVJULVZJUC1JTkdSRVNTCiAgICBkbnNfdmlwOiBPVklSVC1WSVAtRE5TCiAgICBvdmlydF9jbHVzdGVyX2lkOiBPVklSVC1DTFVTVEVSCiAgICBvdmlydF9zdG9yYWdlX2RvbWFpbl9pZDogT1ZJUlQtU1RPUkFHRURPTUFOCiAgICBvdmlydF9uZXR3b3JrX25hbWU6IE9WSVJULU5FVFdPUksKCg==
 
 # custom scripts
+hello_world() { echo "Hello world!"; for param in ${@}; do echo -e ${param}"\n-----"; done }
 #__CUSTOM_SCRIPTS__
-hello_world() {
-  # hello_world ${INSTALLOPTS} ${clusterdir} ${client} ${VERBOSE} ${QUIET}
-  echo -e ${1}"\n-----"
-  echo -e ${2}"\n-----"
-  echo -e ${3}"\n-----"
-  echo -e ${4}"\n-----"
-  echo -e ${5}"\n-----"
-}
 
 # cleanup on exit
 cleanup_on_exit() {
@@ -320,7 +313,7 @@ customize_cluster() {
 
   for script in $( echo ${SCRIPTS} | tr -s "," " " ); do
     type $script &>/dev/null && out "→ Running $script..." || die "$script not found."
-    $script ${INSTALLOPTS} ${clusterdir} ${client} ${VERBOSE} ${QUIET}
+    $script ${INSTALLOPTS[*]} ${clusterdir} ${client} ${VERBOSE} ${QUIET}
   done
 }
 
@@ -472,6 +465,7 @@ main() {
       destroy_cluster
       ;;
     customize)
+      get_cluster_version
       download_tools client
       customize_cluster
       ;;
