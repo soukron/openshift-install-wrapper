@@ -27,8 +27,8 @@ version: ## Output the current version.
 merge-scripts: ## Merge the scripts in the main script
 	@echo Merging scripts into openshift-install-wrapper
 	cd scripts && \
-	rm -f functions && \
-	for file in hello_world bye_world; do \
+	rm -f functions openshift-install-wrapper && \
+	for file in *; do \
            echo Procesando $${file}
 	   sed -n -e '/# start main/,/# end main/{ /#.*/d;p }' $${file} | sed "s/^main/$${file}/g" >> functions; \
 	done && \
