@@ -86,7 +86,7 @@ Options:
   --name <name>                  - name of the cluster
   --domain <domain>              - name of the domain for the cluster
   --version <version>            - version to install
-  --platform <name>              - cloud provider (only aws supported for now)
+  --platform <name>              - cloud provider
   --region <name>                - cloud provider region
 
   --azure-resource-group         - provide the ResourceGroup where the domain exists

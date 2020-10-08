@@ -1,4 +1,11 @@
 # OpenShift Installer Wrapper
+## Index
+1. [Description](#description)
+2. [Preparation](#preparation)
+3. [Usage](#usage)
+4. [Adding customizations](#adding-customization-scripts)
+5. [TODO](#todo)
+
 ## Description
 This is a wrapper for the official `openshift-install` binary to perform IPI (Installer Provided Infrastructure) installations of OpenShift 4.
 
@@ -6,6 +13,7 @@ Features:
  - downloads the installer and client for the desired version
  - creates sample cloud credential files in the right location for each cloud provider
  - creates install-config.yaml for each cloud provider
+ - allows customize a previously installed cluster with some pre-made scripts
  
 ## Preparation
 The wrapper leverages in `openshift-install` all the tasks but it requires some pre-requisites:
@@ -44,6 +52,8 @@ $ openshift-install-wrapper --init --platform aws
 - Copy the pull secret to `$HOME/.local/ocp4/config/pull-secret.json`
 
 ## Usage
+The list of features and options is increasing as changes are made. Check the `--help` parameter for the newest list.
+
 ```
 $ openshift-install-wrapper --help
 OpenShift installation wrapper for IPI installations. Version: 1.0.0
@@ -56,16 +66,17 @@ Options:
   --version <version>        - version to install
   --platform <name>          - cloud provider (only aws supported for now)
   --region <name>            - cloud provider region
+
   --force                    - force installation (cleanup files if required)
   --init                     - initialize the tool and credentials
   --install                  - install the cluster
   --destroy                  - destroy the cluster
   --customize                - customize the cluster with some post-install actions
   --list                     - lists all existing clusters
+
   --verbose                  - shows more information during the execution
   --quiet                    - quiet mode (no output at all)
   --help|-h                  - shows this message
-  --azure-resource-group     - provide the ResourceGroup where the domain exists
 ```
 
 ### Install a cluster
@@ -122,8 +133,39 @@ secret "kubeadmin" deleted
 - Use `--verbose` to get extra information during the execution, including the full output of `openshift-install`
 - Review `$HOME/.local/ocp4/clusters/<cluster_name>/.openshift_install_wrapper.log` for useful output
 
+## Adding customization scripts
+In order to add new scripts, they must meet some requisites:
+ - they must be created in the `scripts/` directory
+ - they must have a descriptive name and do not overlap with any existing command or function in the system
+ - they must contain some markers and a `main()` function. Use any existing script as a baseline or use this one:
+   ```sh
+   #!/bin/bash
+
+   # start main - do not remove this line and do not change the function name
+   main() {
+     _oc="${2} --kubeconfig=${1}/auth/kubeconfig"
+     ${_oc} get clusterversion
+   }
+   # end main - do not remove this line
+
+   # Keep this if you want to run your script manually or for testing.
+   main $@
+   ```
+
+On the other hand, in order to provide flexibility, every script will receive the next parameters in this order:
+ - the full path to the cluster installation directory
+ - the full path to the right `oc` client binary
+ - verbose mode flag (`0` or `1`)
+ - quiet mode flag (`0` or `1`)
+ - cluster version
+ - cluster name
+ - cluster subdomain
+ - cloud platform
+
+Finally, after adding your new script, remember to run `make install` in order to install a new version of `openshift-install-wrapper` with your script.
+
 ## TODO
-- Add GCP and RHV support
+- Add GCP support
 - Error handling when the cloud credentials are invalid
 - Improve `--list` output
 - Improve console output (ie. include timestamps)
