@@ -21,7 +21,7 @@ __clustersdir=${__basedir}/clusters
 __baseurl=https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
 # defaults
-VERSION=1.0.0
+VERSION=1.1.0
 VERBOSE=0
 QUIET=0
 FORCE=0
@@ -41,6 +41,9 @@ INSTALLTEMPLATES[azure-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNv
 INSTALLTEMPLATES[vsphere-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IDMKY29udHJvbFBsYW5lOgogIGFyY2hpdGVjdHVyZTogYW1kNjQKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiAzCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE9wZW5TaGlmdFNETgogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICB2c3BoZXJlOgogICAgYXBpVklQOiBWU1BIRVJFLVZJUC1BUEkKICAgIGNsdXN0ZXI6IFZTUEhFUkUtQ0xVU1RFUgogICAgZGF0YWNlbnRlcjogVlNQSEVSRS1EQVRBQ0VOVEVSCiAgICBkZWZhdWx0RGF0YXN0b3JlOiBWU1BIRVJFLURBVEFTVE9SRQogICAgaW5ncmVzc1ZJUDogVlNQSEVSRS1WSVAtSU5HUkVTUwogICAgbmV0d29yazogVlNQSEVSRS1ORVRXT1JLCiAgICBwYXNzd29yZDogVlNQSEVSRS1QQVNTV09SRAogICAgdXNlcm5hbWU6IFZTUEhFUkUtVVNFUgogICAgdkNlbnRlcjogVlNQSEVSRS1WQ0VOVEVSCnB1Ymxpc2g6IEV4dGVybmFsCg==
 INSTALLTEMPLATES[ovirt-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbnRyb2xQbGFuZToKICBuYW1lOiBtYXN0ZXIKICBwbGF0Zm9ybToKICAgIG92aXJ0OgogICAgICBjcHU6CiAgICAgICAgY29yZXM6IDQKICAgICAgICBzb2NrZXRzOiAyCiAgICAgIG1lbW9yeU1COiAxNjM4NAogICAgICBvc0Rpc2s6CiAgICAgICAgc2l6ZUdCOiA1MAogICAgICB2bVR5cGU6IHNlcnZlcgogIHJlcGxpY2FzOiAzCmNvbXB1dGU6Ci0gbmFtZTogd29ya2VyCiAgcGxhdGZvcm06CiAgICBvdmlydDoKICAgICAgY3B1OgogICAgICAgIGNvcmVzOiA0CiAgICAgICAgc29ja2V0czogNAogICAgICBtZW1vcnlNQjogMTYzODQKICAgICAgb3NEaXNrOgogICAgICAgIHNpemVHQjogNTAKICAgICAgdm1UeXBlOiBzZXJ2ZXIKICByZXBsaWNhczogMwptZXRhZGF0YToKICBuYW1lOiBOQU1FCnBsYXRmb3JtOgogIG92aXJ0OgogICAgYXBpX3ZpcDogT1ZJUlQtVklQLUFQSQogICAgaW5ncmVzc192aXA6IE9WSVJULVZJUC1JTkdSRVNTCiAgICBkbnNfdmlwOiBPVklSVC1WSVAtRE5TCiAgICBvdmlydF9jbHVzdGVyX2lkOiBPVklSVC1DTFVTVEVSCiAgICBvdmlydF9zdG9yYWdlX2RvbWFpbl9pZDogT1ZJUlQtU1RPUkFHRURPTUFOCiAgICBvdmlydF9uZXR3b3JrX25hbWU6IE9WSVJULU5FVFdPUksKCg==
 
+# custom scripts
+test() { for param in ${@}; do echo -e ${param}"\n-----"; done }
+#__CUSTOM_SCRIPTS__
 # cleanup on exit
 cleanup_on_exit() {
   [[ ! -v KEEPTMP ]] && rm -fr ${TMPDIR}
@@ -85,33 +88,39 @@ Options:
   --version <version>            - version to install
   --platform <name>              - cloud provider (only aws supported for now)
   --region <name>                - cloud provider region
-  --vsphere-vcenter <name>       - fqdn or IP address of vCenter
-  --vsphere-user <username>      - username to login to vCenter
-  --vsphere-password <password>  - password to login to vCenter 
-  --vsphere-cluster <name>       - vCenter cluster name
-  --vsphere-datacenter <name>    - vCenter datacenter name 
-  --vsphere-datastore <name>     - vCenter datastore name 
-  --vsphere-network <name>       - vCenter network name 
-  --vsphere-vip-api <IP>         - IP address the cluster's API
-  --vsphere-vip-ingress <IP>     - IP address for the cluster's ingress
 
-  --ovirt-cluster UUID         - ovirt cluster UUID
-  --ovirt-storagedomain UUID   - ovirt storage domain UUID
-  --ovirt-network <name>         - ovirt network name 
+  --azure-resource-group         - provide the ResourceGroup where the domain exists
+
+  --ovirt-cluster UUID           - ovirt cluster UUID
+  --ovirt-storagedomain UUID     - ovirt storage domain UUID
+  --ovirt-network <name>         - ovirt network name
   --ovirt-vip-api <IP>           - IP address the cluster's API
   --ovirt-vip-ingress <IP>       - IP address for the cluster's ingress
   --ovirt-vip-dns <IP>           - IP address for the cluster's dns
+
+  --vsphere-vcenter <name>       - fqdn or IP address of vCenter
+  --vsphere-user <username>      - username to login to vCenter
+  --vsphere-password <password>  - password to login to vCenter
+  --vsphere-cluster <name>       - vCenter cluster name
+  --vsphere-datacenter <name>    - vCenter datacenter name
+  --vsphere-datastore <name>     - vCenter datastore name
+  --vsphere-network <name>       - vCenter network name
+  --vsphere-vip-api <IP>         - IP address the cluster's API
+  --vsphere-vip-ingress <IP>     - IP address for the cluster's ingress
 
   --force                        - force installation (cleanup files if required)
   --init                         - initialize the tool and credentials
   --install                      - install the cluster
   --destroy                      - destroy the cluster
-  --customize                    - customize the cluster with some post-install actions
+  --customize <actions>          - customize the cluster with some post-install actions
   --list                         - lists all existing clusters
+
   --verbose                      - shows more information during the execution
   --quiet                        - quiet mode (no output at all)
   --help|-h                      - shows this message
-  --azure-resource-group         - provide the ResourceGroup where the domain exists
+
+Available customizations:
+#__CUSTOM_SCRIPTS_NAMES__
 EOF
   exit 0
 }
@@ -264,7 +273,7 @@ create_cloud_credentials() {
 create_cluster() {
   local clusterdir=${__clustersdir}/${INSTALLOPTS[name]}.${INSTALLOPTS[domain]}
   local installer=${__bindir}/openshift-install-${INSTALLOPTS[version]}
-  
+
   out "→ Running \"openshift-install\" to create a cluster..."
   verbose "  Command: \"${installer} create cluster --dir=${clusterdir}\""
   if [[ ${VERBOSE} -eq 1 ]]; then
@@ -281,7 +290,7 @@ create_cluster() {
 destroy_cluster() {
   local clusterdir=${__clustersdir}/${INSTALLOPTS[name]}.${INSTALLOPTS[domain]}
   local installer=${__bindir}/openshift-install-${INSTALLOPTS[version]}
-  
+
   out "→ Running \"openshift-install\" to destroy a cluster..."
   verbose "  Command: \"${installer} destroy cluster --dir=${clusterdir}\""
   if [[ ${VERBOSE} -eq 1 ]]; then
@@ -299,6 +308,17 @@ destroy_cluster() {
 # list clusters
 list_clusters() {
   ls -l ${__clustersdir} | grep -v $( basename ${TMPDIR} )
+}
+
+# customize a cluster based on a list of scripts
+customize_cluster() {
+  local clusterdir=${__clustersdir}/${INSTALLOPTS[name]}.${INSTALLOPTS[domain]}
+  local client=${__bindir}/oc-${INSTALLOPTS[version]}
+
+  for script in $( echo ${SCRIPTS} | tr -s "," " " ); do
+    type $script &>/dev/null && out "→ Running $script..." || die "$script not found."
+    $script ${clusterdir} ${client} ${VERBOSE} ${QUIET} ${INSTALLOPTS[*]}
+  done
 }
 
 # find version
@@ -330,7 +350,7 @@ validate_options() {
       require_option platform
       [[ ${INSTALLOPTS[platform]} == "aws" ]] || [[ ${INSTALLOPTS[platform]} == "azure" ]] && require_option region
       [[ ${INSTALLOPTS[platform]} == "azure" ]] && require_option azure-resource-group
-      if [[ ${INSTALLOPTS[platform]} == "vsphere" ]]; then 
+      if [[ ${INSTALLOPTS[platform]} == "vsphere" ]]; then
         require_option vsphere-vcenter
         require_option vsphere-username
         require_option vsphere-password
@@ -361,15 +381,16 @@ validate_options() {
       create_cloud_credentials
       ;;
     customize)
-      die "This option is not yet implemented"
+      require_option name
+      require_option domain
+      require_option platform
       ;;
     *)
       die "Error: Missing action. Please use --help, --init, --install, --customize, --destroy or --list."
       ;;
   esac
 
-  
-  if [[ ${ACTION} == "install" ]] || [[ ${ACTION} == "destroy" ]] || [[ ${ACTION} == "customize" ]]; then
+  if [[ ${ACTION} == "install" ]] || [[ ${ACTION} == "destroy" ]]; then
     case ${INSTALLOPTS[platform]} in
       aws|azure)
         verbose "  Platform: ${INSTALLOPTS[platform]}"
@@ -402,7 +423,7 @@ main() {
       --force)       FORCE=1;;
       --init)        ACTION=init;;
       --install)     ACTION=install;;
-      --customize)   ACTION=customize;;
+      --customize)   shift; ACTION=customize; SCRIPTS="${1}";;
       --destroy)     ACTION=destroy;;
       --list)        ACTION=list;;
       --verbose)     VERBOSE=1;;
@@ -434,7 +455,7 @@ main() {
   # create a temporary dir to work
   TMPDIR=$( mktemp -d -p . )
   verbose "Using ${TMPDIR} as temporary directory"
-  
+
   validate_options
   case ${ACTION} in
     install)
@@ -447,7 +468,12 @@ main() {
       download_tools installer
       destroy_cluster
       ;;
-  esac  
+    customize)
+      get_cluster_version
+      download_tools client
+      customize_cluster
+      ;;
+  esac
 }
 
 main "$@"

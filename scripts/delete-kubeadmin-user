@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# start main - do not remove this line and do not change the function name
+main() {
+  _oc="${2} --kubeconfig=${1}/auth/kubeconfig"
+  ${_oc} delete secret kubeadmin -n kube-system
+}
+# end main - do not remove this line
+
+# Keep this if you want to run your script manually or for testing.
+main $@

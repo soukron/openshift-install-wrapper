@@ -103,6 +103,21 @@ $ openshift-install-wrapper --destroy \
 → Removing directory...
 ```
 
+### Customize a cluster
+```
+$ openshift-install-wrapper --customize delete-kubeadmin-user \
+                            --name sgarcia-ocp447 \
+                            --domain emeashift.support \
+                            --platform aws
+→ Validating environment...
+→ Finding version in cluster directory...
+ ✔  Version detected: 4.4.7.
+→ Checking if client binaries for 4.4.7 are already present...
+ ✔  Client binaries for 4.4.7 are found. Continuing.
+→ Running delete-kubeadmin-user...
+secret "kubeadmin" deleted
+```
+
 ### Troubleshooting
 - Use `--verbose` to get extra information during the execution, including the full output of `openshift-install`
 - Review `$HOME/.local/ocp4/clusters/<cluster_name>/.openshift_install_wrapper.log` for useful output
@@ -112,7 +127,6 @@ $ openshift-install-wrapper --destroy \
 - Error handling when the cloud credentials are invalid
 - Improve `--list` output
 - Improve console output (ie. include timestamps)
-- Implement day2 operations for `--customize`
 - Implement `--expire` parameter to delete (using cron) a cluster after a certain time
 
 ## Contact
