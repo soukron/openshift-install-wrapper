@@ -26,21 +26,16 @@ version: ## Output the current version.
 .ONESHELL:
 merge-scripts: ## Merge the scripts in the main script
 	@echo Merging scripts into openshift-install-wrapper
-	cd scripts && \
-	rm -f functions openshift-install-wrapper && \
-	for file in *; do \
-           echo Procesando $${file}
-	   sed -n -e '/# start main/,/# end main/{ /#.*/d;p }' $${file} | sed "s/^main/$${file}/g" >> functions; \
-	done && \
-        sed "s/#__CUSTOM_SCRIPTS__/$( shell cat functions )/" ../openshift-install-wrapper > openshift-install-wrapper
-
-
+	cd scripts && ./.merge-scripts
 
 install: ## Installs the script
+	@echo Preparing script
+	@sed -i 's/^VERSION=.*/VERSION=$(VERSION)/' openshift-install-wrapper
+	@sed -i "s|^__basedir=.*|__basedir=$(TARGETDIR)|" openshift-install-wrapper
+	@echo Merging customization scripts
+	cd scripts && ./.merge-scripts && cd -
 	@echo Creating target directory $(TARGETDIR)...
 	@mkdir -p $(TARGETDIR)/{bin,clusters,config}
 	@echo Copying script...
-	@sed -i 's/^VERSION=.*/VERSION=$(VERSION)/' openshift-install-wrapper
-	@sed -i "s|^__basedir=.*|__basedir=$(TARGETDIR)|" openshift-install-wrapper
-	@cp -f openshift-install-wrapper $(TARGETDIR)/bin
+	@cp -f scripts/openshift-install-wrapper $(TARGETDIR)/bin
 	@echo "Wrapper installed in $(TARGETDIR)/bin. Please remember to add this location to your PATH to use it."

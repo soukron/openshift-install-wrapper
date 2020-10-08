@@ -1,0 +1,10 @@
+#!/bin/bash
+rm -f functions names openshift-install-wrapper
+for file in *; do
+  echo - Merging ${file}
+  sed -n -e '/# start main/,/# end main/{ /#.*/d;p }' ${file} | sed "s/^main/${file}/g" >> functions
+  echo >> functions
+  echo "  - ${file}" >> names
+done
+sed -e '/\#__CUSTOM_SCRIPTS__/{r functions' -e 'd}' ../openshift-install-wrapper > openshift-install-wrapper
+sed -e '/\#__CUSTOM_SCRIPTS_NAMES__/{r names' -e 'd}' -i openshift-install-wrapper

@@ -21,7 +21,7 @@ __clustersdir=${__basedir}/clusters
 __baseurl=https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
 # defaults
-VERSION=1.0.0
+VERSION=1.1.0
 VERBOSE=0
 QUIET=0
 FORCE=0
@@ -42,9 +42,8 @@ INSTALLTEMPLATES[vsphere-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCm
 INSTALLTEMPLATES[ovirt-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbnRyb2xQbGFuZToKICBuYW1lOiBtYXN0ZXIKICBwbGF0Zm9ybToKICAgIG92aXJ0OgogICAgICBjcHU6CiAgICAgICAgY29yZXM6IDQKICAgICAgICBzb2NrZXRzOiAyCiAgICAgIG1lbW9yeU1COiAxNjM4NAogICAgICBvc0Rpc2s6CiAgICAgICAgc2l6ZUdCOiA1MAogICAgICB2bVR5cGU6IHNlcnZlcgogIHJlcGxpY2FzOiAzCmNvbXB1dGU6Ci0gbmFtZTogd29ya2VyCiAgcGxhdGZvcm06CiAgICBvdmlydDoKICAgICAgY3B1OgogICAgICAgIGNvcmVzOiA0CiAgICAgICAgc29ja2V0czogNAogICAgICBtZW1vcnlNQjogMTYzODQKICAgICAgb3NEaXNrOgogICAgICAgIHNpemVHQjogNTAKICAgICAgdm1UeXBlOiBzZXJ2ZXIKICByZXBsaWNhczogMwptZXRhZGF0YToKICBuYW1lOiBOQU1FCnBsYXRmb3JtOgogIG92aXJ0OgogICAgYXBpX3ZpcDogT1ZJUlQtVklQLUFQSQogICAgaW5ncmVzc192aXA6IE9WSVJULVZJUC1JTkdSRVNTCiAgICBkbnNfdmlwOiBPVklSVC1WSVAtRE5TCiAgICBvdmlydF9jbHVzdGVyX2lkOiBPVklSVC1DTFVTVEVSCiAgICBvdmlydF9zdG9yYWdlX2RvbWFpbl9pZDogT1ZJUlQtU1RPUkFHRURPTUFOCiAgICBvdmlydF9uZXR3b3JrX25hbWU6IE9WSVJULU5FVFdPUksKCg==
 
 # custom scripts
-hello_world() { echo "Hello world!"; for param in ${@}; do echo -e ${param}"\n-----"; done }
+test() { for param in ${@}; do echo -e ${param}"\n-----"; done }
 #__CUSTOM_SCRIPTS__
-
 # cleanup on exit
 cleanup_on_exit() {
   [[ ! -v KEEPTMP ]] && rm -fr ${TMPDIR}
@@ -89,6 +88,16 @@ Options:
   --version <version>            - version to install
   --platform <name>              - cloud provider (only aws supported for now)
   --region <name>                - cloud provider region
+
+  --azure-resource-group         - provide the ResourceGroup where the domain exists
+
+  --ovirt-cluster UUID           - ovirt cluster UUID
+  --ovirt-storagedomain UUID     - ovirt storage domain UUID
+  --ovirt-network <name>         - ovirt network name
+  --ovirt-vip-api <IP>           - IP address the cluster's API
+  --ovirt-vip-ingress <IP>       - IP address for the cluster's ingress
+  --ovirt-vip-dns <IP>           - IP address for the cluster's dns
+
   --vsphere-vcenter <name>       - fqdn or IP address of vCenter
   --vsphere-user <username>      - username to login to vCenter
   --vsphere-password <password>  - password to login to vCenter
@@ -99,24 +108,19 @@ Options:
   --vsphere-vip-api <IP>         - IP address the cluster's API
   --vsphere-vip-ingress <IP>     - IP address for the cluster's ingress
 
-  --ovirt-cluster UUID           - ovirt cluster UUID
-  --ovirt-storagedomain UUID     - ovirt storage domain UUID
-  --ovirt-network <name>         - ovirt network name
-  --ovirt-vip-api <IP>           - IP address the cluster's API
-  --ovirt-vip-ingress <IP>       - IP address for the cluster's ingress
-  --ovirt-vip-dns <IP>           - IP address for the cluster's dns
-
   --force                        - force installation (cleanup files if required)
   --init                         - initialize the tool and credentials
   --install                      - install the cluster
   --destroy                      - destroy the cluster
   --customize <actions>          - customize the cluster with some post-install actions
   --list                         - lists all existing clusters
+
   --verbose                      - shows more information during the execution
   --quiet                        - quiet mode (no output at all)
   --help|-h                      - shows this message
 
-  --azure-resource-group         - provide the ResourceGroup where the domain exists
+Available customizations:
+#__CUSTOM_SCRIPTS_NAMES__
 EOF
   exit 0
 }
@@ -313,7 +317,7 @@ customize_cluster() {
 
   for script in $( echo ${SCRIPTS} | tr -s "," " " ); do
     type $script &>/dev/null && out "→ Running $script..." || die "$script not found."
-    $script ${INSTALLOPTS[*]} ${clusterdir} ${client} ${VERBOSE} ${QUIET}
+    $script ${clusterdir} ${client} ${VERBOSE} ${QUIET} ${INSTALLOPTS[*]}
   done
 }
 
