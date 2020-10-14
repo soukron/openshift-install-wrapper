@@ -316,8 +316,8 @@ customize_cluster() {
   local client=${__bindir}/oc-${INSTALLOPTS[version]}
 
   for script in $( echo ${SCRIPTS} | tr -s "," " " ); do
-    type $script &>/dev/null && out "→ Running $script..." || die "$script not found."
-    $script ${clusterdir} ${client} ${VERBOSE} ${QUIET} ${INSTALLOPTS[*]}
+    type ${script} &>/dev/null && out "→ Running $script..." || die "${script} not found."
+    ${script} ${script} ${clusterdir} ${client} ${VERBOSE} ${QUIET} ${INSTALLOPTS[*]}
   done
 }
 

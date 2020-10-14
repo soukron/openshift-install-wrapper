@@ -33,7 +33,7 @@ install: ## Installs the script
 	@sed -i 's/^VERSION=.*/VERSION=$(VERSION)/' openshift-install-wrapper
 	@sed -i "s|^__basedir=.*|__basedir=$(TARGETDIR)|" openshift-install-wrapper
 	@echo Merging customization scripts
-	cd scripts && ./.merge-scripts && cd -
+	cd scripts && ./.merge-scripts && cd - &>/dev/null
 	@echo Creating target directory $(TARGETDIR)...
 	@mkdir -p $(TARGETDIR)/{bin,clusters,config}
 	@echo Copying script...

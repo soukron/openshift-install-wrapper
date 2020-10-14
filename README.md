@@ -137,13 +137,17 @@ secret "kubeadmin" deleted
 In order to add new scripts, they must meet some requisites:
  - they must be created in the `scripts/` directory
  - they must have a descriptive name and do not overlap with any existing command or function in the system
+ - optionally they can have a name and a description (single line)
  - they must contain some markers and a `main()` function. Use any existing script as a baseline or use this one:
    ```sh
    #!/bin/bash
 
+   # script name: get-cluster-version
+   # script description: Runs an oc get clusterversion
+
    # start main - do not remove this line and do not change the function name
    main() {
-     _oc="${2} --kubeconfig=${1}/auth/kubeconfig"
+     _oc="${3} --kubeconfig=${2}/auth/kubeconfig"
      ${_oc} get clusterversion
    }
    # end main - do not remove this line
@@ -153,6 +157,7 @@ In order to add new scripts, they must meet some requisites:
    ```
 
 On the other hand, in order to provide flexibility, every script will receive the next parameters in this order:
+ - name of the customization being executed
  - the full path to the cluster installation directory
  - the full path to the right `oc` client binary
  - verbose mode flag (`0` or `1`)

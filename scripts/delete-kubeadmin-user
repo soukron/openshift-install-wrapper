@@ -1,11 +1,16 @@
 #!/bin/bash
 
+# Optional fields
+# script name: delete-kubeadmin-user
+# script description: Removes the kubeadmin secret
+
+# Mandatory function
 # start main - do not remove this line and do not change the function name
 main() {
-  _oc="${2} --kubeconfig=${1}/auth/kubeconfig"
+  _oc="${3} --kubeconfig=${2}/auth/kubeconfig"
   ${_oc} delete secret kubeadmin -n kube-system
 }
 # end main - do not remove this line
 
-# Keep this if you want to run your script manually or for testing.
+# Optionally, keep this if you want to run your script manually or for testing.
 main $@
