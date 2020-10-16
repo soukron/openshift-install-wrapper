@@ -70,10 +70,19 @@ out() {
   fi
   printf '%b\n' "$message";
 }
-die() { err "$@"; exit 1; } >&2
+die() { err "$@ Exiting..."; exit 1; } >&2
 err() { out " \033[1;31m✖\033[0m  $@"; } >&2
 success() { out " \033[1;32m✔\033[0m  $@"; }
 verbose() { [[ ${VERBOSE} -eq 1 ]] && out "$@" || true; }
+
+# oc helper to run commands in a cluster
+_oc() {
+  if [[ ${VERBOSE} -eq 1 ]]; then
+    ${client} --kubeconfig ${clusterdir}/auth/kubeconfig $@
+  else
+    ${client} --kubeconfig ${clusterdir}/auth/kubeconfig $@ &>/dev/null
+  fi
+}
 
 # usage
 usage() {

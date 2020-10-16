@@ -167,6 +167,12 @@ On the other hand, in order to provide flexibility, every script will receive th
  - cluster subdomain
  - cloud platform
 
+In the same way, there are a few functions ready to be used from the customizations:
+ - `_oc()`, which runs a command in the cluster as system:admin and aligns the output with the --verbose flag
+ - `success()`, which allows to print a message after succeeding in a command with a check icon
+ - `err()`, which allows to print a message after failing in a command with a cross icon
+ - `die()`, which allows to print a message after failing in a command with a cross icon and stops the execution
+
 Finally, after adding your new script, remember to run `make install` in order to install a new version of `openshift-install-wrapper` with your script.
 
 ## TODO

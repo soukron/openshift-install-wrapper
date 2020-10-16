@@ -1,0 +1,89 @@
+#!/bin/bash
+
+# Optional fields
+# script name: install-rhsso-7.4.2
+# script description: Installs RHSSO operator (7.4.2) and deploys an instance
+
+# Mandatory function
+# start main - do not remove this line and do not change the function name
+main() {
+  # Create the namespace to deploy the operator
+  _oc create namespace rhsso \
+      && success "Namespace rhsso created successfully." \
+      || err "Error creating the Namespace. It probably already exists. Continuing..."
+
+  # Create the operatorgroup
+  cat <<EOF | _oc apply -f - \
+                  && success "OperatorGroup created succesfully." \
+                  || die "Error creating the OperatorGroup."
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: rhsso-operator
+  namespace: rhsso
+spec:
+  targetNamespaces:
+  - rhsso
+EOF
+
+  # Create the subscription
+  cat <<EOF | _oc apply -f - \
+                  && success "Subscription created succesfully." \
+                  || die "Error creating the Subscription."
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: rhsso-operator
+  namespace: rhsso
+spec:
+    channel: alpha
+    installPlanApproval: Automatic
+    name: rhsso-operator
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+    startingCSV: rhsso-operator.7.4.2
+EOF
+
+  # Create the Keycloak instance
+  cat <<EOF | _oc apply -f - \
+                  && success "Keycloak instance created successfully." \
+                  || die "Error creating Keycloak instance."
+apiVersion: keycloak.org/v1alpha1
+kind: Keycloak
+metadata:
+  name: sso
+  namespace: rhsso
+  labels:
+    app: sso
+spec:
+  externalAccess:
+    enabled: true
+  instances: 1
+EOF
+
+  # Create the realm
+  cat <<EOF | _oc apply -f - \
+                  && success "KeycloakRealm instance created successfully." \
+                  || die "Error creating KeycloakRealm."
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakRealm
+metadata:
+  name: realm
+  namespace: rhsso
+  labels:
+    app: sso
+spec:
+  realm:
+    id: realm
+    realm: realm
+    enabled: True
+    displayName: "Realm"
+  instanceSelector:
+    matchLabels:
+      app: sso
+EOF
+}
+# end main - do not remove this line
+
+# Optionally, keep this if you want to run your script manually or for testing.
+main $@
