@@ -142,17 +142,20 @@ In order to add new scripts, they must meet some requisites:
    ```sh
    #!/bin/bash
 
-   # script name: get-cluster-version
-   # script description: Runs an oc get clusterversion
+   # Optional fields
+   # script name: delete-kubeadmin-user
+   # script description: Removes the kubeadmin secret
 
+   # Mandatory function
    # start main - do not remove this line and do not change the function name
    main() {
-     _oc="${3} --kubeconfig=${2}/auth/kubeconfig"
-     ${_oc} get clusterversion
+     _oc delete secret kubeadmin -n kube-system \
+         && success "Secret kubeadmin successfully deleted." \
+         || err "Error deleting kubeadmin secret. It probably doesn't exists anymore. Skipping."
    }
    # end main - do not remove this line
 
-   # Keep this if you want to run your script manually or for testing.
+   # Optionally, keep this if you want to run your script manually or for testing.
    main $@
    ```
 
@@ -167,7 +170,13 @@ On the other hand, in order to provide flexibility, every script will receive th
  - cluster subdomain
  - cloud platform
 
-Finally, after adding your new script, remember to run `make install` in order to install a new version of `openshift-install-wrapper` with your script.
+In the same way, there are a few functions ready to be used from the customizations:
+ - `_oc()`, which runs a command in the cluster with `system:admin` permissions and aligns the output with the `--verbose` flag
+ - `success()`, which allows to print a message after succeeding in a command with a check icon
+ - `err()`, which allows to print a message after failing in a command with a cross icon
+ - `die()`, which allows to print a message after failing in a command with a cross icon and stops the execution
+
+Finally, after adding your new script in the directory, remember to run `make install` in order to install a new version of `openshift-install-wrapper` with your script embedded on it.
 
 ## TODO
 - Add GCP support
