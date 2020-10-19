@@ -1,14 +1,25 @@
 #!/bin/bash
 
 # Optional fields
-# script name: install-rhsso-7.4.2
-# script description: Installs RHSSO operator (7.4.2) and deploys an instance
+# script name: deploy-rhsso
+# script description: Installs RHSSO operator and deploys an instance
 
 # Mandatory function
 # start main - do not remove this line and do not change the function name
 main() {
+  # default values
+  namespace=rhsso
+  version=7.4.2
+  channel=alpha
+
+  # parse parameters from ${1}
+  IFS=',' read -r -a params <<< "${1}"
+  for index in "${!params[@]}"; do
+    declare $( echo ${params[index]} | cut -d = -f 1 )=$( echo ${params[index]} | cut -d = -f 2 )
+  done
+
   # Create the namespace to deploy the operator
-  _oc create namespace rhsso \
+  _oc create namespace ${namespace} \
       && success "Namespace rhsso created successfully." \
       || err "Error creating the Namespace. It probably already exists. Continuing..."
 
@@ -20,10 +31,10 @@ apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
   name: rhsso-operator
-  namespace: rhsso
+  namespace: ${namespace}
 spec:
   targetNamespaces:
-  - rhsso
+  - ${namespace}
 EOF
 
   # Create the subscription
@@ -34,15 +45,19 @@ apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   name: rhsso-operator
-  namespace: rhsso
+  namespace: ${namespace}
 spec:
-    channel: alpha
+    channel: ${channel}
     installPlanApproval: Automatic
     name: rhsso-operator
     source: redhat-operators
     sourceNamespace: openshift-marketplace
-    startingCSV: rhsso-operator.7.4.2
+    startingCSV: rhsso-operator.${version}
 EOF
+
+  # Wait for a few seconds
+  verbose "Pausing fo 5 seconds..."
+  sleep 5
 
   # Create the Keycloak instance
   cat <<EOF | _oc apply -f - \
@@ -52,7 +67,7 @@ apiVersion: keycloak.org/v1alpha1
 kind: Keycloak
 metadata:
   name: sso
-  namespace: rhsso
+  namespace: ${namespace}
   labels:
     app: sso
 spec:
@@ -69,7 +84,7 @@ apiVersion: keycloak.org/v1alpha1
 kind: KeycloakRealm
 metadata:
   name: realm
-  namespace: rhsso
+  namespace: ${namespace}
   labels:
     app: sso
 spec:

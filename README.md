@@ -118,7 +118,7 @@ $ openshift-install-wrapper --destroy \
 ```
 $ openshift-install-wrapper --customize delete-kubeadmin-user \
                             --name sgarcia-ocp447 \
-                            --domain emeashift.support \
+                            --domain aws.gmbros.net \
                             --platform aws
 → Validating environment...
 → Finding version in cluster directory...
@@ -159,22 +159,59 @@ In order to add new scripts, they must meet some requisites:
    main $@
    ```
 
-On the other hand, in order to provide flexibility, every script will receive the next parameters in this order:
- - name of the customization being executed
- - the full path to the cluster installation directory
- - the full path to the right `oc` client binary
- - verbose mode flag (`0` or `1`)
- - quiet mode flag (`0` or `1`)
- - cluster version
- - cluster name
- - cluster subdomain
- - cloud platform
+On the other hand, in order to provide flexibility, every script will receive the next parameters:
+| Parameter  | Description  | Example  |
+|:----------:|:-------------|:---------|
+| $1 | parameters in the command line | namespace=rhsso,version=4.2.2 |
+| $2 | full path to the cluster installation directory | /opt/ocp4/clusters/sgarcia-ocp447/ |
+| $3 | full path to the right `oc` client binary | /opt/ocp4/bin/oc-4.4.7 |
+| $4 | verbose mode flag (`0` or `1`) | 0 |
+| $5 | quiet mode flag (`0` or `1`) | 0 |
+| $6 | cluster version | 4.4.7 |
+| $7 | cluster name | sgarcia-ocp447 | 
+| $8 | cluster subdomain | aws.gmbros.net | 
+| $9 | cloud platform | aws | 
 
 In the same way, there are a few functions ready to be used from the customizations:
  - `_oc()`, which runs a command in the cluster with `system:admin` permissions and aligns the output with the `--verbose` flag
  - `success()`, which allows to print a message after succeeding in a command with a check icon
  - `err()`, which allows to print a message after failing in a command with a cross icon
  - `die()`, which allows to print a message after failing in a command with a cross icon and stops the execution
+
+Optionally, your customization can receive extra parameters sent in the commandline. This is useful if you customization is flexible 
+in what it does or it allows different actions (like installing different versions of an operator). As an example:
+```sh
+$ openshift-install-wrapper --customize add-htpasswd-idp 
+                            --name sgarciam-ocp447 \
+                            --domain aws.gmbros.net \
+                            --platform aws
+→ Validating environment...
+→ Finding version in cluster directory...
+ ✔  Version detected: 4.4.7.
+→ Checking if client binaries for 4.4.7 are already present...
+ ✔  Client binaries for 4.4.7 are found. Continuing.
+→ Running add-htpasswd-idp with parameters add-htpasswd-idp...
+ ✔  Adding default users: admin, user and guest.
+ ✔  Secret htpasswd-secret created/configured successfully.
+ ✔  OAuth/cluster successfully configured.
+
+$ openshift-install-wrapper --customize add-htpasswd-idp:admin=adminpwd,user1=user1pwd,user2=user2pwd
+                            --name sgarciam-ocp447 \
+                            --domain aws.gmbros.net \
+                            --platform aws
+→ Validating environment...
+→ Finding version in cluster directory...
+ ✔  Version detected: 4.4.7.
+→ Checking if client binaries for 4.4.7 are already present...
+ ✔  Client binaries for 4.4.7 are found. Continuing.
+→ Running add-htpasswd-idp with parameters admin=adminpwd,user1=user1pwd,user2=user2pwd...
+ ✔  Using custom users.
+ ✔  Adding user admin with password adminpwd.
+ ✔  Adding user user1 with password user1pwd.
+ ✔  Adding user user2 with password user2pwd.
+ ✔  Secret htpasswd-secret created/configured successfully.
+ ✔  OAuth/cluster successfully configured.
+```
 
 Finally, after adding your new script in the directory, remember to run `make install` in order to install a new version of `openshift-install-wrapper` with your script embedded on it.
 
