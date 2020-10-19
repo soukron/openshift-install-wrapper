@@ -13,7 +13,7 @@ set -e
 # some directories
 __scriptdir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )
 __basedir=~/.local/ocp4
-__configdir=${__basedir}/config
+__configdir=${HOME}/.config/openshift-install-wrapper/config
 __bindir=${__basedir}/bin
 __clustersdir=${__basedir}/clusters
 
@@ -465,6 +465,12 @@ main() {
   TMPDIR=$( mktemp -d -p . )
   verbose "Using ${TMPDIR} as temporary directory"
 
+  # create config dir if doesn't exists
+  if [[ ! -d ${__configdir} ]]; then
+    mkdir -p ${__configdir} &>/dev/null
+    verbose "Creating ${__configdir}. You will probably need to add your ssh-key.pub and pull-secret.json files on it."
+  fi
+ 
   validate_options
   case ${ACTION} in
     install)
