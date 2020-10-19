@@ -48,8 +48,8 @@ $ openshift-install-wrapper --init --platform aws
 ``` 
 
 ### Other files
-- Copy the RSA public key that will be injected in the instances to `$HOME/.local/ocp4/config/ssh-key.pub`
-- Copy the pull secret to `$HOME/.local/ocp4/config/pull-secret.json`
+- Copy the RSA public key that will be injected in the instances to `$HOME/.config/openshift-install-wrapper/config/ssh-key.pub`
+- Copy the pull secret to `$HOME/.config/openshift-install-wrapper/config/pull-secret.json`
 
 ## Usage
 The list of features and options is increasing as changes are made. Check the `--help` parameter for the newest list.
@@ -190,7 +190,7 @@ $ openshift-install-wrapper --customize add-htpasswd-idp
  ✔  Version detected: 4.4.7.
 → Checking if client binaries for 4.4.7 are already present...
  ✔  Client binaries for 4.4.7 are found. Continuing.
-→ Running add-htpasswd-idp with parameters add-htpasswd-idp...
+→ Running add-htpasswd-idp...
  ✔  Adding default users: admin, user and guest.
  ✔  Secret htpasswd-secret created/configured successfully.
  ✔  OAuth/cluster successfully configured.
@@ -204,7 +204,7 @@ $ openshift-install-wrapper --customize add-htpasswd-idp:admin=adminpwd,user1=us
  ✔  Version detected: 4.4.7.
 → Checking if client binaries for 4.4.7 are already present...
  ✔  Client binaries for 4.4.7 are found. Continuing.
-→ Running add-htpasswd-idp with parameters admin=adminpwd,user1=user1pwd,user2=user2pwd...
+→ Running add-htpasswd-idp...
  ✔  Using custom users.
  ✔  Adding user admin with password adminpwd.
  ✔  Adding user user1 with password user1pwd.
@@ -216,6 +216,7 @@ $ openshift-install-wrapper --customize add-htpasswd-idp:admin=adminpwd,user1=us
 Finally, after adding your new script in the directory, remember to run `make install` in order to install a new version of `openshift-install-wrapper` with your script embedded on it.
 
 ## TODO
+- Read cluster version and cluster platform from install directory for `--customize`, and `--destroy` operations
 - Add GCP support
 - Error handling when the cloud credentials are invalid
 - Improve `--list` output

@@ -13,6 +13,7 @@ main() {
   channel=alpha
 
   # parse parameters from ${1}
+  # NOTE: I tried to use bash substring extraction but failed when merging the script
   IFS=',' read -r -a params <<< "${1}"
   for index in "${!params[@]}"; do
     declare $( echo ${params[index]} | cut -d = -f 1 )=$( echo ${params[index]} | cut -d = -f 2 )
