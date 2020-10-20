@@ -36,10 +36,15 @@ CONFIGFILES[azure]="${HOME}/.azure/osServicePrincipal.json;eyJzdWJzY3JpcHRpb25JZ
 CONFIGFILES[ovirt]="${HOME}/.ovirt/ovirt-config.yaml;b3ZpcnRfdXJsOiBodHRwczovL09WSVJUX0ZRRE4vb3ZpcnQtZW5naW5lL2FwaQpvdmlydF91c2VybmFtZTogYWRtaW5AaW50ZXJuYWwKb3ZpcnRfcGFzc3dvcmQ6IHNlY3JldFBhc3N3b3JkCm92aXJ0X2luc2VjdXJlOiB0cnVlCg=="
 
 # install-config templates
-INSTALLTEMPLATES[aws-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gaHlwZXJ0aHJlYWRpbmc6IEVuYWJsZWQKICBuYW1lOiB3b3JrZXIKICBwbGF0Zm9ybToKICAgIGF3czoKICAgICAgdHlwZTogbTUuMnhsYXJnZQogIHJlcGxpY2FzOiAzCmNvbnRyb2xQbGFuZToKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiAzCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE9wZW5TaGlmdFNETgogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICBhd3M6CiAgICByZWdpb246IFJFR0lPTgpwdWJsaXNoOiBFeHRlcm5hbAo=
-INSTALLTEMPLATES[azure-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IDMKY29udHJvbFBsYW5lOgogIGFyY2hpdGVjdHVyZTogYW1kNjQKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiAzCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE9wZW5TaGlmdFNETgogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICBhenVyZToKICAgIGJhc2VEb21haW5SZXNvdXJjZUdyb3VwTmFtZTogUkVTT1VSQ0VHUk9VUAogICAgcmVnaW9uOiBSRUdJT04KcHVibGlzaDogRXh0ZXJuYWwK
-INSTALLTEMPLATES[vsphere-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IDMKY29udHJvbFBsYW5lOgogIGFyY2hpdGVjdHVyZTogYW1kNjQKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiAzCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE9wZW5TaGlmdFNETgogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICB2c3BoZXJlOgogICAgYXBpVklQOiBWU1BIRVJFLVZJUC1BUEkKICAgIGNsdXN0ZXI6IFZTUEhFUkUtQ0xVU1RFUgogICAgZGF0YWNlbnRlcjogVlNQSEVSRS1EQVRBQ0VOVEVSCiAgICBkZWZhdWx0RGF0YXN0b3JlOiBWU1BIRVJFLURBVEFTVE9SRQogICAgaW5ncmVzc1ZJUDogVlNQSEVSRS1WSVAtSU5HUkVTUwogICAgbmV0d29yazogVlNQSEVSRS1ORVRXT1JLCiAgICBwYXNzd29yZDogVlNQSEVSRS1QQVNTV09SRAogICAgdXNlcm5hbWU6IFZTUEhFUkUtVVNFUgogICAgdkNlbnRlcjogVlNQSEVSRS1WQ0VOVEVSCnB1Ymxpc2g6IEV4dGVybmFsCg==
-INSTALLTEMPLATES[ovirt-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbnRyb2xQbGFuZToKICBuYW1lOiBtYXN0ZXIKICBwbGF0Zm9ybToKICAgIG92aXJ0OgogICAgICBjcHU6CiAgICAgICAgY29yZXM6IDQKICAgICAgICBzb2NrZXRzOiAyCiAgICAgIG1lbW9yeU1COiAxNjM4NAogICAgICBvc0Rpc2s6CiAgICAgICAgc2l6ZUdCOiA1MAogICAgICB2bVR5cGU6IHNlcnZlcgogIHJlcGxpY2FzOiAzCmNvbXB1dGU6Ci0gbmFtZTogd29ya2VyCiAgcGxhdGZvcm06CiAgICBvdmlydDoKICAgICAgY3B1OgogICAgICAgIGNvcmVzOiA0CiAgICAgICAgc29ja2V0czogNAogICAgICBtZW1vcnlNQjogMTYzODQKICAgICAgb3NEaXNrOgogICAgICAgIHNpemVHQjogNTAKICAgICAgdm1UeXBlOiBzZXJ2ZXIKICByZXBsaWNhczogMwptZXRhZGF0YToKICBuYW1lOiBOQU1FCnBsYXRmb3JtOgogIG92aXJ0OgogICAgYXBpX3ZpcDogT1ZJUlQtVklQLUFQSQogICAgaW5ncmVzc192aXA6IE9WSVJULVZJUC1JTkdSRVNTCiAgICBkbnNfdmlwOiBPVklSVC1WSVAtRE5TCiAgICBvdmlydF9jbHVzdGVyX2lkOiBPVklSVC1DTFVTVEVSCiAgICBvdmlydF9zdG9yYWdlX2RvbWFpbl9pZDogT1ZJUlQtU1RPUkFHRURPTUFOCiAgICBvdmlydF9uZXR3b3JrX25hbWU6IE9WSVJULU5FVFdPUksKCg==
+#INSTALLTEMPLATES[aws-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gaHlwZXJ0aHJlYWRpbmc6IEVuYWJsZWQKICBuYW1lOiB3b3JrZXIKICBwbGF0Zm9ybToKICAgIGF3czoKICAgICAgdHlwZTogbTUuMnhsYXJnZQogIHJlcGxpY2FzOiAzCmNvbnRyb2xQbGFuZToKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiAzCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE9wZW5TaGlmdFNETgogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICBhd3M6CiAgICByZWdpb246IFJFR0lPTgpwdWJsaXNoOiBFeHRlcm5hbAo=
+#INSTALLTEMPLATES[azure-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IDMKY29udHJvbFBsYW5lOgogIGFyY2hpdGVjdHVyZTogYW1kNjQKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiAzCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE9wZW5TaGlmdFNETgogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICBhenVyZToKICAgIGJhc2VEb21haW5SZXNvdXJjZUdyb3VwTmFtZTogUkVTT1VSQ0VHUk9VUAogICAgcmVnaW9uOiBSRUdJT04KcHVibGlzaDogRXh0ZXJuYWwK
+#INSTALLTEMPLATES[vsphere-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IDMKY29udHJvbFBsYW5lOgogIGFyY2hpdGVjdHVyZTogYW1kNjQKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiAzCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE9wZW5TaGlmdFNETgogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICB2c3BoZXJlOgogICAgYXBpVklQOiBWU1BIRVJFLVZJUC1BUEkKICAgIGNsdXN0ZXI6IFZTUEhFUkUtQ0xVU1RFUgogICAgZGF0YWNlbnRlcjogVlNQSEVSRS1EQVRBQ0VOVEVSCiAgICBkZWZhdWx0RGF0YXN0b3JlOiBWU1BIRVJFLURBVEFTVE9SRQogICAgaW5ncmVzc1ZJUDogVlNQSEVSRS1WSVAtSU5HUkVTUwogICAgbmV0d29yazogVlNQSEVSRS1ORVRXT1JLCiAgICBwYXNzd29yZDogVlNQSEVSRS1QQVNTV09SRAogICAgdXNlcm5hbWU6IFZTUEhFUkUtVVNFUgogICAgdkNlbnRlcjogVlNQSEVSRS1WQ0VOVEVSCnB1Ymxpc2g6IEV4dGVybmFsCg==
+#INSTALLTEMPLATES[ovirt-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbnRyb2xQbGFuZToKICBuYW1lOiBtYXN0ZXIKICBwbGF0Zm9ybToKICAgIG92aXJ0OgogICAgICBjcHU6CiAgICAgICAgY29yZXM6IDQKICAgICAgICBzb2NrZXRzOiAyCiAgICAgIG1lbW9yeU1COiAxNjM4NAogICAgICBvc0Rpc2s6CiAgICAgICAgc2l6ZUdCOiA1MAogICAgICB2bVR5cGU6IHNlcnZlcgogIHJlcGxpY2FzOiAzCmNvbXB1dGU6Ci0gbmFtZTogd29ya2VyCiAgcGxhdGZvcm06CiAgICBvdmlydDoKICAgICAgY3B1OgogICAgICAgIGNvcmVzOiA0CiAgICAgICAgc29ja2V0czogNAogICAgICBtZW1vcnlNQjogMTYzODQKICAgICAgb3NEaXNrOgogICAgICAgIHNpemVHQjogNTAKICAgICAgdm1UeXBlOiBzZXJ2ZXIKICByZXBsaWNhczogMwptZXRhZGF0YToKICBuYW1lOiBOQU1FCnBsYXRmb3JtOgogIG92aXJ0OgogICAgYXBpX3ZpcDogT1ZJUlQtVklQLUFQSQogICAgaW5ncmVzc192aXA6IE9WSVJULVZJUC1JTkdSRVNTCiAgICBkbnNfdmlwOiBPVklSVC1WSVAtRE5TCiAgICBvdmlydF9jbHVzdGVyX2lkOiBPVklSVC1DTFVTVEVSCiAgICBvdmlydF9zdG9yYWdlX2RvbWFpbl9pZDogT1ZJUlQtU1RPUkFHRURPTUFOCiAgICBvdmlydF9uZXR3b3JrX25hbWU6IE9WSVJULU5FVFdPUksKCg==
+INSTALLTEMPLATES[aws-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gaHlwZXJ0aHJlYWRpbmc6IEVuYWJsZWQKICBuYW1lOiB3b3JrZXIKICBwbGF0Zm9ybToKICAgIGF3czoKICAgICAgdHlwZTogbTUuMnhsYXJnZQogIHJlcGxpY2FzOiBXLVJFUExJQ0FTCmNvbnRyb2xQbGFuZToKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiBNLVJFUExJQ0FTCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE5FVFdPUkstVFlQRQogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICBhd3M6CiAgICByZWdpb246IFJFR0lPTgpwdWJsaXNoOiBFeHRlcm5hbAo=
+INSTALLTEMPLATES[azure-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IFctUkVQTElDQVMKY29udHJvbFBsYW5lOgogIGFyY2hpdGVjdHVyZTogYW1kNjQKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiBNLVJFUExJQ0FTCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE5FVFdPUkstVFlQRQogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICBhenVyZToKICAgIGJhc2VEb21haW5SZXNvdXJjZUdyb3VwTmFtZTogUkVTT1VSQ0VHUk9VUAogICAgcmVnaW9uOiBSRUdJT04KcHVibGlzaDogRXh0ZXJuYWwK
+INSTALLTEMPLATES[vsphere-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IFctUkVQTElDQVMKY29udHJvbFBsYW5lOgogIGFyY2hpdGVjdHVyZTogYW1kNjQKICBoeXBlcnRocmVhZGluZzogRW5hYmxlZAogIG5hbWU6IG1hc3RlcgogIHBsYXRmb3JtOiB7fQogIHJlcGxpY2FzOiBNLVJFUExJQ0FTCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE5FVFdPUkstVFlQRQogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICB2c3BoZXJlOgogICAgYXBpVklQOiBWU1BIRVJFLVZJUC1BUEkKICAgIGNsdXN0ZXI6IFZTUEhFUkUtQ0xVU1RFUgogICAgZGF0YWNlbnRlcjogVlNQSEVSRS1EQVRBQ0VOVEVSCiAgICBkZWZhdWx0RGF0YXN0b3JlOiBWU1BIRVJFLURBVEFTVE9SRQogICAgaW5ncmVzc1ZJUDogVlNQSEVSRS1WSVAtSU5HUkVTUwogICAgbmV0d29yazogVlNQSEVSRS1ORVRXT1JLCiAgICBwYXNzd29yZDogVlNQSEVSRS1QQVNTV09SRAogICAgdXNlcm5hbWU6IFZTUEhFUkUtVVNFUgogICAgdkNlbnRlcjogVlNQSEVSRS1WQ0VOVEVSCnB1Ymxpc2g6IEV4dGVybmFsCg==
+INSTALLTEMPLATES[ovirt-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbnRyb2xQbGFuZToKICBuYW1lOiBtYXN0ZXIKICBwbGF0Zm9ybToKICAgIG92aXJ0OgogICAgICBjcHU6CiAgICAgICAgY29yZXM6IDQKICAgICAgICBzb2NrZXRzOiAyCiAgICAgIG1lbW9yeU1COiAxNjM4NAogICAgICBvc0Rpc2s6CiAgICAgICAgc2l6ZUdCOiA1MAogICAgICB2bVR5cGU6IHNlcnZlcgogIHJlcGxpY2FzOiBNLVJFUExJQ0FTCmNvbXB1dGU6Ci0gbmFtZTogd29ya2VyCiAgcGxhdGZvcm06CiAgICBvdmlydDoKICAgICAgY3B1OgogICAgICAgIGNvcmVzOiA0CiAgICAgICAgc29ja2V0czogNAogICAgICBtZW1vcnlNQjogMTYzODQKICAgICAgb3NEaXNrOgogICAgICAgIHNpemVHQjogNTAKICAgICAgdm1UeXBlOiBzZXJ2ZXIKICByZXBsaWNhczogVy1SRVBMSUNBUwptZXRhZGF0YToKICBuYW1lOiBOQU1FCnBsYXRmb3JtOgogIG92aXJ0OgogICAgYXBpX3ZpcDogT1ZJUlQtVklQLUFQSQogICAgaW5ncmVzc192aXA6IE9WSVJULVZJUC1JTkdSRVNTCiAgICBkbnNfdmlwOiBPVklSVC1WSVAtRE5TCiAgICBvdmlydF9jbHVzdGVyX2lkOiBPVklSVC1DTFVTVEVSCiAgICBvdmlydF9zdG9yYWdlX2RvbWFpbl9pZDogT1ZJUlQtU1RPUkFHRURPTUFOCiAgICBvdmlydF9uZXR3b3JrX25hbWU6IE9WSVJULU5FVFdPUksKCg==
+INSTALLTEMPLATES[vsphere-custom]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IAogICAgdnNwaGVyZTogCiAgICAgIG9zRGlzazoKICAgICAgICBkaXNrU2l6ZUdCOiBWU1BIRVJFLURJU0stU0laRS1HQgogIHJlcGxpY2FzOiBXLVJFUExJQ0FTCmNvbnRyb2xQbGFuZToKICBhcmNoaXRlY3R1cmU6IGFtZDY0CiAgaHlwZXJ0aHJlYWRpbmc6IEVuYWJsZWQKICBuYW1lOiBtYXN0ZXIKICBwbGF0Zm9ybTogCiAgICB2c3BoZXJlOiAKICAgICAgb3NEaXNrOgogICAgICAgIGRpc2tTaXplR0I6IFZTUEhFUkUtRElTSy1TSVpFLUdCIAogIHJlcGxpY2FzOiBNLVJFUExJQ0FTCm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogTkFNRQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTI4LjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjAuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE5FVFdPUkstVFlQRQogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMwLjAuMC8xNgpwbGF0Zm9ybToKICB2c3BoZXJlOgogICAgYXBpVklQOiBWU1BIRVJFLVZJUC1BUEkKICAgIGNsdXN0ZXI6IFZTUEhFUkUtQ0xVU1RFUgogICAgZGF0YWNlbnRlcjogVlNQSEVSRS1EQVRBQ0VOVEVSCiAgICBkZWZhdWx0RGF0YXN0b3JlOiBWU1BIRVJFLURBVEFTVE9SRQogICAgaW5ncmVzc1ZJUDogVlNQSEVSRS1WSVAtSU5HUkVTUwogICAgbmV0d29yazogVlNQSEVSRS1ORVRXT1JLCiAgICBwYXNzd29yZDogVlNQSEVSRS1QQVNTV09SRAogICAgdXNlcm5hbWU6IFZTUEhFUkUtVVNFUgogICAgdkNlbnRlcjogVlNQSEVSRS1WQ0VOVEVSCnB1Ymxpc2g6IEV4dGVybmFsCg==
 
 # custom scripts
 test() { for param in ${@}; do echo -e ${param}"\n-----"; done }
@@ -97,6 +102,9 @@ Options:
   --version <version>            - version to install
   --platform <name>              - cloud provider
   --region <name>                - cloud provider region
+  --masters|-m <number>          - [OPTIONAL] number of master nodes
+  --workers|-w <number>          - [OPTIONAL] number of worker nodes
+  --cni|-n <network type>        - [OPTIONAL] network type, example OpenShiftSDN or OVNKubernetes
 
   --azure-resource-group         - provide the ResourceGroup where the domain exists
 
@@ -108,7 +116,7 @@ Options:
   --ovirt-vip-dns <IP>           - IP address for the cluster's dns
 
   --vsphere-vcenter <name>       - fqdn or IP address of vCenter
-  --vsphere-user <username>      - username to login to vCenter
+  --vsphere-username <username>      - username to login to vCenter
   --vsphere-password <password>  - password to login to vCenter
   --vsphere-cluster <name>       - vCenter cluster name
   --vsphere-datacenter <name>    - vCenter datacenter name
@@ -116,6 +124,7 @@ Options:
   --vsphere-network <name>       - vCenter network name
   --vsphere-vip-api <IP>         - IP address the cluster's API
   --vsphere-vip-ingress <IP>     - IP address for the cluster's ingress
+  --vsphere-disk-size-gb <GB>    - [OPTIONAL] size of disk for each instance, only the value
 
   --force                        - force installation (cleanup files if required)
   --init                         - initialize the tool and credentials
@@ -205,10 +214,17 @@ create_install_config() {
   mkdir -p ${clusterdir}
   out "→ Creating install-config.yaml file..."
   echo ${INSTALLTEMPLATES[${INSTALLOPTS[platform]}-default]} | base64 -d > ${clusterdir}/install-config.yaml
+  ####### VSPHERE OPTIONS - overwrite the install-config if custom options are present
+  if [[ ${INSTALLOPTS[vsphere-disk-size-gb]} -gt 0 ]]; then
+    echo ${INSTALLTEMPLATES[${INSTALLOPTS[platform]}-custom]} | base64 -d > ${clusterdir}/install-config.yaml
+  fi
 
   sed -i "s/NAME/${INSTALLOPTS[name]}/g;" ${clusterdir}/install-config.yaml
   sed -i "s/DOMAIN/${INSTALLOPTS[domain]}/g;" ${clusterdir}/install-config.yaml
   sed -i "s/REGION/${INSTALLOPTS[region]}/g;" ${clusterdir}/install-config.yaml
+  sed -i "s/W-REPLICAS/${INSTALLOPTS[w-replicas]:-3}/g;" ${clusterdir}/install-config.yaml
+  sed -i "s/M-REPLICAS/${INSTALLOPTS[m-replicas]:-3}/g;" ${clusterdir}/install-config.yaml
+  sed -i "s/NETWORK-TYPE/${INSTALLOPTS[network-type]:-OpenShiftSDN}/g;" ${clusterdir}/install-config.yaml
   if [[ ${INSTALLOPTS[platform]} == "vsphere" ]]; then
     sed -i "s/VSPHERE-VIP-API/${INSTALLOPTS[vsphere-vip-api]}/g;" ${clusterdir}/install-config.yaml
     sed -i "s/VSPHERE-CLUSTER/${INSTALLOPTS[vsphere-cluster]}/g;" ${clusterdir}/install-config.yaml
@@ -219,6 +235,7 @@ create_install_config() {
     sed -i "s/VSPHERE-PASSWORD/${INSTALLOPTS[vsphere-password]}/g;" ${clusterdir}/install-config.yaml
     sed -i "s/VSPHERE-USER/${INSTALLOPTS[vsphere-username]}/g;" ${clusterdir}/install-config.yaml
     sed -i "s/VSPHERE-VCENTER/${INSTALLOPTS[vsphere-vcenter]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/VSPHERE-DISK-SIZE-GB/${INSTALLOPTS[vsphere-disk-size-gb]:-120}/g;" ${clusterdir}/install-config.yaml
   fi
   if [[ ${INSTALLOPTS[platform]} == "ovirt" ]]; then
     sed -i "s/OVIRT-VIP-API/${INSTALLOPTS[ovirt-vip-api]}/g;" ${clusterdir}/install-config.yaml
@@ -291,7 +308,7 @@ create_cluster() {
   else
     ${installer} create cluster --dir=${clusterdir} &> ${clusterdir}/.openshift_install_wrapper.log
     success "Cluster created!"
-    tail -n 3 ${clusterdir}/.openshift_install_wrapper.log | cut -d \" -f 2
+    tail -n 3 ${clusterdir}/.openshift_install_wrapper.log | cut -d \" -f 2- | tr -d "\"$"
   fi
 }
 
@@ -429,6 +446,9 @@ main() {
       --version)     shift; INSTALLOPTS[version]="${1}";;
       --platform)    shift; INSTALLOPTS[platform]="${1}";;
       --region)      shift; INSTALLOPTS[region]="${1}";;
+      --masters|-m)  shift; INSTALLOPTS[m-replicas]="${1}";;
+      --workers|-w)  shift; INSTALLOPTS[w-replicas]="${1}";;
+      --cni|-n)  shift; INSTALLOPTS[network-type]="${1}";;
       --force)       FORCE=1;;
       --init)        ACTION=init;;
       --install)     ACTION=install;;
@@ -448,6 +468,7 @@ main() {
       --vsphere-network)     shift; INSTALLOPTS[vsphere-network]="${1}";;
       --vsphere-vip-api)     shift; INSTALLOPTS[vsphere-vip-api]="${1}";;
       --vsphere-vip-ingress) shift; INSTALLOPTS[vsphere-vip-ingress]="${1}";;
+      --vsphere-disk-size-gb) shift; INSTALLOPTS[vsphere-disk-size-gb]="${1}";;
       --ovirt-cluster)       shift; INSTALLOPTS[ovirt-cluster]="${1}";;
       --ovirt-storagedomain) shift; INSTALLOPTS[ovirt-storagedomain]="${1}";;
       --ovirt-network)       shift; INSTALLOPTS[ovirt-network]="${1}";;
@@ -470,7 +491,7 @@ main() {
     mkdir -p ${__configdir} &>/dev/null
     verbose "Creating ${__configdir}. You will probably need to add your ssh-key.pub and pull-secret.json files on it."
   fi
- 
+
   validate_options
   case ${ACTION} in
     install)
@@ -487,6 +508,13 @@ main() {
       get_cluster_version
       download_tools client
       customize_cluster
+      ;;
+    install-complete)
+      ### INSTALL AND DOWNLOAD CLIENT
+      download_tools installer
+      download_tools client
+      create_install_config
+      create_cluster
       ;;
   esac
 }
