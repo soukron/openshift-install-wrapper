@@ -21,7 +21,7 @@ __clustersdir=${__basedir}/clusters
 __baseurl=https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
 # defaults
-VERSION=1.1.0
+VERSION=1.2.1
 VERBOSE=0
 QUIET=0
 FORCE=0
@@ -81,6 +81,16 @@ _oc() {
     ${client} --kubeconfig ${clusterdir}/auth/kubeconfig $@
   else
     ${client} --kubeconfig ${clusterdir}/auth/kubeconfig $@ &>/dev/null
+  fi
+}
+
+# parse a string to export variables defined on it
+parse_args_as_variables() {
+  if [[ ${1} == *":"* ]]; then
+    IFS=',' read -r -a args <<< $( echo "${1}" | cut -d: -f2- )
+    for index in "${!args[@]}"; do
+      export ${args[$i]%%=*}=${args[$i]##*=}
+    done
   fi
 }
 
@@ -327,7 +337,7 @@ customize_cluster() {
   for script in $( echo ${SCRIPTS} | tr -s ";" " " ); do
     cmd=${script%%:*}
     type ${cmd} &>/dev/null && out "→ Running ${cmd} customization..." || die "${cmd} not found."
-    ${cmd} ${script##*:} ${clusterdir} ${client} ${VERBOSE} ${QUIET} ${INSTALLOPTS[*]}
+    ${cmd} ${script} ${clusterdir} ${client} ${VERBOSE} ${QUIET} ${INSTALLOPTS[*]}
   done
 }
 

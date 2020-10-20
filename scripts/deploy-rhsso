@@ -12,12 +12,8 @@ main() {
   version=7.4.2
   channel=alpha
 
-  # parse parameters from ${1}
-  # NOTE: I tried to use bash substring extraction but failed when merging the script
-  IFS=',' read -r -a params <<< "${1}"
-  for index in "${!params[@]}"; do
-    declare $( echo ${params[index]} | cut -d = -f 1 )=$( echo ${params[index]} | cut -d = -f 2 )
-  done
+  # parse arguments from ${1}, if any, and export them as variables
+  parse_args_as_variables "${1}"
 
   # Create the namespace to deploy the operator
   _oc create namespace ${namespace} \

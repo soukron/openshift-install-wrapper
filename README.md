@@ -5,6 +5,7 @@
 3. [Usage](#usage)
 4. [Adding customizations](#adding-customization-scripts)
 5. [TODO](#todo)
+6. [Known Issues](#known-issues)
 
 ## Description
 This is a wrapper for the official `openshift-install` binary to perform IPI (Installer Provided Infrastructure) installations of OpenShift 4.
@@ -162,23 +163,24 @@ In order to add new scripts, they must meet some requisites:
 On the other hand, in order to provide flexibility, every script will receive the next parameters:
 | Parameter  | Description  | Example  |
 |:----------:|:-------------|:---------|
-| $1 | parameters in the command line | namespace=rhsso,version=4.2.2 |
-| $2 | full path to the cluster installation directory | /opt/ocp4/clusters/sgarcia-ocp447/ |
-| $3 | full path to the right `oc` client binary | /opt/ocp4/bin/oc-4.4.7 |
-| $4 | verbose mode flag (`0` or `1`) | 0 |
-| $5 | quiet mode flag (`0` or `1`) | 0 |
-| $6 | cluster version | 4.4.7 |
-| $7 | cluster name | sgarcia-ocp447 | 
-| $8 | cluster subdomain | aws.gmbros.net | 
-| $9 | cloud platform | aws | 
+| `$1` | name of the customization and arguments in the command line | `deploy-rhsso:namespace=rhsso,version=4.2.2` |
+| `$2` | full path to the cluster installation directory | `/opt/ocp4/clusters/sgarcia-ocp447/` |
+| `$3` | full path to the right `oc` client binary | `/opt/ocp4/bin/oc-4.4.7` |
+| `$4` | verbose mode flag (`0` or `1`) | `0` |
+| `$5` | quiet mode flag (`0` or `1`) | `0` |
+| `$6` | cluster version | `4.4.7` |
+| `$7` | cluster name | `sgarcia-ocp447` |
+| `$8` | cluster subdomain | `aws.gmbros.net` |
+| `$9` | cloud platform | `aws` |
 
 In the same way, there are a few functions ready to be used from the customizations:
  - `_oc()`, which runs a command in the cluster with `system:admin` permissions and aligns the output with the `--verbose` flag
  - `success()`, which allows to print a message after succeeding in a command with a check icon
  - `err()`, which allows to print a message after failing in a command with a cross icon
  - `die()`, which allows to print a message after failing in a command with a cross icon and stops the execution
+ - `parse_args_as_variables()`, which will parse an string and declare variables based on the content of it
 
-Optionally, your customization can receive extra parameters sent in the commandline. This is useful if you customization is flexible 
+Optionally, your customization can receive extra arguments sent in the commandline. This is useful if you customization is flexible 
 in what it does or it allows different actions (like installing different versions of an operator). As an example:
 ```sh
 $ openshift-install-wrapper --customize add-htpasswd-idp 
@@ -218,10 +220,13 @@ Finally, after adding your new script in the directory, remember to run `make in
 ## TODO
 - Read cluster version and cluster platform from install directory for `--customize`, and `--destroy` operations
 - Add GCP support
-- Error handling when the cloud credentials are invalid
 - Improve `--list` output
 - Improve console output (ie. include timestamps)
 - Implement `--expire` parameter to delete (using cron) a cluster after a certain time
+
+## Known issues
+- Error handling when the cloud credentials are invalid or the installation fails
+- Lines with # in customization scripts are removed during the merge. This must be fixed.
 
 ## Contact
 Reach me in [Twitter](http://twitter.com/soukron) or email in soukron _at_ gmbros.net
