@@ -345,6 +345,11 @@ customize_cluster() {
 get_cluster_version() {
   local clusterdir=${__clustersdir}/${INSTALLOPTS[name]}.${INSTALLOPTS[domain]}
 
+  if [[ ! -z ${INSTALLOPTS[version]} ]]; then
+    verbose "Version already defined with --version parameter to ${INSTALLOPTS[version]}. Skipping version detection..."
+    return
+  done
+
   out "→ Finding version in cluster directory..."
   verbose "  Directory: ${clusterdir}"
   INSTALLOPTS[version]=$(grep -Po '(?<=OpenShift Installer )[v0-9.]*' ${clusterdir}/.openshift_install.log 2>/dev/null| head -n 1 | tr -d v)
