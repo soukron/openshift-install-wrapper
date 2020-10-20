@@ -76,7 +76,7 @@ success() { out " \033[1;32m✔\033[0m  $@"; }
 verbose() { [[ ${VERBOSE} -eq 1 ]] && out "$@" || true; }
 
 # oc helper to run commands in a cluster
-_oc() {
+oc() {
   if [[ ${VERBOSE} -eq 1 ]]; then
     ${client} --kubeconfig ${clusterdir}/auth/kubeconfig $@
   else

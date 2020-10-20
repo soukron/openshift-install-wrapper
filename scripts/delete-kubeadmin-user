@@ -7,7 +7,7 @@
 # Mandatory function
 # start main - do not remove this line and do not change the function name
 main() {
-  _oc delete secret kubeadmin -n kube-system \
+  oc delete secret kubeadmin -n kube-system \
       && success "Secret kubeadmin successfully deleted." \
       || err "Error deleting kubeadmin secret. It probably doesn't exists anymore. Skipping."
 }

@@ -150,7 +150,7 @@ In order to add new scripts, they must meet some requisites:
    # Mandatory function
    # start main - do not remove this line and do not change the function name
    main() {
-     _oc delete secret kubeadmin -n kube-system \
+     oc delete secret kubeadmin -n kube-system \
          && success "Secret kubeadmin successfully deleted." \
          || err "Error deleting kubeadmin secret. It probably doesn't exists anymore. Skipping."
    }
@@ -174,7 +174,7 @@ On the other hand, in order to provide flexibility, every script will receive th
 | `$9` | cloud platform | `aws` |
 
 In the same way, there are a few functions ready to be used from the customizations:
- - `_oc()`, which runs a command in the cluster with `system:admin` permissions and aligns the output with the `--verbose` flag
+ - `oc()`, which runs a command in the cluster with `system:admin` permissions and aligns the output with the `--verbose` flag
  - `success()`, which allows to print a message after succeeding in a command with a check icon
  - `err()`, which allows to print a message after failing in a command with a cross icon
  - `die()`, which allows to print a message after failing in a command with a cross icon and stops the execution

@@ -16,12 +16,12 @@ main() {
   parse_args_as_variables "${1}"
 
   # Create the namespace to deploy the operator
-  _oc create namespace ${namespace} \
+  oc create namespace ${namespace} \
       && success "Namespace rhsso created successfully." \
       || err "Error creating the Namespace. It probably already exists. Continuing..."
 
   # Create the operatorgroup
-  cat <<EOF | _oc apply -f - \
+  cat <<EOF | oc apply -f - \
                   && success "OperatorGroup created succesfully." \
                   || die "Error creating the OperatorGroup."
 apiVersion: operators.coreos.com/v1
@@ -35,7 +35,7 @@ spec:
 EOF
 
   # Create the subscription
-  cat <<EOF | _oc apply -f - \
+  cat <<EOF | oc apply -f - \
                   && success "Subscription created succesfully." \
                   || die "Error creating the Subscription."
 apiVersion: operators.coreos.com/v1alpha1
@@ -57,7 +57,7 @@ EOF
   sleep 5
 
   # Create the Keycloak instance
-  cat <<EOF | _oc apply -f - \
+  cat <<EOF | oc apply -f - \
                   && success "Keycloak instance created successfully." \
                   || die "Error creating Keycloak instance."
 apiVersion: keycloak.org/v1alpha1
@@ -74,7 +74,7 @@ spec:
 EOF
 
   # Create the realm
-  cat <<EOF | _oc apply -f - \
+  cat <<EOF | oc apply -f - \
                   && success "KeycloakRealm instance created successfully." \
                   || die "Error creating KeycloakRealm."
 apiVersion: keycloak.org/v1alpha1
