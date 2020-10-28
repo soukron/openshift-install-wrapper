@@ -356,7 +356,7 @@ get_cluster_version() {
   if [[ ! -z ${INSTALLOPTS[version]} ]]; then
     verbose "Version already defined with --version parameter to ${INSTALLOPTS[version]}. Skipping version detection..."
     return
-  done
+  fi
 
   out "→ Finding version in cluster directory..."
   verbose "  Directory: ${clusterdir}"
