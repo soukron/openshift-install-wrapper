@@ -38,4 +38,5 @@ install: ## Installs the script
 	@mkdir -p $(TARGETDIR)/{bin,clusters,config}
 	@echo Copying script...
 	@cp -f scripts/openshift-install-wrapper $(TARGETDIR)/bin
+	@chmod 755 $(TARGETDIR)/bin/openshift-install-wrapper
 	@echo "Wrapper installed in $(TARGETDIR)/bin. Please remember to add this location to your PATH to use it."
