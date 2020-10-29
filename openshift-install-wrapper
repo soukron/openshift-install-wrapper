@@ -301,6 +301,9 @@ create_cluster() {
   local clusterdir=${__clustersdir}/${INSTALLOPTS[name]}.${INSTALLOPTS[domain]}
   local installer=${__bindir}/openshift-install-${INSTALLOPTS[version]}
 
+  verbose "  Saving a copy of install-config.yaml file."
+  cp ${clusterdir}/install-config.yaml ${clusterdir}/install-config.yaml.orig
+
   out "→ Running \"openshift-install\" to create a cluster..."
   verbose "  Command: \"${installer} create cluster --dir=${clusterdir}\""
   if [[ ${VERBOSE} -eq 1 ]]; then
