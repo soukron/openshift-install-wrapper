@@ -339,8 +339,8 @@ list_clusters() {
   for cluster in $(ls ${__clustersdir} );do
     APISERVER="api.${cluster}"
     CONSOLE="https://console-openshift-console.apps.${cluster}"
-    PLATFORM=$(cut -d, -f4 ${__clustersdir}/${cluster}/metadata.json 2> /dev/null || echo "Unknown" |cut -d: -f1 |sed s/"[{,}]"//g)
-    NAME=$(cut -d, -f1 ${__clustersdir}/${cluster}/metadata.json 2> /dev/null || echo "Unknown" |cut -d: -f2 |sed s/"[{,}]"//g)
+    PLATFORM=$((cut -d, -f4 ${__clustersdir}/${cluster}/metadata.json 2> /dev/null || echo "Unknown") |cut -d: -f1 |sed s/"[{,}]"//g)
+    NAME=$((cut -d, -f1 ${__clustersdir}/${cluster}/metadata.json 2> /dev/null || echo "Unknown") |cut -d: -f2 |sed s/"[{,}]"//g)
     STATUS=$(curl -k https://${APISERVER}:6443/healthz 2> /dev/null || echo unhealty)
     echo "${NAME};${PLATFORM};${CONSOLE};${STATUS};"
   done
