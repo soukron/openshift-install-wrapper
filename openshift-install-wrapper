@@ -334,7 +334,6 @@ destroy_cluster() {
 
 # list clusters
 list_clusters() {
-#ls -l ${__clustersdir} | grep -v $( basename ${TMPDIR} )
   echo "NAME;PLATFORM;CONSOLE;STATUS;KUBEADMIN_PASSWORD"
   for cluster in $(ls ${__clustersdir} );do
     APISERVER="api.${cluster}"
