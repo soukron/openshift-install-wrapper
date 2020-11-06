@@ -341,7 +341,7 @@ list_clusters() {
     PLATFORM=$((cut -d, -f4 ${__clustersdir}/${cluster}/metadata.json 2> /dev/null || echo "Unknown") |cut -d: -f1 |sed s/"[{,},\"]"//g)
     NAME=$((cut -d, -f1 ${__clustersdir}/${cluster}/metadata.json 2> /dev/null || echo "Unknown") |cut -d: -f2 |sed s/"[{,},\"]"//g)
     ADMINPWD=$(cat ${__clustersdir}/${cluster}/auth/kubeadmin-password 2> /dev/null || echo "Unknown" )
-    STATUS=$(curl -k https://${APISERVER}:6443/healthz 2> /dev/null || echo unhealty)
+    STATUS=$(curl -k https://${APISERVER}:6443/healthz 2> /dev/null || echo "Unhealthy")
     echo "${NAME};${PLATFORM};${CONSOLE};${STATUS};${ADMINPWD}"
   done
 }
