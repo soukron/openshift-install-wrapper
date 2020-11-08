@@ -86,8 +86,8 @@ oc() {
 
 # parse a string to export variables defined on it
 parse_args_as_variables() {
-  if [[ ${1} == *":"* ]]; then
-    IFS=',' read -r -a args <<< $( echo "${1}" | cut -d: -f2- )
+  if [[ ${1} == *"="* ]]; then
+    IFS=':' read -r -a args <<< $( echo "${1}" | cut -d= -f2- )
     for index in "${!args[@]}"; do
       export ${args[$i]%%=*}=${args[$i]##*=}
     done
@@ -364,8 +364,8 @@ customize_cluster() {
   local clusterdir=${__clustersdir}/${INSTALLOPTS[name]}.${INSTALLOPTS[domain]}
   local client=${__bindir}/oc-${INSTALLOPTS[version]}
 
-  for script in $( echo ${SCRIPTS} | tr -s ";" " " ); do
-    cmd=${script%%:*}
+  for script in $( echo ${SCRIPTS} | tr -s "," " " ); do
+    cmd=${script%%=*}
     type ${cmd} &>/dev/null && out "→ Running ${cmd} customization..." || die "${cmd} not found."
     ${cmd} ${script} ${clusterdir} ${client} ${VERBOSE} ${QUIET} ${INSTALLOPTS[*]}
   done

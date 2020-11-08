@@ -163,7 +163,7 @@ In order to add new scripts, they must meet some requisites:
 On the other hand, in order to provide flexibility, every script will receive the next parameters:
 | Parameter  | Description  | Example  |
 |:----------:|:-------------|:---------|
-| `$1` | name of the customization and arguments in the command line | `deploy-rhsso:namespace=rhsso,version=4.2.2` |
+| `$1` | name of the customization and arguments in the command line | `deploy-rhsso=namespace=rhsso:version=4.2.2` |
 | `$2` | full path to the cluster installation directory | `/opt/ocp4/clusters/sgarcia-ocp447/` |
 | `$3` | full path to the right `oc` client binary | `/opt/ocp4/bin/oc-4.4.7` |
 | `$4` | verbose mode flag (`0` or `1`) | `0` |
@@ -197,7 +197,7 @@ $ openshift-install-wrapper --customize add-htpasswd-idp
  ✔  Secret htpasswd-secret created/configured successfully.
  ✔  OAuth/cluster successfully configured.
 
-$ openshift-install-wrapper --customize add-htpasswd-idp:admin=adminpwd,user1=user1pwd,user2=user2pwd
+$ openshift-install-wrapper --customize add-htpasswd-idp=admin=adminpwd:user1=user1pwd
                             --name sgarciam-ocp447 \
                             --domain aws.gmbros.net \
                             --platform aws
@@ -210,7 +210,6 @@ $ openshift-install-wrapper --customize add-htpasswd-idp:admin=adminpwd,user1=us
  ✔  Using custom users.
  ✔  Adding user admin with password adminpwd.
  ✔  Adding user user1 with password user1pwd.
- ✔  Adding user user2 with password user2pwd.
  ✔  Secret htpasswd-secret created/configured successfully.
  ✔  OAuth/cluster successfully configured.
 ```
