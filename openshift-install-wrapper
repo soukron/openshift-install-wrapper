@@ -21,7 +21,7 @@ __clustersdir=${__basedir}/clusters
 __baseurl=https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
 # defaults
-VERSION=1.2.1
+VERSION=1.2.2
 VERBOSE=0
 QUIET=0
 FORCE=0
@@ -137,6 +137,7 @@ Options:
   --destroy                      - destroy the cluster
   --customize <actions>          - customize the cluster with some post-install actions
   --list                         - lists all existing clusters
+  --list-csv                     - lists all existing clusters in CSV format
 
   --verbose                      - shows more information during the execution
   --quiet                        - quiet mode (no output at all)
@@ -337,7 +338,25 @@ destroy_cluster() {
 
 # list clusters
 list_clusters() {
-  ls -l ${__clustersdir} | grep -v $( basename ${TMPDIR} )
+  echo "NAME;VERSION;PLATFORM;STATUS;KUBEADMIN_PASSWORD;CONSOLE" > /tmp/list.$$
+  for cluster in $(ls ${__clustersdir} );do
+    clusterdir=${__clustersdir}/${cluster}
+
+    APISERVER="api.${cluster}"
+    CONSOLE="https://console-openshift-console.apps.${cluster}"
+    PLATFORM=$((cut -d, -f4 ${clusterdir}/metadata.json 2> /dev/null || echo "Unknown") |cut -d: -f1 |sed s/"[{,},\"]"//g)
+    NAME=$((cut -d, -f1 ${clusterdir}/metadata.json 2> /dev/null || echo "Unknown") |cut -d: -f2 |sed s/"[{,},\"]"//g)
+    ADMINPWD=$(cat ${clusterdir}/auth/kubeadmin-password 2> /dev/null || echo "Unknown" )
+    STATUS=$(curl -k https://${APISERVER}:6443/healthz 2> /dev/null || echo "Unhealthy")
+    VERSION=$(grep -Po '(?<=OpenShift Installer )[v0-9.]*' ${clusterdir}/.openshift_install.log 2>/dev/null| head -n 1 | tr -d v)
+    echo "${NAME};${VERSION};${PLATFORM};${STATUS};${ADMINPWD};${CONSOLE}" >> /tmp/list.$$
+  done
+  if [[ ${LISTFORMAT} == "csv" ]]; then
+    cat /tmp/list.$$
+  else
+    column -t -s ';' /tmp/list.$$
+  fi
+  rm -fr /tmp/list.$$
 }
 
 # customize a cluster based on a list of scripts
@@ -465,6 +484,7 @@ main() {
       --customize)   shift; ACTION=customize; SCRIPTS="${1}";;
       --destroy)     ACTION=destroy;;
       --list)        ACTION=list;;
+      --list-csv)    ACTION=list; LISTFORMAT="csv";;
       --verbose)     VERBOSE=1;;
       --quiet)       QUIET=1;;
       --help|-h)     usage >&2; safe_exit;;
