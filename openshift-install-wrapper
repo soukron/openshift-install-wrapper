@@ -154,10 +154,11 @@ download_tools() {
   local tool=${1}
 
   if [[ $(echo ${INSTALLOPTS[version]} |egrep "latest|stable|candidate|fast") ]];then
-    local version=$( curl -s ${__baseurl}/${INSTALLOPTS[version]}/release.txt | grep "Release Metadata:" -A1 | grep Version | cut -d\: -f 2 | tr -d " " )
-  else
-    local version=${INSTALLOPTS[version]}
+    INSTALLOPTS[version]=$( curl -s ${__baseurl}/${INSTALLOPTS[version]}/release.txt | grep "Release Metadata:" -A1 | grep Version | cut -d\: -f 2 | tr -d " " )
+    [[ "" ==  ${INSTALLOPTS[version]} ]] && die "Invalid version, check the version and retry."
   fi
+
+  local version=${INSTALLOPTS[version]}
 
   case ${tool} in
     installer)
