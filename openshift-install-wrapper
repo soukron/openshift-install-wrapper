@@ -21,7 +21,7 @@ __clustersdir=${__basedir}/clusters
 __baseurl=https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
 # defaults
-VERSION=1.2.4
+VERSION=1.2.3
 VERBOSE=0
 QUIET=0
 FORCE=0
@@ -443,6 +443,7 @@ validate_options() {
           require_option ovirt-vip-api
           require_option ovirt-vip-ingress
           require_option ovirt-vip-dns
+          ;;
         *)
           die "Error: Platform ${INSTALLOPTS[platform]} not yet supported by this script"
           ;;
