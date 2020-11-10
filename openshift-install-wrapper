@@ -21,7 +21,7 @@ __clustersdir=${__basedir}/clusters
 __baseurl=https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
 # defaults
-VERSION=1.2.2
+VERSION=1.2.3
 VERBOSE=0
 QUIET=0
 FORCE=0
@@ -388,6 +388,18 @@ get_cluster_version() {
   [[ -z ${INSTALLOPTS[version]} ]] && die "Error: Can't find the installer version in the directory ${clusterdir}. Aborting." || true
 }
 
+# find platform
+get_cluster_platform() {
+  local clusterdir=${__clustersdir}/${INSTALLOPTS[name]}.${INSTALLOPTS[domain]}
+
+  out "→ Finding platform in cluster directory..."
+  verbose "  Directory: ${clusterdir}"
+  INSTALLOPTS[platform]=$(grep "^platform:" ${clusterdir}/install-config.yaml.orig -A 1 | tr -d "\n" | grep -Po '(?<=^platform:  )[a-z]*')
+  success "Platform detected: ${INSTALLOPTS[platform]}."
+
+  [[ -z ${INSTALLOPTS[platform]} ]] && die "Error: Can't find the platform in the directory ${clusterdir}. Aborting." || true
+}
+
 # check for an option
 require_option() {
   [[ ${INSTALLOPTS[${1}]} ]] || die "Error: Missing --${1} parameter, required for ${ACTION}."
@@ -427,6 +439,8 @@ validate_options() {
     destroy)
       require_option name
       require_option domain
+      get_cluster_version
+      get_cluster_platform
       ;;
     list)
       list_clusters
@@ -438,7 +452,8 @@ validate_options() {
     customize)
       require_option name
       require_option domain
-      require_option platform
+      get_cluster_version
+      get_cluster_platform
       ;;
     *)
       die "Error: Missing action. Please use --help, --init, --install, --customize, --destroy or --list."
@@ -531,7 +546,6 @@ main() {
       create_cluster
       ;;
     destroy)
-      get_cluster_version
       download_tools installer
       destroy_cluster
       ;;
