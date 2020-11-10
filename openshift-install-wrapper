@@ -21,7 +21,7 @@ __clustersdir=${__basedir}/clusters
 __baseurl=https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
 # defaults
-VERSION=1.2.3
+VERSION=1.2.4
 VERBOSE=0
 QUIET=0
 FORCE=0
@@ -415,32 +415,45 @@ validate_options() {
       require_option domain
       require_option version
       require_option platform
-      [[ ${INSTALLOPTS[platform]} == "aws" ]] || [[ ${INSTALLOPTS[platform]} == "azure" ]] && require_option region
-      [[ ${INSTALLOPTS[platform]} == "azure" ]] && require_option azure-resource-group
-      if [[ ${INSTALLOPTS[platform]} == "vsphere" ]]; then
-        require_option vsphere-vcenter
-        require_option vsphere-username
-        require_option vsphere-password
-        require_option vsphere-cluster
-        require_option vsphere-datacenter
-        require_option vsphere-datastore
-        require_option vsphere-network
-        require_option vsphere-vip-api
-        require_option vsphere-vip-ingress
-      elif [[ ${INSTALLOPTS[platform]} == "ovirt" ]]; then
-        require_option ovirt-cluster
-        require_option ovirt-storagedomain
-        require_option ovirt-network
-        require_option ovirt-vip-api
-        require_option ovirt-vip-ingress
-        require_option ovirt-vip-dns
-      fi
+      case ${INSTALLOPTS[platform]} in
+        aws)
+          require_option region
+          verify_cloud_credentials
+          ;;
+        azure)
+          require_option region
+          require_option azure-resource-group
+          verify_cloud_credentials
+          ;;
+        vsphere)
+          require_option vsphere-vcenter
+          require_option vsphere-username
+          require_option vsphere-password
+          require_option vsphere-cluster
+          require_option vsphere-datacenter
+          require_option vsphere-datastore
+          require_option vsphere-network
+          require_option vsphere-vip-api
+          require_option vsphere-vip-ingress
+          ;;
+        ovirt)
+          require_option ovirt-cluster
+          require_option ovirt-storagedomain
+          require_option ovirt-network
+          require_option ovirt-vip-api
+          require_option ovirt-vip-ingress
+          require_option ovirt-vip-dns
+        *)
+          die "Error: Platform ${INSTALLOPTS[platform]} not yet supported by this script"
+          ;;
+      esac
       ;;
     destroy)
       require_option name
       require_option domain
       get_cluster_version
       get_cluster_platform
+      [[ ${INSTALLOPTS[platform]} == "aws" ]] || [[ ${INSTALLOPTS[platform]} == "azure" ]] && verify_cloud_credentials
       ;;
     list)
       list_clusters
@@ -459,24 +472,6 @@ validate_options() {
       die "Error: Missing action. Please use --help, --init, --install, --customize, --destroy or --list."
       ;;
   esac
-
-  if [[ ${ACTION} == "install" ]] || [[ ${ACTION} == "destroy" ]]; then
-    case ${INSTALLOPTS[platform]} in
-      aws|azure)
-        verbose "  Platform: ${INSTALLOPTS[platform]}"
-        verify_cloud_credentials
-        ;;
-      vsphere)
-        verbose "  Platform: ${INSTALLOPTS[platform]}"
-        ;;
-      ovirt)
-        verbose "  Platform: ${INSTALLOPTS[platform]}"
-        ;;
-      *)
-        die "Error: Platform ${INSTALLOPTS[platform]} not yet supported by this script"
-        ;;
-     esac
-  fi
 }
 
 # main function
