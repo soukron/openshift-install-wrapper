@@ -1,0 +1,240 @@
+#!/bin/bash
+
+# Optional fields
+# script name: deploy-cluster-logging
+# script description: Deploy cluster logging 
+
+# Mandatory function
+# start main - do not remove this line and do not change the function name
+main() {
+  # Default values
+  channel=$(echo ${INSTALLOPTS[version]} | cut -d'.' -f-2)
+  es_pods=1
+  es_redundancy="ZeroRedundancy"
+  es_memory="2Gi"
+  es_cpu="200m"
+  kibana_pods=1
+  kibana_memory="512Mi"
+  kibana_cpu="500m"
+  curator_memory="200Mi"
+  curator_cpu="200m"
+  # parse arguments from ${1}, if any, and export them as variables
+  out "${1}"
+  parse_args_as_variables "${1}"
+
+  # Create the namespace for Elasticsearh operator
+  cat << EOF | oc apply -f - \
+                && success "Namespace for Elasticsearch Operator created successfully." \
+                || die "Error creating the Namespace for Elasticsearch Operator."
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-operators-redhat 
+  annotations:
+    openshift.io/node-selector: ""
+  labels:
+    openshift.io/cluster-monitoring: "true" 
+EOF
+
+  # Create the namespace for cluster logging operator
+  cat << EOF | oc apply -f - \
+                && success "Namespace for Cluster Logging Operator created successfully." \
+                || die "Error creating the Namespace for Cluster Logging Operator."
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-logging
+  annotations:
+    openshift.io/node-selector: ""
+  labels:
+    openshift.io/cluster-monitoring: "true"
+EOF
+
+  # Create operator group for Elasticsearch operator
+  cat << EOF | oc apply -f - \
+                && success "Operator group for Elasticsearch Operator created successfully." \
+                || die "Error creating the Operator group for Elasticsearch Operator."
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: openshift-operators-redhat
+  namespace: openshift-operators-redhat 
+spec: {}
+EOF
+
+  # Create a subscription for Elasticsearch operator
+  cat << EOF | oc apply -f - \
+                && success "Subscription for Elasticsearch Operator created successfully."  \
+                || die "Error creating the subscription for Elasticsearch Operator."
+
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: "elasticsearch-operator"
+  namespace: "openshift-operators-redhat" 
+spec:
+  channel: "${channel}" 
+  installPlanApproval: "Automatic"
+  source: "redhat-operators" 
+  sourceNamespace: "openshift-marketplace"
+  name: "elasticsearch-operator"
+EOF
+
+# Wait 60s until Elasticsearch operator is copies to all namespaces
+total_namespaces=$(${3} --kubeconfig ${2}/auth/kubeconfig get namespaces --no-headers | wc -l)
+es_op_namespaces=$(${3} --kubeconfig ${2}/auth/kubeconfig get csv --all-namespaces | grep elasticsearch-operator | grep Succeeded | wc -l)
+
+t=60
+st=5
+
+while [ ${t} -gt 0 ] && [ ${total_namespaces} -ne ${es_op_namespaces}  ]
+do
+
+  total_namespaces=$(${3} --kubeconfig ${2}/auth/kubeconfig get namespaces --no-headers | wc -l) 
+  es_op_namespaces=$(${3} --kubeconfig ${2}/auth/kubeconfig get csv --all-namespaces | grep elasticsearch-operator |grep Succeeded | wc -l)
+  sleep $st
+  t=$((${t} - ${st}))
+done
+
+[ ${total_namespaces} -eq ${es_op_namespaces} ] && success "Elasticsearch Operator copied to all namespaces successfully." \
+|| die "Elasticsearch Operator not copied to all namespaces."
+
+# Not working using timeout
+#timeout 60s bash -c -- 'while [ '"$(${3} --kubeconfig ${2}/auth/kubeconfig get namespaces --no-headers | wc -l)"' != '"$(${3} --kubeconfig ${2}/auth/kubeconfig get csv --all-namespaces | grep elasticsearch-operator | grep Succeeded | wc -l)"'  ]; do sleep 5;done' && success "Elasticsearch Operator copied to all namespaces." \
+#|| die "Elasticsearch Operator not copied to all namespaces ${total_namespaces} - ${es_op_namespaces}."
+
+  # Create operator group for Cluster Logging operator
+  cat << EOF | oc apply -f - \
+                && success "Operator group for Cluster Logging Operator created successfully." \
+                || die "Error creating the Operator group for Cluster Logging Operator."
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: cluster-logging
+  namespace: openshift-logging 
+spec:
+  targetNamespaces:
+  - openshift-logging
+EOF
+
+  # Create a subscription for Cluster Logging operator
+  cat << EOF | oc apply -f - \
+                && success "Subscription for Cluster Logging Operator created successfully."  \
+                || die "Error creating the subscription for Cluster Logging Operator."
+
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: "cluster-logging"
+  namespace: "openshift-logging" 
+spec:
+  channel: "${channel}" 
+  source: "redhat-operators" 
+  sourceNamespace: "openshift-marketplace"
+  name: "cluster-logging"
+EOF
+
+# Wait 60s until Elasticsearch operator is copies to all namespaces
+clo_op_namespace=$(${3} --kubeconfig ${2}/auth/kubeconfig get csv -n openshift-logging | grep clusterlogging | grep Succeeded | wc -l)
+
+t=60
+st=5
+
+while [ ${t} -gt 0 ] && [ ${clo_op_namespace} -ne 1  ]
+do
+
+  clo_op_namespace=$(${3} --kubeconfig ${2}/auth/kubeconfig get csv -n openshift-logging | grep clusterlogging | grep Succeeded | wc -l)
+  sleep $st
+  t=$((${t} - ${st}))
+done
+
+[ ${clo_op_namespace} -eq 1 ] && success "Cluster Logging Operator installed successfully." \
+|| die "Cluster Logging Operator not installed."
+
+  # Create Cluster Logging instance
+  cat << EOF | oc apply -f - \
+              && success "Cluster Logging instance created successfully." \
+              || die "Error creating Cluster Logging instance."
+apiVersion: "logging.openshift.io/v1"
+kind: "ClusterLogging"
+metadata:
+  name: "instance"
+  namespace: "openshift-logging"
+spec:
+  managementState: "Managed"
+  logStore:
+    type: "elasticsearch"
+    elasticsearch:
+      nodeCount: ${es_pods}
+      resources: 
+        limits:
+          memory: ${es_memory}
+        requests:
+          cpu: ${es_cpu}
+          memory: ${es_memory}
+      storage: {}
+      redundancyPolicy: ${es_redundancy}
+  visualization:
+    type: "kibana"
+    kibana:
+      resources: 
+        limits:
+          memory: ${kibana_memory}
+        requests:
+          cpu: ${kibana_cpu}
+          memory: ${kibana_memory}
+      replicas: ${kibana_pods}
+  curation:
+    type: "curator"
+    curator:
+      resources: 
+        limits:
+          memory: ${curator_memory}
+        requests:
+          cpu: ${curator_cpu}
+          memory: ${curator_memory}
+      schedule: "*/5 * * * *"
+  collection:
+    logs:
+      type: "fluentd"
+      fluentd:
+        resources: {}
+EOF
+
+# Wait 120s until elacticsearch pods are Running
+#.status.collection.logs.fluentdStatus.pods.[failed,notReady,ready]
+#.status.logStore.elasticsearchStatus.pods.master.[failed,notReady,ready]
+#.status.visualization.kibanaStatus.pods.[failed,notReady,ready]
+
+fluentd_pods_failed=$(${3} --kubeconfig ${2}/auth/kubeconfig get ClusterLogging instance -n openshift-logging -o jsonpath='{.status.collection.logs.fluentdStatus.pods.failed[*]}'|wc -w)
+fluentd_pods_not_ready=$(${3} --kubeconfig ${2}/auth/kubeconfig get ClusterLogging instance -n openshift-logging -o jsonpath='{.status.collection.logs.fluentdStatus.pods.notReady[*]}'|wc -w)
+
+es_pods_ready=$(${3} --kubeconfig ${2}/auth/kubeconfig get ClusterLogging instance -n openshift-logging -o jsonpath='{.status.logStore.elasticsearchStatus[0].pods.master.ready[*]}'|wc -w)
+
+kibana_pods_ready=$(${3} --kubeconfig ${2}/auth/kubeconfig get ClusterLogging instance -n openshift-logging -o jsonpath='{.status.visualization.kibanaStatus[0].pods.ready[*]}'|wc -w)
+
+t=200
+st=5
+
+while [ ${t} -gt 0 ] && [[ (${es_pods_ready} -ne ${es_pods}) || (${kibana_pods_ready} -ne ${kibana_pods}) || (${fluentd_pods_failed} -ne 0) || (${fluentd_pods_not_ready} -ne 0) ]]
+do
+    fluentd_pods_failed=$(${3} --kubeconfig ${2}/auth/kubeconfig get ClusterLogging instance -n openshift-logging -o jsonpath='{.status.collection.logs.fluentdStatus.pods.failed[*]}'|wc -w)
+    fluentd_pods_not_ready=$(${3} --kubeconfig ${2}/auth/kubeconfig get ClusterLogging instance -n openshift-logging -o jsonpath='{.status.collection.logs.fluentdStatus.pods.notReady[*]}'|wc -w)
+
+    es_pods_ready=$(${3} --kubeconfig ${2}/auth/kubeconfig get ClusterLogging instance -n openshift-logging -o jsonpath='{.status.logStore.elasticsearchStatus[0].pods.master.ready[*]}'|wc -w)
+    kibana_pods_ready=$(${3} --kubeconfig ${2}/auth/kubeconfig get ClusterLogging instance -n openshift-logging -o jsonpath='{.status.visualization.kibanaStatus[0].pods.ready[*]}'|wc -w)
+
+    verbose "elasticsearch: ${es_pods_ready} , kibana: ${kibana_pods_ready} , fluentd: ${fluentd_pods_failed} - ${fluentd_pods_not_ready}"
+
+  sleep $st
+  t=$((${t} - ${st}))
+done
+
+[[ (${es_pods_ready} -eq ${es_pods}) && (${kibana_pods_ready} -eq ${kibana_pods}) && (${fluentd_pods_failed} -eq 0) && (${fluentd_pods_not_ready} -eq 0) ]] \
+&& success "Cluster Logging successfully installed." || die "Pods in openshift-logging namespace not in running state ."
+
+}
+# end main - do not remove this line
+
+# Optionally, keep this if you want to run your script manually or for testing.
+main $@
