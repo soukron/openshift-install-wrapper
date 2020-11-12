@@ -151,8 +151,14 @@ EOF
 
 # download tools (if required)
 download_tools() {
-  local version=${INSTALLOPTS[version]}
   local tool=${1}
+
+  if [[ $(echo ${INSTALLOPTS[version]} |egrep "latest|stable|candidate|fast") ]];then
+    INSTALLOPTS[version]=$( curl -s ${__baseurl}/${INSTALLOPTS[version]}/release.txt | grep "Release Metadata:" -A1 | grep Version | cut -d\: -f 2 | tr -d " " )
+    [[ ${INSTALLOPTS[version]} == "" ]] && die "Invalid version, check the version and retry."
+    success "Version resolved to ${INSTALLOPTS[version]}."
+  fi
+  local version=${INSTALLOPTS[version]}
 
   case ${tool} in
     installer)
