@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Optional fields
+# script name: deploy-pipelines
+# script description: Installs Pipelines operator
+
+# Mandatory function
+# start main - do not remove this line and do not change the function name
+main() {
+  # default values
+  version=1.1.2
+  channel=preview
+  approval=Automatic
+
+  # parse arguments from ${1}, if any, and export them as variables
+  parse_args_as_variables "${1}"
+
+  # Create the subscription
+  cat <<EOF | oc apply -f - \
+                  && success "Subscription created succesfully." \
+                  || die "Error creating the Subscription."
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: openshift-pipelines-operator
+  namespace: openshift-operators
+spec:
+  channel: ${channel}
+  installPlanApproval: ${approval}
+  name: openshift-pipelines-operator-rh
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  startingCSV: redhat-openshift-pipelines-operator.v${version}
+EOF
+
+  # Wait for a few seconds
+  verbose "Pausing fo 5 seconds..."
+  sleep 5
+}
+# end main - do not remove this line
+
+# Optionally, keep this if you want to run your script manually or for testing.
+main $@
