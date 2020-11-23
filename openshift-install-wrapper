@@ -460,7 +460,9 @@ validate_options() {
       require_option domain
       get_cluster_version
       get_cluster_platform
-      [[ ${INSTALLOPTS[platform]} == "aws" ]] || [[ ${INSTALLOPTS[platform]} == "azure" ]] && verify_cloud_credentials
+      if [[ ${INSTALLOPTS[platform]} == "aws" ]] ||  [[ ${INSTALLOPTS[platform]} == "azure" ]] ;then
+       verify_cloud_credentials
+      fi
       ;;
     list)
       list_clusters
