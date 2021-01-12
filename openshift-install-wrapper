@@ -138,7 +138,8 @@ Options:
   --customize <actions>          - customize the cluster with some post-install actions
   --list                         - lists all existing clusters
   --list-csv                     - lists all existing clusters in CSV format
-  --baseurl                      - sets the baseurl to download the binaries
+  --dev-preview                  - allows to install any released dev-preview version
+  --baseurl                      - sets the baseurl to download the binaries (overrides the use of --dev-preview)
                                    default: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp
   --verbose                      - shows more information during the execution
   --quiet                        - quiet mode (no output at all)
@@ -507,6 +508,7 @@ main() {
       --list-csv)    ACTION=list; LISTFORMAT="csv";;
       --verbose)     VERBOSE=1;;
       --quiet)       QUIET=1;;
+      --dev-preview) shift; __baseurl=${baseurl/\/ocp/\/ocp-dev-preview};;
       --baseurl)     shift; __baseurl="${1}";;
       --help|-h)     usage >&2; safe_exit;;
       --azure-resource-group) shift; INSTALLOPTS[azure-resource-group]="${1}";;
