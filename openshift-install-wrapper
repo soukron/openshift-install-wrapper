@@ -21,7 +21,7 @@ __clustersdir=${__basedir}/clusters
 __baseurl=https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
 # defaults
-VERSION=1.2.3
+VERSION=1.3.0
 VERBOSE=0
 QUIET=0
 FORCE=0
