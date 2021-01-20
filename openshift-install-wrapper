@@ -21,7 +21,7 @@ __clustersdir=${__basedir}/clusters
 __baseurl=https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
 # defaults
-VERSION=1.2.4
+VERSION=1.4.0
 VERBOSE=0
 QUIET=0
 FORCE=0
@@ -139,7 +139,9 @@ Options:
   --customize <actions>          - customize the cluster with some post-install actions
   --list                         - lists all existing clusters
   --list-csv                     - lists all existing clusters in CSV format
-
+  --dev-preview                  - allows to install any released dev-preview version
+  --baseurl                      - sets the baseurl to download the binaries (overrides the use of --dev-preview)
+                                   default: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp
   --verbose                      - shows more information during the execution
   --quiet                        - quiet mode (no output at all)
   --help|-h                      - shows this message
@@ -515,6 +517,8 @@ main() {
       --edit-install-config) EDIT_INSTALL_CONFIG=1;;
       --verbose)     VERBOSE=1;;
       --quiet)       QUIET=1;;
+      --dev-preview) __baseurl=${__baseurl/\/ocp/\/ocp-dev-preview};;
+      --baseurl)     shift; __baseurl="${1}";;
       --help|-h)     usage >&2; safe_exit;;
       --azure-resource-group) shift; INSTALLOPTS[azure-resource-group]="${1}";;
       --vsphere-vcenter)     shift; INSTALLOPTS[vsphere-vcenter]="${1}";;
