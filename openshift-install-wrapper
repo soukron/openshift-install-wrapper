@@ -21,7 +21,7 @@ __clustersdir=${__basedir}/clusters
 __baseurl=https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
 # defaults
-VERSION=1.3.0
+VERSION=1.4.0
 VERBOSE=0
 QUIET=0
 FORCE=0
@@ -110,6 +110,7 @@ Options:
   --master-replicas <number>     - [OPTIONAL] number of master nodes
   --worker-replicas <number>     - [OPTIONAL] number of worker nodes
   --network-type <network type>  - [OPTIONAL] network type, example OpenShiftSDN or OVNKubernetes
+  --edit-install-config          - [OPTIONAL] If set, an editor is opened to customize the install-config.yaml before starting installation.
 
   --azure-resource-group         - provide the ResourceGroup where the domain exists
 
@@ -268,6 +269,13 @@ create_install_config() {
   if [[ ${INSTALLOPTS[platform]} == "azure" ]]; then
     sed -i "s/RESOURCEGROUP/${INSTALLOPTS[azure-resource-group]}/g;" ${clusterdir}/install-config.yaml
   fi
+
+  if [[ ${EDIT_INSTALL_CONFIG} -eq 1 ]]; then
+	verbose "Editing install-config with ${WRAPPER_EDITOR}"
+	${WRAPPER_EDITOR} "${clusterdir}/install-config.yaml"
+  fi
+
+
 }
 
 # verify cloud credentials
@@ -506,6 +514,7 @@ main() {
       --destroy)     ACTION=destroy;;
       --list)        ACTION=list;;
       --list-csv)    ACTION=list; LISTFORMAT="csv";;
+      --edit-install-config) EDIT_INSTALL_CONFIG=1;;
       --verbose)     VERBOSE=1;;
       --quiet)       QUIET=1;;
       --dev-preview) __baseurl=${__baseurl/\/ocp/\/ocp-dev-preview};;
@@ -534,6 +543,9 @@ main() {
     esac
     shift
   done
+
+  WRAPPER_EDITOR="${EDITOR:-vi}"
+  verbose "Using ${WRAPPER_EDITOR} as interactive editor"
 
   # create a temporary dir to work
   TMPDIR=$( mktemp -d -p . )
