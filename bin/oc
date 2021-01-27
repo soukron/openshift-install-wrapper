@@ -1,0 +1,38 @@
+#!/bin/bash
+
+WRAPPER_NAME=oc
+WRAPPER_VERSION_VAR=OC_VERSION
+WRAPPER_BASEDIR=~/.local/ocp4/bin
+
+# Don't	need to	edit anything after this line
+WRAPPER_VERSION=${!WRAPPER_VERSION_VAR:-${OCP4_VERSION:-"default"}}
+WRAPPER_CMD=`basename $0`-${WRAPPER_VERSION}
+
+# Check for --wrapper-info argument to show help
+if [ "$1" == "--wrapper-info" ]; then
+  echo "Wrapper info:
+  - WRAPPER_NAME: ${WRAPPER_NAME}
+  - WRAPPER_VERSION: ${WRAPPER_VERSION}
+  - WRAPPER_BASEDIR: ${WRAPPER_BASEDIR}"
+  echo
+
+  echo -e "Available versions (for \$${WRAPPER_VERSION_VAR} and/or \$OCP4_VERSION):"
+  for version in `ls -1 ${WRAPPER_BASEDIR}/${WRAPPER_NAME}-* | grep -v wrapper | rev | cut -d - -f 1 | rev`; do
+    echo -n "  - ${version}"
+    if [ "${version}" == "default" ]; then
+      echo " ($(readlink ${WRAPPER_BASEDIR}/${WRAPPER_NAME}-* | rev | cut -d - -f 1 | rev))"
+    fi
+    echo
+  done
+
+  exit
+fi
+
+# Check if binary exists and exit if not
+if [ ! -f ${WRAPPER_BASEDIR}/${WRAPPER_CMD} ]; then
+  echo "Error: file ${WRAPPER_CMD} not found in ${WRAPPER_BASEDIR}. Set variable \$${WRAPPER_VERSION_VAR}, \${OCP4_VERSION} or symlink any version as default"
+  exit
+fi
+
+# Launch the tool
+${WRAPPER_BASEDIR}/${WRAPPER_CMD} "$@"

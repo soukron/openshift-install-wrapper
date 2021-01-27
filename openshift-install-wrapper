@@ -21,7 +21,7 @@ __clustersdir=${__basedir}/clusters
 __baseurl=https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
 # defaults
-VERSION=1.4.0
+VERSION=1.5.0
 VERBOSE=0
 QUIET=0
 FORCE=0
@@ -137,7 +137,6 @@ Options:
   --install                      - install the cluster
   --destroy                      - destroy the cluster
   --customize <actions>          - customize the cluster with some post-install actions
-  --use                          - prepares the environment to use the cluster
   --list                         - lists all existing clusters
   --list-csv                     - lists all existing clusters in CSV format
   --dev-preview                  - allows to install any released dev-preview version
@@ -388,18 +387,6 @@ customize_cluster() {
   done
 }
 
-# use a cluster
-use_cluster() {
-  local clusterdir=${__clustersdir}/${INSTALLOPTS[name]}.${INSTALLOPTS[domain]}
-  local client=${__bindir}/oc-${INSTALLOPTS[version]}
-  local installer=${__bindir}/openshift-install-${INSTALLOPTS[version]}
-
-  out "→ Copy and paste the next output:\n"
-  echo "export KUBECONFIG=${clusterdir}/auth/kubeconfig"
-  echo "alias oc=${client}"
-  echo "alias openshift-install=${installer}"
-}
-
 # find version
 get_cluster_version() {
   local clusterdir=${__clustersdir}/${INSTALLOPTS[name]}.${INSTALLOPTS[domain]}
@@ -487,11 +474,6 @@ validate_options() {
        verify_cloud_credentials
       fi
       ;;
-    use)
-      require_option name
-      require_option domain
-      get_cluster_version
-      ;;
     list)
       list_clusters
       ;;
@@ -530,7 +512,6 @@ main() {
       --install)     ACTION=install;;
       --customize)   shift; ACTION=customize; SCRIPTS="${1}";;
       --destroy)     ACTION=destroy;;
-      --use)         ACTION=use;;
       --list)        ACTION=list;;
       --list-csv)    ACTION=list; LISTFORMAT="csv";;
       --edit-install-config) EDIT_INSTALL_CONFIG=1;;
@@ -576,10 +557,7 @@ main() {
     verbose "Creating ${__configdir}. You will probably need to add your ssh-key.pub and pull-secret.json files on it."
   fi
 
-  # check environment and other required parameters
   validate_options
-
-  # perform the action
   case ${ACTION} in
     install)
       download_tools installer
@@ -592,12 +570,9 @@ main() {
       destroy_cluster
       ;;
     customize)
+      get_cluster_version
       download_tools client
       customize_cluster
-      ;;
-    use)
-      download_tools client
-      use_cluster
       ;;
   esac
 }
