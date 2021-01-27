@@ -21,7 +21,7 @@ __clustersdir=${__basedir}/clusters
 __baseurl=https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
 # defaults
-VERSION=1.5.0
+VERSION=1.5.1
 VERBOSE=0
 QUIET=0
 FORCE=0
@@ -106,20 +106,25 @@ Options:
   --domain <domain>              - name of the domain for the cluster
   --version <version>            - version to install
   --platform <name>              - cloud provider
-  --region <name>                - cloud provider region
-  --master-replicas <number>     - [OPTIONAL] number of master nodes
-  --worker-replicas <number>     - [OPTIONAL] number of worker nodes
-  --network-type <network type>  - [OPTIONAL] network type, example OpenShiftSDN or OVNKubernetes
-  --edit-install-config          - [OPTIONAL] If set, an editor is opened to customize the install-config.yaml before starting installation.
+
+  --region <name>                - sets the region in the cloud provider
+  --master-replicas <number>     - optionally, sets the number of master nodes to deploy
+  --worker-replicas <number>     - optionally, sets the number of worker nodes
+  --network-type <network type>  - optionally, sets network type: OpenShiftSDN or OVNKubernetes
+  --edit-install-config          - optionally, allows to edit the install-config.yaml before starting installation
+
+  --dev-preview                  - required to install any dev-preview release
+  --baseurl <url>                - sets the baseurl to download the binaries (overrides the use of --dev-preview)
+                                   default: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp
 
   --azure-resource-group         - provide the ResourceGroup where the domain exists
 
-  --ovirt-cluster UUID           - ovirt cluster UUID
-  --ovirt-storagedomain UUID     - ovirt storage domain UUID
+  --ovirt-cluster <uuid>         - ovirt cluster UUID
+  --ovirt-storagedomain <uuid>   - ovirt storage domain UUID
   --ovirt-network <name>         - ovirt network name
-  --ovirt-vip-api <IP>           - IP address the cluster's API
-  --ovirt-vip-ingress <IP>       - IP address for the cluster's ingress
-  --ovirt-vip-dns <IP>           - IP address for the cluster's dns
+  --ovirt-vip-api <ip>           - IP address the cluster's API
+  --ovirt-vip-ingress <ip>       - IP address for the cluster's ingress
+  --ovirt-vip-dns <ip>           - IP address for the cluster's dns
 
   --vsphere-vcenter <name>       - fqdn or IP address of vCenter
   --vsphere-username <username>  - username to login to vCenter
@@ -128,20 +133,19 @@ Options:
   --vsphere-datacenter <name>    - vCenter datacenter name
   --vsphere-datastore <name>     - vCenter datastore name
   --vsphere-network <name>       - vCenter network name
-  --vsphere-vip-api <IP>         - IP address the cluster's API
-  --vsphere-vip-ingress <IP>     - IP address for the cluster's ingress
-  --vsphere-disk-size-gb <GB>    - [OPTIONAL] size of disk for each instance, only the value
+  --vsphere-vip-api <ip>         - IP address the cluster's API
+  --vsphere-vip-ingress <ip>     - IP address for the cluster's ingress
+  --vsphere-disk-size-gb <gb>    - optionally, sets the disk size for the instances
 
-  --force                        - force installation (cleanup files if required)
   --init                         - initialize the tool and credentials
   --install                      - install the cluster
   --destroy                      - destroy the cluster
   --customize <actions>          - customize the cluster with some post-install actions
   --list                         - lists all existing clusters
   --list-csv                     - lists all existing clusters in CSV format
-  --dev-preview                  - allows to install any released dev-preview version
-  --baseurl                      - sets the baseurl to download the binaries (overrides the use of --dev-preview)
-                                   default: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp
+
+  --force                        - force installation (cleanup files if required)
+  --dry-run                      - does all the preparation steps but doesn't run the installer to create/destroy a cluster
   --verbose                      - shows more information during the execution
   --quiet                        - quiet mode (no output at all)
   --help|-h                      - shows this message
@@ -318,6 +322,11 @@ create_cluster() {
   local clusterdir=${__clustersdir}/${INSTALLOPTS[name]}.${INSTALLOPTS[domain]}
   local installer=${__bindir}/openshift-install-${INSTALLOPTS[version]}
 
+  if [[ ${DRY_RUN} -eq 1 ]]; then
+    out "→ Dry-run execution detected. Exiting..."
+    exit
+  fi
+
   verbose "  Saving a copy of install-config.yaml file."
   cp ${clusterdir}/install-config.yaml ${clusterdir}/install-config.yaml.orig
 
@@ -337,6 +346,11 @@ create_cluster() {
 destroy_cluster() {
   local clusterdir=${__clustersdir}/${INSTALLOPTS[name]}.${INSTALLOPTS[domain]}
   local installer=${__bindir}/openshift-install-${INSTALLOPTS[version]}
+
+  if [[ ${DRY_RUN} -eq 1 ]]; then
+    out "→ Dry-run execution detected. Exiting..."
+    exit
+  fi
 
   out "→ Running \"openshift-install\" to destroy a cluster..."
   verbose "  Command: \"${installer} destroy cluster --dir=${clusterdir}\""
@@ -474,18 +488,16 @@ validate_options() {
        verify_cloud_credentials
       fi
       ;;
-    list)
-      list_clusters
-      ;;
-    init)
-      require_option platform
-      create_cloud_credentials
-      ;;
     customize)
       require_option name
       require_option domain
       get_cluster_version
       get_cluster_platform
+      ;;
+    list)
+      ;;
+    init)
+      require_option platform
       ;;
     *)
       die "Error: Missing action. Please use --help, --init, --install, --customize, --destroy or --list."
@@ -503,40 +515,48 @@ main() {
       --domain)      shift; INSTALLOPTS[domain]="${1}";;
       --version)     shift; INSTALLOPTS[version]="${1}";;
       --platform)    shift; INSTALLOPTS[platform]="${1}";;
-      --region)      shift; INSTALLOPTS[region]="${1}";;
-      --master-replicas)  shift; INSTALLOPTS[master-replicas]="${1}";;
-      --worker-replicas)  shift; INSTALLOPTS[worker-replicas]="${1}";;
-      --network-type)  shift; INSTALLOPTS[network-type]="${1}";;
-      --force)       FORCE=1;;
-      --init)        ACTION=init;;
-      --install)     ACTION=install;;
-      --customize)   shift; ACTION=customize; SCRIPTS="${1}";;
-      --destroy)     ACTION=destroy;;
-      --list)        ACTION=list;;
-      --list-csv)    ACTION=list; LISTFORMAT="csv";;
+
+      --region)              shift; INSTALLOPTS[region]="${1}";;
+      --master-replicas)     shift; INSTALLOPTS[master-replicas]="${1}";;
+      --worker-replicas)     shift; INSTALLOPTS[worker-replicas]="${1}";;
+      --network-type)        shift; INSTALLOPTS[network-type]="${1}";;
       --edit-install-config) EDIT_INSTALL_CONFIG=1;;
-      --verbose)     VERBOSE=1;;
-      --quiet)       QUIET=1;;
+
       --dev-preview) __baseurl=${__baseurl/\/ocp/\/ocp-dev-preview};;
       --baseurl)     shift; __baseurl="${1}";;
-      --help|-h)     usage >&2; safe_exit;;
+
       --azure-resource-group) shift; INSTALLOPTS[azure-resource-group]="${1}";;
-      --vsphere-vcenter)     shift; INSTALLOPTS[vsphere-vcenter]="${1}";;
-      --vsphere-username)    shift; INSTALLOPTS[vsphere-username]="${1}";;
-      --vsphere-password)    shift; INSTALLOPTS[vsphere-password]="${1}";;
-      --vsphere-cluster)     shift; INSTALLOPTS[vsphere-cluster]="${1}";;
-      --vsphere-datacenter)  shift; INSTALLOPTS[vsphere-datacenter]="${1}";;
-      --vsphere-datastore)   shift; INSTALLOPTS[vsphere-datastore]="${1}";;
-      --vsphere-network)     shift; INSTALLOPTS[vsphere-network]="${1}";;
-      --vsphere-vip-api)     shift; INSTALLOPTS[vsphere-vip-api]="${1}";;
-      --vsphere-vip-ingress) shift; INSTALLOPTS[vsphere-vip-ingress]="${1}";;
-      --vsphere-disk-size-gb) shift; INSTALLOPTS[vsphere-disk-size-gb]="${1}";;
+
       --ovirt-cluster)       shift; INSTALLOPTS[ovirt-cluster]="${1}";;
       --ovirt-storagedomain) shift; INSTALLOPTS[ovirt-storagedomain]="${1}";;
       --ovirt-network)       shift; INSTALLOPTS[ovirt-network]="${1}";;
       --ovirt-vip-api)       shift; INSTALLOPTS[ovirt-vip-api]="${1}";;
       --ovirt-vip-ingress)   shift; INSTALLOPTS[ovirt-vip-ingress]="${1}";;
       --ovirt-vip-dns)       shift; INSTALLOPTS[ovirt-vip-dns]="${1}";;
+
+      --vsphere-vcenter)      shift; INSTALLOPTS[vsphere-vcenter]="${1}";;
+      --vsphere-username)     shift; INSTALLOPTS[vsphere-username]="${1}";;
+      --vsphere-password)     shift; INSTALLOPTS[vsphere-password]="${1}";;
+      --vsphere-cluster)      shift; INSTALLOPTS[vsphere-cluster]="${1}";;
+      --vsphere-datacenter)   shift; INSTALLOPTS[vsphere-datacenter]="${1}";;
+      --vsphere-datastore)    shift; INSTALLOPTS[vsphere-datastore]="${1}";;
+      --vsphere-network)      shift; INSTALLOPTS[vsphere-network]="${1}";;
+      --vsphere-vip-api)      shift; INSTALLOPTS[vsphere-vip-api]="${1}";;
+      --vsphere-vip-ingress)  shift; INSTALLOPTS[vsphere-vip-ingress]="${1}";;
+      --vsphere-disk-size-gb) shift; INSTALLOPTS[vsphere-disk-size-gb]="${1}";;
+
+      --init)        ACTION=init;;
+      --install)     ACTION=install;;
+      --destroy)     ACTION=destroy;;
+      --customize)   shift; ACTION=customize; SCRIPTS="${1}";;
+      --list)        ACTION=list;;
+      --list-csv)    ACTION=list; LISTFORMAT="csv";;
+
+      --force)       FORCE=1;;
+      --dry-run)     DRY_RUN=1;;
+      --verbose)     VERBOSE=1;;
+      --quiet)       QUIET=1;;
+      --help|-h)     usage >&2; safe_exit;;
       *)
         die "Error: Invalid option ${1}.\n"
         ;;
@@ -557,7 +577,10 @@ main() {
     verbose "Creating ${__configdir}. You will probably need to add your ssh-key.pub and pull-secret.json files on it."
   fi
 
+  # check if all the required parameters are provided
   validate_options
+
+  # run the actions
   case ${ACTION} in
     install)
       download_tools installer
@@ -573,6 +596,12 @@ main() {
       get_cluster_version
       download_tools client
       customize_cluster
+      ;;
+    list)
+      list_clusters
+      ;;
+    init)
+      create_cloud_credentials
       ;;
   esac
 }
