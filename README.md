@@ -3,9 +3,10 @@
 1. [Description](#description)
 2. [Preparation](#preparation)
 3. [Usage](#usage)
-4. [Adding customizations](#adding-customization-scripts)
-5. [TODO](#todo)
-6. [Known Issues](#known-issues)
+4. [Client wrappers](#client-wrappers)
+5. [Adding customizations](#adding-customization-scripts)
+6. [TODO](#todo)
+7. [Known Issues](#known-issues)
 
 ## Description
 This is a wrapper for the official `openshift-install` binary to perform IPI (Installer Provided Infrastructure) installations of OpenShift 4.
@@ -15,6 +16,7 @@ Features:
  - creates sample cloud credential files in the right location for each cloud provider
  - creates install-config.yaml for each cloud provider
  - allows customize a previously installed cluster with some pre-made scripts
+ - includes client wrappers to use any of them based on environment variables
  
 ## Preparation
 The wrapper leverages in `openshift-install` all the tasks but it requires some pre-requisites:
@@ -136,6 +138,48 @@ secret "kubeadmin" deleted
 ### Troubleshooting
 - Use `--verbose` to get extra information during the execution, including the full output of `openshift-install`
 - Review `$HOME/.local/ocp4/clusters/<cluster_name>/.openshift_install_wrapper.log` for useful output
+
+## Client wrappers
+Some helper wrappers will be installed in the target directory which will help to use the different versions of the tools (`openshift-install`, `oc` and `kubelet`) by using environment variables.
+
+With this client wrappers you can move from one client version to another easily by setting the `$OCP4_VERSION` variable so the right binary will be used transparently without messing with PATH and/or alias for your commands.
+
+All three wrappers will include some goodies:
+ - will read the variable `$OCP4_VERSION` to change the final binary.
+ - will read the variables `$OC_VERSION`, `$KUBELET_VERSION`, and `$OPENSHIFT_INSTALL_VERSION` respectively to change the final version, regardless `$OCP4_VERSION`, for individual testing.
+ - add a `--wrapper-info` parameter to show the available versions for each one.
+
+Example:
+```sh
+$ oc version
+Client Version: 4.6.9
+
+$ oc --wrapper-info
+Wrapper info:
+  - WRAPPER_NAME: oc
+  - WRAPPER_VERSION: default
+  - WRAPPER_BASEDIR: /home/sgarcia/.local/ocp4/bin
+
+Available versions (for $OC_VERSION and/or $OCP4_VERSION):
+  - 4.4.30
+  - 4.5.16
+  - 4.6.12
+  - 4.6.9
+  - default (4.6.9)
+
+$ export OCP4_VERSION=4.6.12
+
+$ oc version
+Client Version: 4.6.12
+
+$ kubectl version
+Client Version: 4.6.12
+
+$ openshift-install version
+/home/sgarcia/.local/ocp4/bin/openshift-install-4.6.12 4.6.12
+built from commit eded5eb5b6c77e2af2a2c537093da8bf3711f494
+release image quay.io/openshift-release-dev/ocp-release@sha256:5c3618ab914eb66267b7c552a9b51c3018c3a8f8acf08ce1ff7ae4bfdd3a82bd
+```
 
 ## Adding customization scripts
 In order to add new scripts, they must meet some requisites:
