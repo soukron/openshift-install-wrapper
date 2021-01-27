@@ -29,14 +29,18 @@ merge-scripts: ## Merge the scripts in the main script
 	cd scripts && ./.merge-scripts
 
 install: ## Installs the script
-	@echo Preparing script
+	@echo Preparing wrappers...
 	@sed -i 's/^VERSION=.*/VERSION=$(VERSION)/' openshift-install-wrapper
 	@sed -i "s|^__basedir=.*|__basedir=$(TARGETDIR)|" openshift-install-wrapper
-	@echo Merging customization scripts
+	@sed -i "s|^WRAPPER_BASEDIR=.*|WRAPPER_BASEDIR=$(TARGETDIR)/bin|" bin/openshift-install
+	@sed -i "s|^WRAPPER_BASEDIR=.*|WRAPPER_BASEDIR=$(TARGETDIR)/bin|" bin/oc
+	@sed -i "s|^WRAPPER_BASEDIR=.*|WRAPPER_BASEDIR=$(TARGETDIR)/bin|" bin/kubectl
+	@echo Merging customization scripts...
 	cd scripts && ./.merge-scripts && cd - &>/dev/null
 	@echo Creating target directory $(TARGETDIR)...
 	@mkdir -p $(TARGETDIR)/{bin,clusters,config}
-	@echo Copying script...
+	@echo Copying wrappers...
 	@cp -f scripts/openshift-install-wrapper $(TARGETDIR)/bin
+	@cp -f bin/* $(TARGETDIR)/bin
 	@chmod 755 $(TARGETDIR)/bin/openshift-install-wrapper
-	@echo "Wrapper installed in $(TARGETDIR)/bin. Please remember to add this location to your PATH to use it."
+	@echo "Wrappers installed in $(TARGETDIR)/bin. Please remember to add this location to your PATH to use it."
