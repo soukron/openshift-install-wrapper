@@ -36,7 +36,7 @@ CONFIGFILES[azure]="${HOME}/.azure/osServicePrincipal.json;eyJzdWJzY3JpcHRpb25JZ
 CONFIGFILES[ovirt]="${HOME}/.ovirt/ovirt-config.yaml;b3ZpcnRfdXJsOiBodHRwczovL09WSVJUX0ZRRE4vb3ZpcnQtZW5naW5lL2FwaQpvdmlydF91c2VybmFtZTogYWRtaW5AaW50ZXJuYWwKb3ZpcnRfcGFzc3dvcmQ6IHNlY3JldFBhc3N3b3JkCm92aXJ0X2luc2VjdXJlOiB0cnVlCg=="
 
 # install-config templates
-INSTALLTEMPLATES[aws-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gaHlwZXJ0aHJlYWRpbmc6IEVuYWJsZWQKICBuYW1lOiB3b3JrZXIKICBwbGF0Zm9ybToKICAgIGF3czoKICAgICAgdHlwZTogbTUuMnhsYXJnZQogIHJlcGxpY2FzOiBXT1JLRVItUkVQTElDQVMKY29udHJvbFBsYW5lOgogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogbWFzdGVyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IE1BU1RFUi1SRVBMSUNBUwptZXRhZGF0YToKICBjcmVhdGlvblRpbWVzdGFtcDogbnVsbAogIG5hbWU6IE5BTUUKbmV0d29ya2luZzoKICBjbHVzdGVyTmV0d29yazoKICAtIGNpZHI6IDEwLjEyOC4wLjAvMTQKICAgIGhvc3RQcmVmaXg6IDIzCiAgbWFjaGluZU5ldHdvcms6CiAgLSBjaWRyOiAxMC4wLjAuMC8xNgogIG5ldHdvcmtUeXBlOiBORVRXT1JLLVRZUEUKICBzZXJ2aWNlTmV0d29yazoKICAtIDE3Mi4zMC4wLjAvMTYKcGxhdGZvcm06CiAgYXdzOgogICAgcmVnaW9uOiBSRUdJT04KcHVibGlzaDogRXh0ZXJuYWwK
+INSTALLTEMPLATES[aws-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gaHlwZXJ0aHJlYWRpbmc6IEVuYWJsZWQKICBuYW1lOiB3b3JrZXIKICBwbGF0Zm9ybToKICAgIGF3czoKICAgICAgdHlwZTogbTUuMnhsYXJnZQogIHJlcGxpY2FzOiBXT1JLRVItUkVQTElDQVMKY29udHJvbFBsYW5lOgogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogbWFzdGVyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IE1BU1RFUi1SRVBMSUNBUwptZXRhZGF0YToKICBjcmVhdGlvblRpbWVzdGFtcDogbnVsbAogIG5hbWU6IE5BTUUKbmV0d29ya2luZzoKICBjbHVzdGVyTmV0d29yazoKICAtIGNpZHI6IDEwLjEyOC4wLjAvMTQKICAgIGhvc3RQcmVmaXg6IDIzCiAgbWFjaGluZU5ldHdvcms6CiAgLSBjaWRyOiAxMC4wLjAuMC8xNgogIG5ldHdvcmtUeXBlOiBORVRXT1JLLVRZUEUKICBzZXJ2aWNlTmV0d29yazoKICAtIDE3Mi4zMC4wLjAvMTYKcGxhdGZvcm06CiAgYXdzOgogICAgcmVnaW9uOiBSRUdJT04KICAgIHVzZXJUYWdzOiBUQUdTCnB1Ymxpc2g6IEV4dGVybmFsCg==
 INSTALLTEMPLATES[azure-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IFdPUktFUi1SRVBMSUNBUwpjb250cm9sUGxhbmU6CiAgYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogbWFzdGVyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IE1BU1RFUi1SRVBMSUNBUwptZXRhZGF0YToKICBjcmVhdGlvblRpbWVzdGFtcDogbnVsbAogIG5hbWU6IE5BTUUKbmV0d29ya2luZzoKICBjbHVzdGVyTmV0d29yazoKICAtIGNpZHI6IDEwLjEyOC4wLjAvMTQKICAgIGhvc3RQcmVmaXg6IDIzCiAgbWFjaGluZU5ldHdvcms6CiAgLSBjaWRyOiAxMC4wLjAuMC8xNgogIG5ldHdvcmtUeXBlOiBORVRXT1JLLVRZUEUKICBzZXJ2aWNlTmV0d29yazoKICAtIDE3Mi4zMC4wLjAvMTYKcGxhdGZvcm06CiAgYXp1cmU6CiAgICBiYXNlRG9tYWluUmVzb3VyY2VHcm91cE5hbWU6IFJFU09VUkNFR1JPVVAKICAgIHJlZ2lvbjogUkVHSU9OCnB1Ymxpc2g6IEV4dGVybmFsCg==
 INSTALLTEMPLATES[ovirt-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbnRyb2xQbGFuZToKICBuYW1lOiBtYXN0ZXIKICBwbGF0Zm9ybToKICAgIG92aXJ0OgogICAgICBjcHU6CiAgICAgICAgY29yZXM6IDQKICAgICAgICBzb2NrZXRzOiAyCiAgICAgIG1lbW9yeU1COiAxNjM4NAogICAgICBvc0Rpc2s6CiAgICAgICAgc2l6ZUdCOiA1MAogICAgICB2bVR5cGU6IHNlcnZlcgogIHJlcGxpY2FzOiBNQVNURVItUkVQTElDQVMKY29tcHV0ZToKLSBuYW1lOiB3b3JrZXIKICBwbGF0Zm9ybToKICAgIG92aXJ0OgogICAgICBjcHU6CiAgICAgICAgY29yZXM6IDQKICAgICAgICBzb2NrZXRzOiA0CiAgICAgIG1lbW9yeU1COiAxNjM4NAogICAgICBvc0Rpc2s6CiAgICAgICAgc2l6ZUdCOiA1MAogICAgICB2bVR5cGU6IHNlcnZlcgogIHJlcGxpY2FzOiBXT1JLRVItUkVQTElDQVMKbWV0YWRhdGE6CiAgbmFtZTogTkFNRQpwbGF0Zm9ybToKICBvdmlydDoKICAgIGFwaV92aXA6IE9WSVJULVZJUC1BUEkKICAgIGluZ3Jlc3NfdmlwOiBPVklSVC1WSVAtSU5HUkVTUwogICAgZG5zX3ZpcDogT1ZJUlQtVklQLUROUwogICAgb3ZpcnRfY2x1c3Rlcl9pZDogT1ZJUlQtQ0xVU1RFUgogICAgb3ZpcnRfc3RvcmFnZV9kb21haW5faWQ6IE9WSVJULVNUT1JBR0VET01BTgogICAgb3ZpcnRfbmV0d29ya19uYW1lOiBPVklSVC1ORVRXT1JLCgo=
 INSTALLTEMPLATES[vsphere-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IAogICAgdnNwaGVyZTogCiAgICAgIG9zRGlzazoKICAgICAgICBkaXNrU2l6ZUdCOiBWU1BIRVJFLURJU0stU0laRS1HQiAKICByZXBsaWNhczogV09SS0VSLVJFUExJQ0FTCmNvbnRyb2xQbGFuZToKICBhcmNoaXRlY3R1cmU6IGFtZDY0CiAgaHlwZXJ0aHJlYWRpbmc6IEVuYWJsZWQKICBuYW1lOiBtYXN0ZXIKICBwbGF0Zm9ybTogCiAgICB2c3BoZXJlOiAKICAgICAgb3NEaXNrOgogICAgICAgIGRpc2tTaXplR0I6IFZTUEhFUkUtRElTSy1TSVpFLUdCIAogIHJlcGxpY2FzOiBNQVNURVItUkVQTElDQVMKbWV0YWRhdGE6CiAgY3JlYXRpb25UaW1lc3RhbXA6IG51bGwKICBuYW1lOiBOQU1FCm5ldHdvcmtpbmc6CiAgY2x1c3Rlck5ldHdvcms6CiAgLSBjaWRyOiAxMC4xMjguMC4wLzE0CiAgICBob3N0UHJlZml4OiAyMwogIG1hY2hpbmVOZXR3b3JrOgogIC0gY2lkcjogMTAuMC4wLjAvMTYKICBuZXR3b3JrVHlwZTogTkVUV09SSy1UWVBFCiAgc2VydmljZU5ldHdvcms6CiAgLSAxNzIuMzAuMC4wLzE2CnBsYXRmb3JtOgogIHZzcGhlcmU6CiAgICBhcGlWSVA6IFZTUEhFUkUtVklQLUFQSQogICAgY2x1c3RlcjogVlNQSEVSRS1DTFVTVEVSCiAgICBkYXRhY2VudGVyOiBWU1BIRVJFLURBVEFDRU5URVIKICAgIGRlZmF1bHREYXRhc3RvcmU6IFZTUEhFUkUtREFUQVNUT1JFCiAgICBpbmdyZXNzVklQOiBWU1BIRVJFLVZJUC1JTkdSRVNTCiAgICBuZXR3b3JrOiBWU1BIRVJFLU5FVFdPUksKICAgIHBhc3N3b3JkOiBWU1BIRVJFLVBBU1NXT1JECiAgICB1c2VybmFtZTogVlNQSEVSRS1VU0VSCiAgICB2Q2VudGVyOiBWU1BIRVJFLVZDRU5URVIKcHVibGlzaDogRXh0ZXJuYWwK
@@ -102,53 +102,56 @@ OpenShift installation wrapper for IPI installations. Version: ${VERSION}
 Usage: `basename ${0}` [--init|--install|--destroy|--customize] [options]
 
 Options:
-  --name <name>                  - name of the cluster
-  --domain <domain>              - name of the domain for the cluster
-  --version <version>            - version to install
-  --platform <name>              - cloud provider
+  --name <name>                     - name of the cluster
+  --domain <domain>                 - name of the domain for the cluster
+  --version <version>               - version to install
+  --platform <name>                 - cloud provider
 
-  --region <name>                - sets the region in the cloud provider
-  --master-replicas <number>     - optionally, sets the number of master nodes to deploy
-  --worker-replicas <number>     - optionally, sets the number of worker nodes
-  --network-type <network type>  - optionally, sets network type: OpenShiftSDN or OVNKubernetes
-  --edit-install-config          - optionally, allows to edit the install-config.yaml before starting installation
+  --region <name>                   - sets the region in the cloud provider
+  --master-replicas <number>        - optionally, sets the number of master nodes to deploy
+  --worker-replicas <number>        - optionally, sets the number of worker nodes
+  --network-type <network type>     - optionally, sets network type: OpenShiftSDN or OVNKubernetes
+  --edit-install-config             - optionally, allows to edit the install-config.yaml before starting installation
 
-  --dev-preview                  - required to install any dev-preview release
-  --baseurl <url>                - sets the baseurl to download the binaries (overrides the use of --dev-preview)
-                                   default: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp
+  --dev-preview                     - required to install any dev-preview release
+  --baseurl <url>                   - sets the baseurl to download the binaries (overrides the use of --dev-preview)
+                                      default: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp
 
-  --azure-resource-group         - provide the ResourceGroup where the domain exists
+  --tags <key>=<value>[,key=value]  - optionally, sets tags on the resources it creates (only implemented for platform=aws)
+                                      use multiple options for multiple tags or comma-separated key/value pairs
 
-  --ovirt-cluster <uuid>         - ovirt cluster UUID
-  --ovirt-storagedomain <uuid>   - ovirt storage domain UUID
-  --ovirt-network <name>         - ovirt network name
-  --ovirt-vip-api <ip>           - IP address the cluster's API
-  --ovirt-vip-ingress <ip>       - IP address for the cluster's ingress
-  --ovirt-vip-dns <ip>           - IP address for the cluster's dns
+  --azure-resource-group            - provide the ResourceGroup where the domain exists
 
-  --vsphere-vcenter <name>       - fqdn or IP address of vCenter
-  --vsphere-username <username>  - username to login to vCenter
-  --vsphere-password <password>  - password to login to vCenter
-  --vsphere-cluster <name>       - vCenter cluster name
-  --vsphere-datacenter <name>    - vCenter datacenter name
-  --vsphere-datastore <name>     - vCenter datastore name
-  --vsphere-network <name>       - vCenter network name
-  --vsphere-vip-api <ip>         - IP address the cluster's API
-  --vsphere-vip-ingress <ip>     - IP address for the cluster's ingress
-  --vsphere-disk-size-gb <gb>    - optionally, sets the disk size for the instances
+  --ovirt-cluster <uuid>            - ovirt cluster UUID
+  --ovirt-storagedomain <uuid>      - ovirt storage domain UUID
+  --ovirt-network <name>            - ovirt network name
+  --ovirt-vip-api <ip>              - IP address the cluster's API
+  --ovirt-vip-ingress <ip>          - IP address for the cluster's ingress
+  --ovirt-vip-dns <ip>              - IP address for the cluster's dns
 
-  --init                         - initialize the tool and credentials
-  --install                      - install the cluster
-  --destroy                      - destroy the cluster
-  --customize <actions>          - customize the cluster with some post-install actions
-  --list                         - lists all existing clusters
-  --list-csv                     - lists all existing clusters in CSV format
+  --vsphere-vcenter <name>          - fqdn or IP address of vCenter
+  --vsphere-username <username>     - username to login to vCenter
+  --vsphere-password <password>     - password to login to vCenter
+  --vsphere-cluster <name>          - vCenter cluster name
+  --vsphere-datacenter <name>       - vCenter datacenter name
+  --vsphere-datastore <name>        - vCenter datastore name
+  --vsphere-network <name>          - vCenter network name
+  --vsphere-vip-api <ip>            - IP address the cluster's API
+  --vsphere-vip-ingress <ip>        - IP address for the cluster's ingress
+  --vsphere-disk-size-gb <gb>       - optionally, sets the disk size for the instances
 
-  --force                        - force installation (cleanup files if required)
-  --dry-run                      - does all the preparation steps but doesn't run the installer to create/destroy a cluster
-  --verbose                      - shows more information during the execution
-  --quiet                        - quiet mode (no output at all)
-  --help|-h                      - shows this message
+  --init                            - initialize the tool and credentials
+  --install                         - install the cluster
+  --destroy                         - destroy the cluster
+  --customize <actions>             - customize the cluster with some post-install actions
+  --list                            - lists all existing clusters
+  --list-csv                        - lists all existing clusters in CSV format
+
+  --force                           - force installation (cleanup files if required)
+  --dry-run                         - does all the preparation steps but doesn't run the installer to create/destroy a cluster
+  --verbose                         - shows more information during the execution
+  --quiet                           - quiet mode (no output at all)
+  --help|-h                         - shows this message
 
 Available customizations:
 #__CUSTOM_SCRIPTS_NAMES__
@@ -240,6 +243,13 @@ create_install_config() {
   sed -i "s/WORKER-REPLICAS/${INSTALLOPTS[worker-replicas]:-3}/g;" ${clusterdir}/install-config.yaml
   sed -i "s/MASTER-REPLICAS/${INSTALLOPTS[master-replicas]:-3}/g;" ${clusterdir}/install-config.yaml
   sed -i "s/NETWORK-TYPE/${INSTALLOPTS[network-type]:-OpenShiftSDN}/g;" ${clusterdir}/install-config.yaml
+  if [[ ${INSTALLOPTS[platform]} == "aws" ]]; then
+    sed -i "/TAGS/ {
+                      s/ TAGS/${INSTALLOPTS[tags]:-" {}"}/;
+                      s/,/\n      /g;
+                      s/=/: /g;
+	      }" ${clusterdir}/install-config.yaml
+  fi
   if [[ ${INSTALLOPTS[platform]} == "vsphere" ]]; then
     sed -i "s/VSPHERE-VIP-API/${INSTALLOPTS[vsphere-vip-api]}/g;" ${clusterdir}/install-config.yaml
     sed -i "s/VSPHERE-CLUSTER/${INSTALLOPTS[vsphere-cluster]}/g;" ${clusterdir}/install-config.yaml
@@ -520,6 +530,7 @@ main() {
       --master-replicas)     shift; INSTALLOPTS[master-replicas]="${1}";;
       --worker-replicas)     shift; INSTALLOPTS[worker-replicas]="${1}";;
       --network-type)        shift; INSTALLOPTS[network-type]="${1}";;
+      --tags)                shift; INSTALLOPTS[tags]+=",${1}";;
       --edit-install-config) EDIT_INSTALL_CONFIG=1;;
 
       --dev-preview) __baseurl=${__baseurl/\/ocp/\/ocp-dev-preview};;
