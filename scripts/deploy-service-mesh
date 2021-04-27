@@ -1,0 +1,203 @@
+#!/bin/bash
+
+# Optional fields
+# script name: deploy-service-mesh
+# script description: Install Service Mesh operator
+
+# Mandatory function
+# start main - do not remove this line and do not change the function name
+main() {
+  parse_args_as_variables ${1}  # expected input deploy-service-mesh=namespace=istio-system:channel=1.0:version=2.0:policy=Istiod:add_sample=true
+
+########## Install Elastichsearch operator
+  op_rh_ns=$(oc get project openshift-operators-redhat > /dev/null 2>&1 && echo true )
+  op_es_channel=$(oc get clusterversion -o jsonpath='{.items[].status.desired.version}' |cut -d. -f1,2)
+  op_es_sub=$(oc get sub elasticsearch-operator -n openshift-operators-redhat > /dev/null 2>&1 && echo true )
+
+  if [[ ${op_rh_ns} != "true" ]];then
+    cat << EOF |oc apply -f  -  || die "Not able to create Namespace 'openshift-operators-redhat'"
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-operators-redhat
+  labels:
+    openshift.io/cluster-monitoring: "true"
+EOF
+    cat << EOF |oc apply -f - || die "Not able to create OperatorGroup 'openshift-operators-redhat'"
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: openshift-operators-redhat
+  namespace: openshift-operators-redhat
+spec: {}
+EOF
+  else
+    err "openshift-operators-redhat project already exists."
+  fi
+
+  if [[ ${op_es_sub} != "true" ]];then
+    cat << EOF | oc apply -f -  || die "Not able to create Subscription 'elasticsearch-operator'"
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: "elasticsearch-operator"
+  namespace: "openshift-operators-redhat"
+spec:
+  channel: "${op_es_channel}"
+  installPlanApproval: "Automatic"
+  source: "redhat-operators"
+  sourceNamespace: "openshift-marketplace"
+  name: "elasticsearch-operator"
+EOF
+  else
+    err "Elasticsearch operator already installed."
+  fi
+
+
+########## Install Jaeger operator
+  op_jg_sub=$(oc get sub jaeger-product -n openshift-operators > /dev/null 2>&1 && echo true )
+  if [[ ${op_jg_sub} != "true" ]];then
+    cat << EOF | oc apply -f -  || die "Not able to create Subscription 'jaeger-product'"
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: "jaeger-product"
+  namespace: "openshift-operators"
+spec:
+  channel: "stable"
+  installPlanApproval: "Automatic"
+  source: "redhat-operators"
+  sourceNamespace: "openshift-marketplace"
+  name: "jaeger-product"
+EOF
+  else
+    err "Jaeger operator already installed."
+  fi
+
+########## Install Kiali operator
+
+  op_jg_sub=$(oc get sub kiali-ossm -n openshift-operators > /dev/null 2>&1 && echo true )
+  if [[ ${op_jg_sub} != "true" ]];then
+    cat << EOF | oc apply -f -  || die "Not able to create Subscription 'kiali-ossm'"
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: "kiali-ossm"
+  namespace: "openshift-operators"
+spec:
+  channel: "stable"
+  installPlanApproval: "Automatic"
+  source: "redhat-operators"
+  sourceNamespace: "openshift-marketplace"
+  name: "kiali-ossm"
+EOF
+  else
+    err "Kiali operator already installed."
+  fi
+
+
+########## Install Service Mesh operator
+
+op_sm_sub=$(oc get sub servicemeshoperator -n openshift-operators > /dev/null 2>&1 && echo true )
+if [[ ${op_sm_sub} != "true" ]];then
+  cat << EOF | oc apply -f -  || die "Not able to create Subscription 'servicemeshoperator'"
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: "servicemeshoperator"
+  namespace: "openshift-operators"
+spec:
+  channel: "stable"
+  installPlanApproval: "Automatic"
+  source: "redhat-operators"
+  sourceNamespace: "openshift-marketplace"
+  name: "servicemeshoperator"
+EOF
+else
+  err "Service Mesh operator already installed."
+fi
+
+
+########## Create istio-system namespace
+
+op_istio_ns=$(oc get ns ${namespace:-istio-system} > /dev/null 2>&1 && echo true )
+if [[ ${op_istio_ns} != "true" ]];then
+  oc create ns ${namespace:-istio-system} || die "Something wrong when creating ${namespace:-istio-system} namespace"
+else
+  err "${namespace:-istio-system} namespace already present."
+fi
+
+########## Create SM control plane
+
+op_sm_cp=$(oc get smcp basic -n ${namespace:-istio-system} > /dev/null 2>&1 && echo true )
+if [[ ${op_sm_cp} != "true" ]];then
+  cat << EOF | oc apply -f -  || die "Not able to create Service Mesh control plane"
+apiVersion: maistra.io/v2
+kind: ServiceMeshControlPlane
+metadata:
+  name: basic
+  namespace: ${namespace:-istio-system}
+spec:
+  addons:
+    grafana:
+      enabled: true
+    jaeger:
+      install:
+        storage:
+          type: Memory
+    kiali:
+      enabled: true
+    prometheus:
+      enabled: true
+  policy:
+    type: ${policy:-Istiod}
+  telemetry:
+    type: ${policy:-Istiod}
+  tracing:
+    sampling: 10000
+    type: Jaeger
+  version: v${version:-2.0}
+EOF
+else
+  err "Service Mesh control plane already present."
+fi
+
+##########
+
+op_sm_mr=$(oc get smmr default -n ${namespace:-istio-system} > /dev/null 2>&1 && echo true )
+if [[ ${op_sm_mr} != "true" ]];then
+  cat << EOF | oc apply -f -  || die "Not able to create Service Mesh member roll"
+apiVersion: maistra.io/v1
+kind: ServiceMeshMemberRoll
+metadata:
+  name: default
+  namespace: ${namespace:-istio-system}
+spec: {}
+EOF
+else
+  err "Service Mesh memeber role already present."
+fi
+
+########## Add samples - bookinfo and finish
+
+if [[ ${add_sample:-false} == "true" ]];then
+  oc -n ${namespace:-istio-system} patch --type='json' smmr default -p '[{"op": "add", "path": "/spec/members", "value":["'"bookinfo"'"]}]' || die "Something wrong when updating the SMMR!"
+  oc create ns bookinfo > /dev/null 2>&1
+  oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/platform/kube/bookinfo.yaml > /dev/null 2>&1
+  oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/networking/bookinfo-gateway.yaml > /dev/null 2>&1
+  oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/networking/destination-rule-all-mtls.yaml > /dev/null 2>&1
+  export GATEWAY_URL=$(oc -n ${namespace:-istio-system} get route istio-ingressgateway -o jsonpath='{.spec.host}')
+  sleep 20
+  APPresponse=$(curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage)
+  [[ ${APPresponse} -eq 200 ]] && success "Service Mesh operator installed with example in bookinfo namespace!" || err "Service Mesh installed but something wrong with the sample application."
+else
+  success "Service Mesh operator installed!"
+fi
+
+
+
+}
+# end main - do not remove this line
+
+# Optionally, keep this if you want to run your script manually or for testing.
+main $@
