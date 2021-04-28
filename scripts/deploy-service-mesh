@@ -7,14 +7,14 @@
 # Mandatory function
 # start main - do not remove this line and do not change the function name
 main() {
-  parse_args_as_variables ${1}  # expected input deploy-service-mesh=namespace=istio-system:version=2.0:policy=Istiod:add_sample=false
-
+  parse_args_as_variables "${1}"  # expected input deploy-service-mesh=namespace=istio-system:version=2.0:policy=Istiod:add_sample=false
+  env
 ########## Install Elastichsearch operator
   op_rh_ns=$(oc get project openshift-operators-redhat > /dev/null 2>&1 && echo true || echo false )
   op_es_channel=$(oc get clusterversion -o jsonpath='{.items[].status.desired.version}' |cut -d. -f1,2)
   op_es_sub=$(oc get sub elasticsearch-operator -n openshift-operators-redhat > /dev/null 2>&1 && echo true || echo false )
 
-  out "Configuring openshift-operators-redhat project"
+  out "→ Configuring openshift-operators-redhat project"
   if [[ "${op_rh_ns}" != "true" ]];then
     cat << EOF |oc apply -f  -  || die "Not able to create Namespace 'openshift-operators-redhat'"
 apiVersion: v1
@@ -36,7 +36,7 @@ EOF
     success "openshift-operators-redhat project already exists."
   fi
 
-  out "Installing Elasticsearch operator"
+  out "→ Installing Elasticsearch operator"
   if [[ "${op_es_sub}" != "true" ]];then
     cat << EOF | oc apply -f -  || die "Not able to create Subscription 'elasticsearch-operator'"
 apiVersion: operators.coreos.com/v1alpha1
@@ -57,7 +57,7 @@ EOF
 
 
 ########## Install Jaeger operator
-  out "Installing Jaeger operator"
+  out "→ Installing Jaeger operator"
   op_jg_sub=$(oc get sub jaeger-product -n openshift-operators > /dev/null 2>&1 && echo true || echo false )
   if [[ "${op_jg_sub}" != "true" ]];then
     cat << EOF | oc apply -f -  || die "Not able to create Subscription 'jaeger-product'"
@@ -78,7 +78,7 @@ EOF
   fi
 
 ########## Install Kiali operator
-  out "Installing Kiali operator"
+  out "→ Installing Kiali operator"
   op_jg_sub=$(oc get sub kiali-ossm -n openshift-operators > /dev/null 2>&1 && echo true || echo false )
   if [[ "${op_jg_sub}" != "true" ]];then
     cat << EOF | oc apply -f -  || die "Not able to create Subscription 'kiali-ossm'"
@@ -100,7 +100,7 @@ EOF
 
 
 ########## Install Service Mesh operator
-out "Installing Service Mesh operator"
+out "→ Installing Service Mesh operator"
 op_sm_sub=$(oc get sub servicemeshoperator -n openshift-operators > /dev/null 2>&1 && echo true || echo false )
 if [[ "${op_sm_sub}" != "true" ]];then
   cat << EOF | oc apply -f -  || die "Not able to create Subscription 'servicemeshoperator'"
@@ -125,7 +125,7 @@ else
 fi
 
 ########## Create istio-system namespace
-out "Configuring ${namespace:-istio-system} namespace"
+out "→ Configuring ${namespace:-istio-system} namespace"
 op_istio_ns=$(oc get ns ${namespace:-istio-system} > /dev/null 2>&1 && echo true || echo false )
 if [[ "${op_istio_ns}" != "true" ]];then
   oc create ns ${namespace:-istio-system} || die "Something wrong when creating ${namespace:-istio-system} namespace"
@@ -134,7 +134,7 @@ else
 fi
 
 ########## Create SM control plane
-out "Configuring Service Mesh control plane"
+out "→ Configuring Service Mesh control plane"
 op_sm_cp=$(oc get smcp basic -n ${namespace:-istio-system} > /dev/null 2>&1 && echo true || echo false )
 if [[ "${op_sm_cp}" != "true" ]];then
   cat << EOF | oc apply -f -  || die "Not able to create Service Mesh control plane"
@@ -169,7 +169,7 @@ else
 fi
 
 ##########
-out "Configuring Service Mesh memeber role"
+out "→ Configuring Service Mesh memeber role"
 op_sm_mr=$(oc get smmr default -n ${namespace:-istio-system} > /dev/null 2>&1 && echo true || echo false )
 if [[ "${op_sm_mr}" != "true" ]];then
   cat << EOF | oc apply -f -  || die "Not able to create Service Mesh member roll"
@@ -187,10 +187,10 @@ fi
 ########## Add samples - bookinfo and finish
 
 if [[ "${add_sample:-false}" == "true" ]];then
-  out "Configuring samples in bookinfo namespace"
+  out "→ Configuring samples in bookinfo namespace"
   oc -n ${namespace:-istio-system} patch --type='json' smmr default -p '[{"op": "add", "path": "/spec/members", "value":["'"bookinfo"'"]}]' || die "Something wrong when updating the SMMR!"
   [[ $(oc get ns bookinfo ) ]] && out "bookinfo namespace already exists" || oc create ns bookinfo > /dev/null 2>&1
-  out "Applying deployments..."
+  out "→ Applying deployments..."
   oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/platform/kube/bookinfo.yaml > /dev/null 2>&1
   oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/networking/bookinfo-gateway.yaml > /dev/null 2>&1
   oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/networking/destination-rule-all-mtls.yaml > /dev/null 2>&1
