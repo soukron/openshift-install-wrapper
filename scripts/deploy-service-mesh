@@ -193,10 +193,11 @@ if [[ "${add_sample:-false}" == "true" ]];then
   oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/platform/kube/bookinfo.yaml > /dev/null 2>&1
   oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/networking/bookinfo-gateway.yaml > /dev/null 2>&1
   oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/networking/destination-rule-all-mtls.yaml > /dev/null 2>&1
-  export GATEWAY_URL=$(oc -n ${namespace:-istio-system} get route istio-ingressgateway -o jsonpath='{.spec.host}')
   sleep 20
+  export GATEWAY_URL=$(oc -n ${namespace:-istio-system} get route istio-ingressgateway -o jsonpath='{.spec.host}')
   APPresponse=$(curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage)
-  [[ ${APPresponse} -eq 200 ]] && success "Service Mesh operator installed with example in bookinfo namespace!" || err "Service Mesh installed but something wrong with the sample application."
+  [[ "${APPresponse}" == "200" ]] && success "Service Mesh operator installed with example in bookinfo namespace!"
+  [[ "${APPresponse}" == "200" ]] || err "Service Mesh installed but something wrong with the sample application."
 else
   success "Service Mesh operator installed!"
 fi
@@ -207,4 +208,4 @@ fi
 # end main - do not remove this line
 
 # Optionally, keep this if you want to run your script manually or for testing.
-main $@
+main "$@"
