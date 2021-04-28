@@ -190,7 +190,7 @@ if [[ "${add_sample:-false}" == "true" ]];then
   out "→ Configuring samples in bookinfo namespace"
   oc -n ${namespace:-istio-system} patch --type='json' smmr default -p '[{"op": "add", "path": "/spec/members", "value":["'"bookinfo"'"]}]' > /dev/null 2>&1 \
    || die "Something wrong when updating the SMMR!"
-  [[ $(oc get ns bookinfo > /dev/null 2>&1 ) ]] && success "bookinfo namespace already exists" || oc create ns bookinfo > /dev/null 2>&1
+  [[ $(oc get ns bookinfo) ]] && success "bookinfo namespace already exists" || oc create ns bookinfo > /dev/null 2>&1
   out "→ Applying deployments..."
   oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/platform/kube/bookinfo.yaml > /dev/null 2>&1
   oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/networking/bookinfo-gateway.yaml > /dev/null 2>&1
