@@ -7,8 +7,14 @@
 # Mandatory function
 # start main - do not remove this line and do not change the function name
 main() {
-  parse_args_as_variables "${1}"  # expected input deploy-service-mesh=namespace=istio-system:version=2.0:policy=Istiod:add_sample=false
-  env
+  #parse_args_as_variables "${1}"  # expected input deploy-service-mesh=namespace=istio-system:version=2.0:policy=Istiod:add_sample=false
+  #env
+  if [[ ${1} == *"="* ]]; then
+    IFS=':' read -r -a args <<< $( echo "${1}" | cut -d= -f2- )
+    for index in "${!args[@]}"; do
+      export ${args[$index]%%=*}=${args[$index]##*=}
+    done
+  fi
 ########## Install Elastichsearch operator
   op_rh_ns=$(oc get project openshift-operators-redhat > /dev/null 2>&1 && echo true || echo false )
   op_es_channel=$(oc get clusterversion -o jsonpath='{.items[].status.desired.version}' |cut -d. -f1,2)
