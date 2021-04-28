@@ -10,9 +10,9 @@ main() {
   parse_args_as_variables ${1}  # expected input deploy-service-mesh=namespace=istio-system:version=2.0:policy=Istiod:add_sample=false
 
 ########## Install Elastichsearch operator
-  op_rh_ns=$(oc get project openshift-operators-redhat > /dev/null 2>&1 && echo true )
+  op_rh_ns=$(oc get project openshift-operators-redhat > /dev/null 2>&1 && echo true || echo false )
   op_es_channel=$(oc get clusterversion -o jsonpath='{.items[].status.desired.version}' |cut -d. -f1,2)
-  op_es_sub=$(oc get sub elasticsearch-operator -n openshift-operators-redhat > /dev/null 2>&1 && echo true )
+  op_es_sub=$(oc get sub elasticsearch-operator -n openshift-operators-redhat > /dev/null 2>&1 && echo true || echo false )
 
   if [[ "${op_rh_ns}" != "true" ]];then
     cat << EOF |oc apply -f  -  || die "Not able to create Namespace 'openshift-operators-redhat'"
@@ -55,7 +55,7 @@ EOF
 
 
 ########## Install Jaeger operator
-  op_jg_sub=$(oc get sub jaeger-product -n openshift-operators > /dev/null 2>&1 && echo true )
+  op_jg_sub=$(oc get sub jaeger-product -n openshift-operators > /dev/null 2>&1 && echo true || echo false )
   if [[ "${op_jg_sub}" != "true" ]];then
     cat << EOF | oc apply -f -  || die "Not able to create Subscription 'jaeger-product'"
 apiVersion: operators.coreos.com/v1alpha1
@@ -76,7 +76,7 @@ EOF
 
 ########## Install Kiali operator
 
-  op_jg_sub=$(oc get sub kiali-ossm -n openshift-operators > /dev/null 2>&1 && echo true )
+  op_jg_sub=$(oc get sub kiali-ossm -n openshift-operators > /dev/null 2>&1 && echo true || echo false )
   if [[ "${op_jg_sub}" != "true" ]];then
     cat << EOF | oc apply -f -  || die "Not able to create Subscription 'kiali-ossm'"
 apiVersion: operators.coreos.com/v1alpha1
@@ -98,7 +98,7 @@ EOF
 
 ########## Install Service Mesh operator
 
-op_sm_sub=$(oc get sub servicemeshoperator -n openshift-operators > /dev/null 2>&1 && echo true )
+op_sm_sub=$(oc get sub servicemeshoperator -n openshift-operators > /dev/null 2>&1 && echo true || echo false )
 if [[ "${op_sm_sub}" != "true" ]];then
   cat << EOF | oc apply -f -  || die "Not able to create Subscription 'servicemeshoperator'"
 apiVersion: operators.coreos.com/v1alpha1
@@ -120,7 +120,7 @@ fi
 
 ########## Create istio-system namespace
 
-op_istio_ns=$(oc get ns ${namespace:-istio-system} > /dev/null 2>&1 && echo true )
+op_istio_ns=$(oc get ns ${namespace:-istio-system} > /dev/null 2>&1 && echo true || echo false )
 if [[ "${op_istio_ns}" != "true" ]];then
   oc create ns ${namespace:-istio-system} || die "Something wrong when creating ${namespace:-istio-system} namespace"
 else
@@ -129,7 +129,7 @@ fi
 
 ########## Create SM control plane
 
-op_sm_cp=$(oc get smcp basic -n ${namespace:-istio-system} > /dev/null 2>&1 && echo true )
+op_sm_cp=$(oc get smcp basic -n ${namespace:-istio-system} > /dev/null 2>&1 && echo true || echo false )
 if [[ "${op_sm_cp}" != "true" ]];then
   cat << EOF | oc apply -f -  || die "Not able to create Service Mesh control plane"
 apiVersion: maistra.io/v2
@@ -164,7 +164,7 @@ fi
 
 ##########
 
-op_sm_mr=$(oc get smmr default -n ${namespace:-istio-system} > /dev/null 2>&1 && echo true )
+op_sm_mr=$(oc get smmr default -n ${namespace:-istio-system} > /dev/null 2>&1 && echo true || echo false )
 if [[ "${op_sm_mr}" != "true" ]];then
   cat << EOF | oc apply -f -  || die "Not able to create Service Mesh member roll"
 apiVersion: maistra.io/v1
