@@ -15,7 +15,7 @@ for _file in *; do
   fi
 
   # Extract the main function and rename it properly and add it to the functions file
-  sed -n -e '/# start main/,/# end main/{ /#.*/d;p }' ${_file} | sed "s/^main/${_name}/g" >> functions
+  sed -n -e '/# start main/,/# end main/{ /^#.*/d;p }' ${_file} | sed "s/^main/${_name}/g" >> functions
   echo >> functions
 
   # Add the name and description (if any) in the names file

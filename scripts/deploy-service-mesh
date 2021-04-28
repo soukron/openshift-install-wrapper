@@ -7,7 +7,8 @@
 # Mandatory function
 # start main - do not remove this line and do not change the function name
 main() {
-  parse_args_as_variables "${1}"  # expected input deploy-service-mesh=namespace=istio-system:version=2.0:policy=Istiod:add_sample=false
+  # expected input deploy-service-mesh=namespace=istio-system:version=2.0:policy=Istiod:add_sample=false
+  parse_args_as_variables "${1}"
 
 ########## Install Elastichsearch operator
   op_rh_ns=$(oc get project openshift-operators-redhat > /dev/null 2>&1 && echo true || echo false )
