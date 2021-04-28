@@ -11,7 +11,7 @@ main() {
 
 ########## Install Elastichsearch operator
   op_rh_ns=$(oc get project openshift-operators-redhat > /dev/null 2>&1 && echo true || echo false )
-  op_es_channel=$(oc get clusterversion -o jsonpath='{.items[].status.desired.version}' |cut -d. -f1,2)
+  op_es_channel=$(oc  -n openshift-life-cycle-operator get packagemanifest elasticsearch-operator -o jsonpath='{.status.defaultChannel}' )
   op_es_sub=$(oc get sub elasticsearch-operator -n openshift-operators-redhat > /dev/null 2>&1 && echo true || echo false )
 
   out "→ Configuring openshift-operators-redhat project"
