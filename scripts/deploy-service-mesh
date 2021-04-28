@@ -116,10 +116,13 @@ spec:
   sourceNamespace: "openshift-marketplace"
   name: "servicemeshoperator"
 EOF
+
+out "Waiting few seconds for the installation."
+sleep 20
+
 else
   success "Service Mesh operator already installed."
 fi
-
 
 ########## Create istio-system namespace
 out "Configuring ${namespace:-istio-system} namespace"
@@ -127,7 +130,7 @@ op_istio_ns=$(oc get ns ${namespace:-istio-system} > /dev/null 2>&1 && echo true
 if [[ "${op_istio_ns}" != "true" ]];then
   oc create ns ${namespace:-istio-system} || die "Something wrong when creating ${namespace:-istio-system} namespace"
 else
-  err "${namespace:-istio-system} namespace already present."
+  success "${namespace:-istio-system} namespace already present."
 fi
 
 ########## Create SM control plane
