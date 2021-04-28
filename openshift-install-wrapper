@@ -80,9 +80,9 @@ verbose() { [[ ${VERBOSE} -eq 1 ]] && out "$@" || true; }
 # oc helper to run commands in a cluster
 oc() {
   if [[ ${VERBOSE} -eq 1 ]]; then
-    ${client} --kubeconfig ${clusterdir}/auth/kubeconfig $@
+    ${client} --kubeconfig ${clusterdir}/auth/kubeconfig "$@"
   else
-    ${client} --kubeconfig ${clusterdir}/auth/kubeconfig $@ &>/dev/null
+    ${client} --kubeconfig ${clusterdir}/auth/kubeconfig "$@" &>/dev/null
   fi
 }
 
