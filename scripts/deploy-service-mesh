@@ -117,8 +117,8 @@ spec:
   name: "servicemeshoperator"
 EOF
 
-out "→ Waiting few seconds for the installation."
-sleep 20
+out "→ Waiting 30 seconds for the installation."
+sleep 30
 
 else
   success "Service Mesh operator already installed."
@@ -164,7 +164,8 @@ spec:
     type: Jaeger
   version: v${version:-2.0}
 EOF
-sleep 10 #waiting for the control plane to be ready
+out "→ Waiting 30 seconds for Service Mesh control plane"
+sleep 30 #waiting for the control plane to be ready
 else
   success "Service Mesh control plane already present."
 fi
