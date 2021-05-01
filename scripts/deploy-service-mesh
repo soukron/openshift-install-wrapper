@@ -175,7 +175,7 @@ EOF
       die "Not able to start SM Control Plane in 3 minutes."
     fi
   done
-  success "Service Mesh control plane started."
+  success "Service Mesh control plane started in ${count}s."
 else
   success "Service Mesh control plane already present."
 fi
