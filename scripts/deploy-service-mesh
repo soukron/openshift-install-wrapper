@@ -117,7 +117,7 @@ spec:
   name: "servicemeshoperator"
 EOF
 
-out "→ Waiting 30 seconds for the installation."
+out "→ Waiting 30 seconds for the operator installation."
 sleep 30
 
 else
@@ -164,8 +164,18 @@ spec:
     type: Jaeger
   version: v${version:-2.0}
 EOF
-out "→ Waiting 30 seconds for Service Mesh control plane"
-sleep 30 #waiting for the control plane to be ready
+#out "→ Waiting 30 seconds for Service Mesh control plane"
+#sleep 30 #waiting for the control plane to be ready
+## TO CHANGE
+  count=0
+  while [[ "$(oc get apiservice v1.maistra.io -o jsonpath='{.status.conditions[?(@.type=="Available")].status}')" != "True" ]];do
+    sleep 1
+    count=$(( ${count} + 1 ))
+    if [[ ${count} -eq 90 ]];then
+      die "Not able to start SM Control Plane in 3 minutes."
+    fi
+  done
+  success "Service Mesh control plane started."
 else
   success "Service Mesh control plane already present."
 fi
@@ -197,7 +207,8 @@ if [[ "${add_sample:-false}" == "true" ]];then
   oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/platform/kube/bookinfo.yaml > /dev/null 2>&1
   oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/networking/bookinfo-gateway.yaml > /dev/null 2>&1
   oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/networking/destination-rule-all-mtls.yaml > /dev/null 2>&1
-  sleep 20
+  out "→ Waiting 30 seconds for pod start."
+  sleep 30
   export GATEWAY_URL=$(oc -n ${namespace:-istio-system} get route istio-ingressgateway -o jsonpath='{.spec.host}')
   APPresponse=$(curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage)
   [[ "${APPresponse}" == "200" ]] && success "Service Mesh operator installed with example in bookinfo namespace!"
