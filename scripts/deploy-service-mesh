@@ -164,9 +164,6 @@ spec:
     type: Jaeger
   version: v${version:-2.0}
 EOF
-#out "→ Waiting 30 seconds for Service Mesh control plane"
-#sleep 30 #waiting for the control plane to be ready
-## TO CHANGE
   count=0
   while [[ "$(oc get apiservice v1.maistra.io -o jsonpath='{.status.conditions[?(@.type=="Available")].status}')" != "True" ]];do
     sleep 1
