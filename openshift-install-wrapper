@@ -82,7 +82,11 @@ oc() {
   if [[ ${VERBOSE} -eq 1 ]]; then
     ${client} --kubeconfig ${clusterdir}/auth/kubeconfig "$@" -v=6
   else
-    ${client} --kubeconfig ${clusterdir}/auth/kubeconfig "$@"
+    if [[ ${QUIET} -eq 1 ]]; then
+      ${client} --kubeconfig ${clusterdir}/auth/kubeconfig "$@" &>/dev/null
+    else
+      ${client} --kubeconfig ${clusterdir}/auth/kubeconfig "$@"
+    fi
   fi
 }
 
