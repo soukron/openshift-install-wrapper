@@ -118,6 +118,9 @@ Options:
   --worker-replicas <number>        - optionally, sets the number of worker nodes
   --network-type <network type>     - optionally, sets network type: OpenShiftSDN or OVNKubernetes
   --edit-install-config             - optionally, allows to edit the install-config.yaml before starting installation
+  --edit-install-manifests          - optionally, allows to edit the install manifests. After generating the manifests, 
+                                      the script will stop itself so the user modifies the manifests. 
+                                      Once done, user must continue the script with 'fg'.
 
   --dev-preview                     - required to install any dev-preview release
   --baseurl <url>                   - sets the baseurl to download the binaries (overrides the use of --dev-preview)
@@ -360,6 +363,17 @@ create_cluster() {
 
   verbose "  Saving a copy of install-config.yaml file."
   cp ${clusterdir}/install-config.yaml ${clusterdir}/install-config.yaml.orig
+  
+  if [[ ${EDIT_INSTALL_MANIFESTS} -eq 1 ]]; then
+    out "→ Running \"openshift-install\" to create manifests..."
+    ${installer} create manifests --dir=${clusterdir}
+    success "Manifests created!"
+    out "→ Stopping openshift-install-wrapper so you can edit the manifests."
+    out "  Manifests have been created at: ${clusterdir}"
+    out "  When done, resume openshift-install-wrapper with \"fg\""
+    (kill -STOP $$)
+    out "→ Resuming openshift-install-wrapper"
+  fi
 
   out "→ Running \"openshift-install\" to create a cluster..."
   verbose "  Command: \"${installer} create cluster --dir=${clusterdir}\""
@@ -558,6 +572,7 @@ main() {
       --network-type)        shift; INSTALLOPTS[network-type]="${1}";;
       --tags)                shift; INSTALLOPTS[tags]+=",${1}";;
       --edit-install-config) EDIT_INSTALL_CONFIG=1;;
+      --edit-install-manifests) EDIT_INSTALL_MANIFESTS=1;;
 
       --dev-preview) __baseurl=${__baseurl/\/ocp/\/ocp-dev-preview};;
       --baseurl)     shift; __baseurl="${1}";;
