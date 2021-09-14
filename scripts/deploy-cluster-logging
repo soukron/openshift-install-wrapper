@@ -8,7 +8,8 @@
 # start main - do not remove this line and do not change the function name
 main() {
   # Default values
-  channel=$(echo ${INSTALLOPTS[version]} | cut -d'.' -f-2)
+  op_es_channel=$(oc  -n openshift-life-cycle-operator get packagemanifest elasticsearch-operator -o jsonpath='{.status.defaultChannel}' )
+  op_cl_channel=$(oc  -n openshift-life-cycle-operator get packagemanifest cluster-logging -o jsonpath='{.status.defaultChannel}' )
   es_pods=1
   es_redundancy="ZeroRedundancy"
   es_memory="2Gi"
@@ -71,7 +72,7 @@ metadata:
   name: "elasticsearch-operator"
   namespace: "openshift-operators-redhat"
 spec:
-  channel: "${channel}"
+  channel: "${op_es_channel}"
   installPlanApproval: "Automatic"
   source: "redhat-operators"
   sourceNamespace: "openshift-marketplace"
@@ -102,7 +103,7 @@ metadata:
   name: "cluster-logging"
   namespace: "openshift-logging"
 spec:
-  channel: "${channel}"
+  channel: "${op_cl_channel}"
   source: "redhat-operators"
   sourceNamespace: "openshift-marketplace"
   name: "cluster-logging"
