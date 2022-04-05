@@ -35,6 +35,8 @@ CONFIGFILES[aws]="${HOME}/.aws/credentials;W2RlZmF1bHRdCmF3c19hY2Nlc3Nfa2V5X2lkI
 CONFIGFILES[azure]="${HOME}/.azure/osServicePrincipal.json;eyJzdWJzY3JpcHRpb25JZCI6IjEyMzQ1YWJjLTEyYWItMTJhYi0xMmFiLTEyMzQ1NmFiY2RlZiIsImNsaWVudElkIjoiMTIzNGFiY2QtMTJhYi0xMmFiLTEyYWItMTIzNDU2YWJjZGVmIiwiY2xpZW50U2VjcmV0IjoiMUFfMTIzNDU2YWJjZGVmZzEyMzQ1NTZhYmMuW1x1MDAzY1x1MDAyNmRAWkoja1x1MDAzZSIsInRlbmFudElkIjoiMTIzNDVhYmMtMTJhYi0xMmFiLTEyYWItMTIzNDU2YWJjZGVmIn0K"
 CONFIGFILES[ovirt]="${HOME}/.ovirt/ovirt-config.yaml;b3ZpcnRfdXJsOiBodHRwczovL09WSVJUX0ZRRE4vb3ZpcnQtZW5naW5lL2FwaQpvdmlydF91c2VybmFtZTogYWRtaW5AaW50ZXJuYWwKb3ZpcnRfcGFzc3dvcmQ6IHNlY3JldFBhc3N3b3JkCm92aXJ0X2luc2VjdXJlOiB0cnVlCg=="
 CONFIGFILES[openstack]="${HOME}/.config/openstack/clouds.yaml;Y2xvdWRzOgogIHNoaWZ0c3RhY2s6CiAgICBhdXRoOgogICAgICBhdXRoX3VybDogaHR0cDovLzEwLjEwLjE0LjQyOjUwMDAvdjMKICAgICAgcHJvamVjdF9uYW1lOiBzaGlmdHN0YWNrCiAgICAgIHVzZXJuYW1lOiBzaGlmdHN0YWNrX3VzZXIKICAgICAgcGFzc3dvcmQ6IFhYWAogICAgICB1c2VyX2RvbWFpbl9uYW1lOiBEZWZhdWx0CiAgICAgIHByb2plY3RfZG9tYWluX25hbWU6IERlZmF1bHQK"
+# see `gcloud init` documentation (https://cloud.google.com/sdk/gcloud/reference/init) for proper instructions
+CONFIGFILES[gcp]="${HOME}/.gcp/osServiceAccount.json;ewogICJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsCiAgInByb2plY3RfaWQiOiAicHJvamVjdC1pZCIsCiAgInByaXZhdGVfa2V5X2lkIjogImtleS1pZCIsCiAgInByaXZhdGVfa2V5IjogIi0tLS0tQkVHSU4gUFJJVkFURSBLRVktLS0tLVxucHJpdmF0ZS1rZXlcbi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS1cbiIsCiAgImNsaWVudF9lbWFpbCI6ICJzZXJ2aWNlLWFjY291bnQtZW1haWwiLAogICJjbGllbnRfaWQiOiAiY2xpZW50LWlkIiwKICAiYXV0aF91cmkiOiAiaHR0cHM6Ly9hY2NvdW50cy5nb29nbGUuY29tL28vb2F1dGgyL2F1dGgiLAogICJ0b2tlbl91cmkiOiAiaHR0cHM6Ly9hY2NvdW50cy5nb29nbGUuY29tL28vb2F1dGgyL3Rva2VuIiwKICAiYXV0aF9wcm92aWRlcl94NTA5X2NlcnRfdXJsIjogImh0dHBzOi8vd3d3Lmdvb2dsZWFwaXMuY29tL29hdXRoMi92MS9jZXJ0cyIsCiAgImNsaWVudF94NTA5X2NlcnRfdXJsIjogImh0dHBzOi8vd3d3Lmdvb2dsZWFwaXMuY29tL3JvYm90L3YxL21ldGFkYXRhL3g1MDkvc2VydmljZS1hY2NvdW50LWVtYWlsIgp9Cgo="
 
 # install-config templates
 INSTALLTEMPLATES[aws-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gaHlwZXJ0aHJlYWRpbmc6IEVuYWJsZWQKICBuYW1lOiB3b3JrZXIKICBwbGF0Zm9ybToKICAgIGF3czoKICAgICAgdHlwZTogbTUuMnhsYXJnZQogIHJlcGxpY2FzOiBXT1JLRVItUkVQTElDQVMKY29udHJvbFBsYW5lOgogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogbWFzdGVyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IE1BU1RFUi1SRVBMSUNBUwptZXRhZGF0YToKICBjcmVhdGlvblRpbWVzdGFtcDogbnVsbAogIG5hbWU6IE5BTUUKbmV0d29ya2luZzoKICBjbHVzdGVyTmV0d29yazoKICAtIGNpZHI6IDEwLjEyOC4wLjAvMTQKICAgIGhvc3RQcmVmaXg6IDIzCiAgbWFjaGluZU5ldHdvcms6CiAgLSBjaWRyOiAxMC4wLjAuMC8xNgogIG5ldHdvcmtUeXBlOiBORVRXT1JLLVRZUEUKICBzZXJ2aWNlTmV0d29yazoKICAtIDE3Mi4zMC4wLjAvMTYKcGxhdGZvcm06CiAgYXdzOgogICAgcmVnaW9uOiBSRUdJT04KICAgIHVzZXJUYWdzOiBUQUdTCnB1Ymxpc2g6IEV4dGVybmFsCg==
@@ -42,6 +44,7 @@ INSTALLTEMPLATES[azure-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNv
 INSTALLTEMPLATES[ovirt-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbnRyb2xQbGFuZToKICBuYW1lOiBtYXN0ZXIKICBwbGF0Zm9ybToKICAgIG92aXJ0OgogICAgICBjcHU6CiAgICAgICAgY29yZXM6IDQKICAgICAgICBzb2NrZXRzOiAyCiAgICAgIG1lbW9yeU1COiAxNjM4NAogICAgICBvc0Rpc2s6CiAgICAgICAgc2l6ZUdCOiA1MAogICAgICB2bVR5cGU6IHNlcnZlcgogIHJlcGxpY2FzOiBNQVNURVItUkVQTElDQVMKY29tcHV0ZToKLSBuYW1lOiB3b3JrZXIKICBwbGF0Zm9ybToKICAgIG92aXJ0OgogICAgICBjcHU6CiAgICAgICAgY29yZXM6IDQKICAgICAgICBzb2NrZXRzOiA0CiAgICAgIG1lbW9yeU1COiAxNjM4NAogICAgICBvc0Rpc2s6CiAgICAgICAgc2l6ZUdCOiA1MAogICAgICB2bVR5cGU6IHNlcnZlcgogIHJlcGxpY2FzOiBXT1JLRVItUkVQTElDQVMKbWV0YWRhdGE6CiAgbmFtZTogTkFNRQpwbGF0Zm9ybToKICBvdmlydDoKICAgIGFwaV92aXA6IE9WSVJULVZJUC1BUEkKICAgIGluZ3Jlc3NfdmlwOiBPVklSVC1WSVAtSU5HUkVTUwogICAgZG5zX3ZpcDogT1ZJUlQtVklQLUROUwogICAgb3ZpcnRfY2x1c3Rlcl9pZDogT1ZJUlQtQ0xVU1RFUgogICAgb3ZpcnRfc3RvcmFnZV9kb21haW5faWQ6IE9WSVJULVNUT1JBR0VET01BTgogICAgb3ZpcnRfbmV0d29ya19uYW1lOiBPVklSVC1ORVRXT1JLCgo=
 INSTALLTEMPLATES[vsphere-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IAogICAgdnNwaGVyZTogCiAgICAgIG9zRGlzazoKICAgICAgICBkaXNrU2l6ZUdCOiBWU1BIRVJFLURJU0stU0laRS1HQiAKICByZXBsaWNhczogV09SS0VSLVJFUExJQ0FTCmNvbnRyb2xQbGFuZToKICBhcmNoaXRlY3R1cmU6IGFtZDY0CiAgaHlwZXJ0aHJlYWRpbmc6IEVuYWJsZWQKICBuYW1lOiBtYXN0ZXIKICBwbGF0Zm9ybTogCiAgICB2c3BoZXJlOiAKICAgICAgb3NEaXNrOgogICAgICAgIGRpc2tTaXplR0I6IFZTUEhFUkUtRElTSy1TSVpFLUdCIAogIHJlcGxpY2FzOiBNQVNURVItUkVQTElDQVMKbWV0YWRhdGE6CiAgY3JlYXRpb25UaW1lc3RhbXA6IG51bGwKICBuYW1lOiBOQU1FCm5ldHdvcmtpbmc6CiAgY2x1c3Rlck5ldHdvcms6CiAgLSBjaWRyOiAxMC4xMjguMC4wLzE0CiAgICBob3N0UHJlZml4OiAyMwogIG1hY2hpbmVOZXR3b3JrOgogIC0gY2lkcjogMTAuMC4wLjAvMTYKICBuZXR3b3JrVHlwZTogTkVUV09SSy1UWVBFCiAgc2VydmljZU5ldHdvcms6CiAgLSAxNzIuMzAuMC4wLzE2CnBsYXRmb3JtOgogIHZzcGhlcmU6CiAgICBhcGlWSVA6IFZTUEhFUkUtVklQLUFQSQogICAgY2x1c3RlcjogVlNQSEVSRS1DTFVTVEVSCiAgICBkYXRhY2VudGVyOiBWU1BIRVJFLURBVEFDRU5URVIKICAgIGRlZmF1bHREYXRhc3RvcmU6IFZTUEhFUkUtREFUQVNUT1JFCiAgICBpbmdyZXNzVklQOiBWU1BIRVJFLVZJUC1JTkdSRVNTCiAgICBuZXR3b3JrOiBWU1BIRVJFLU5FVFdPUksKICAgIHBhc3N3b3JkOiBWU1BIRVJFLVBBU1NXT1JECiAgICB1c2VybmFtZTogVlNQSEVSRS1VU0VSCiAgICB2Q2VudGVyOiBWU1BIRVJFLVZDRU5URVIKcHVibGlzaDogRXh0ZXJuYWwK
 INSTALLTEMPLATES[openstack-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IFdPUktFUi1SRVBMSUNBUwpjb250cm9sUGxhbmU6CiAgYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogbWFzdGVyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IE1BU1RFUi1SRVBMSUNBUwptZXRhZGF0YToKICBuYW1lOiBOQU1FCm5ldHdvcmtpbmc6CiAgY2x1c3Rlck5ldHdvcms6CiAgLSBjaWRyOiAxMC4xMjguMC4wLzE0CiAgICBob3N0UHJlZml4OiAyMwogIG1hY2hpbmVOZXR3b3JrOgogIC0gY2lkcjogMTkyLjE2OC4wLjAvMTYKICBuZXR3b3JrVHlwZTogTkVUV09SSy1UWVBFCiAgc2VydmljZU5ldHdvcms6CiAgLSAxNzIuMzAuMC4wLzE2CnBsYXRmb3JtOgogIG9wZW5zdGFjazoKICAgIGNsb3VkOiBPU1AtQ0xPVUQKICAgIGNvbXB1dGVGbGF2b3I6IE9TUC1PUy1GTEFWT1IKICAgIGV4dGVybmFsTmV0d29yazogT1NQLUVYVC1ORVRXT1JLCiAgICBjbHVzdGVyT1NJbWFnZTogT1NQLU9TLUlNQUdFCiAgICBsYkZsb2F0aW5nSVA6IE9TUC1BUEktRklQCiAgICBpbmdyZXNzRmxvYXRpbmdJUDogT1NQLUlOR1JFU1MtRklQCg==
+INSTALLTEMPLATES[gcp-default]=YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogRE9NQUlOCmNvbXB1dGU6Ci0gYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogd29ya2VyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IFdPUktFUi1SRVBMSUNBUwpjb250cm9sUGxhbmU6CiAgYXJjaGl0ZWN0dXJlOiBhbWQ2NAogIGh5cGVydGhyZWFkaW5nOiBFbmFibGVkCiAgbmFtZTogbWFzdGVyCiAgcGxhdGZvcm06IHt9CiAgcmVwbGljYXM6IE1BU1RFUi1SRVBMSUNBUwptZXRhZGF0YToKICBuYW1lOiBOQU1FCm5ldHdvcmtpbmc6CiAgY2x1c3Rlck5ldHdvcms6CiAgLSBjaWRyOiAxMC4xMjguMC4wLzE0CiAgICBob3N0UHJlZml4OiAyMwogIG1hY2hpbmVOZXR3b3JrOgogIC0gY2lkcjogMTAuMC4wLjAvMTYKICBuZXR3b3JrVHlwZTogTkVUV09SSy1UWVBFCiAgc2VydmljZU5ldHdvcms6CiAgLSAxNzIuMzAuMC4wLzE2CnBsYXRmb3JtOgogIGdjcDoKICAgIHByb2plY3RJRDogR0NQLVBST0pFQ1QtSUQKICAgIHJlZ2lvbjogUkVHSU9OCg==
 
 # custom scripts
 test() { for param in ${@}; do echo -e ${param}"\n-----"; done }
@@ -155,6 +158,8 @@ Options:
   --osp-ext-network <name>          - name of the external network to be used
   --osp-os-image <name>             - name or location of the RHCOS image to use
   --osp-os-flavor <name>            - name of the flavor to use
+
+  --gcp-project-id <name>           - name of the GCP project
 
   --init                            - initialize the tool and credentials
   --install                         - install the cluster
@@ -293,6 +298,10 @@ create_install_config() {
     sed -i "s/OSP-EXT-NETWORK/${INSTALLOPTS[osp-ext-network]}/g;" ${clusterdir}/install-config.yaml
     sed -i "s/OSP-OS-IMAGE/${INSTALLOPTS[osp-os-image]}/g;" ${clusterdir}/install-config.yaml
     sed -i "s/OSP-OS-FLAVOR/${INSTALLOPTS[osp-os-flavor]:-m1.large}/g;" ${clusterdir}/install-config.yaml
+  fi
+  if [[ ${INSTALLOPTS[platform]} == "gcp" ]]; then
+    sed -i "s/GCP-PROJECT-ID/${INSTALLOPTS[gcp-project-id]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/REGION/${INSTALLOPTS[region]}/g;" ${clusterdir}/install-config.yaml
   fi
 
   if [[ ! -f ${__configdir}/pull-secret.json ]]; then
@@ -524,6 +533,10 @@ validate_options() {
           require_option osp-ext-network
           require_option osp-cloud
           ;;
+        gcp)
+          require_option gcp-project-id
+          require_option region
+          ;;
         *)
           die "Error: Platform ${INSTALLOPTS[platform]} not yet supported by this script"
           ;;
@@ -603,6 +616,8 @@ main() {
       --osp-ext-network)      shift; INSTALLOPTS[osp-ext-network]="${1}";;
       --osp-os-image)         shift; INSTALLOPTS[osp-os-image]="${1}";;
       --osp-os-flavor)        shift; INSTALLOPTS[osp-os-flavor]="${1}";;
+
+      --gcp-project-id)       shift; INSTALLOPTS[gcp-project-id]="${1}";;
 
       --init)        ACTION=init;;
       --install)     ACTION=install;;
