@@ -249,6 +249,10 @@ cleantools() {
   out "→ Cleaning up all installer binaries..."
   rm -f ${__bindir}/openshift-install-* && success "All installer removed!"
   
+  [ -f ~/.cache/openshift-installer/image_cache/*.ova ] && \
+  out "→ Removing OVA images..." && \
+  rm -f ~/.cache/openshift-installer/image_cache/*.ova && success "All OVA images removed!"
+
   # Generate the list
   ls ${__bindir}/{oc,kubectl}-* > /tmp/cli-listxxxxxx.txt
 
