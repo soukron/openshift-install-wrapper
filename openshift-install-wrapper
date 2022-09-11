@@ -247,7 +247,7 @@ cleantools() {
   df -h "${__bindir}"
   
   out "→ Cleaning up all installer binaries..."
-  rm -f ${__bindir}/openshift-install-* && success "All installer removed!"
+  rm -f ${__bindir}/openshift-install-[0-9]* && success "All installer removed!"
   
   [ -f ~/.cache/openshift-installer/image_cache/*.ova ] && \
   out "→ Removing OVA images..." && \
