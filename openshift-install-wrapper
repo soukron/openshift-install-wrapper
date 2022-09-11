@@ -167,7 +167,7 @@ Options:
   --customize <actions>             - customize the cluster with some post-install actions
   --list                            - lists all existing clusters
   --list-csv                        - lists all existing clusters in CSV format
-  --clean-tools                      - removes unecessary CLI clients and all installers
+  --clean-tools                     - removes unecessary CLI clients and all installers
 
   --force                           - force installation (cleanup files if required)
   --dry-run                         - does all the preparation steps but doesn't run the installer to create/destroy a cluster
