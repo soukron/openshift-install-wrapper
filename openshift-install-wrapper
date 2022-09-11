@@ -258,7 +258,7 @@ cleantools() {
 
   # Remove versions to maintain from the generated list
   for cluster in $(ls ${__clustersdir});do
-    VERSION="$(grep -Po '(?<=OpenShift Installer )[v0-9.]*' ${clustersdir}/${cluster}/.openshift_install.log 2>/dev/null| head -n 1 | tr -d v)" 
+    VERSION="$(grep -Po '(?<=OpenShift Installer )[v0-9.]*' ${__clustersdir}/${cluster}/.openshift_install.log 2>/dev/null| head -n 1 | tr -d v)" 
     grep -v ${VERSION} /tmp/cli-listxxxxxx.txt > /tmp/cli-listxxxxxxAPPO.txt
     mv -f /tmp/cli-listxxxxxxAPPO.txt /tmp/cli-listxxxxxx.txt
   done
