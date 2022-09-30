@@ -167,6 +167,7 @@ Options:
   --customize <actions>             - customize the cluster with some post-install actions
   --list                            - lists all existing clusters
   --list-csv                        - lists all existing clusters in CSV format
+  --clean-tools                     - removes unecessary CLI clients and all installers
 
   --force                           - force installation (cleanup files if required)
   --dry-run                         - does all the preparation steps but doesn't run the installer to create/destroy a cluster
@@ -237,6 +238,39 @@ download_tools() {
       fi
       ;;
   esac
+}
+
+# Clean tools, only enter here if action  "--clean-tools" selected
+# Removes all previously downloaded installers and CLI clients of not installed versions
+cleantools() {
+  out "→ Showing actual filesystem occupation."
+  df -h "${__bindir}"
+  
+  out "→ Cleaning up all installer binaries..."
+  rm -f ${__bindir}/openshift-install-[0-9]* && success "All installer removed!"
+  
+  [ -f ~/.cache/openshift-installer/image_cache/*.ova ] && \
+  out "→ Removing OVA images..." && \
+  rm -f ~/.cache/openshift-installer/image_cache/*.ova && success "All OVA images removed!"
+
+  # Generate the list
+  ls ${__bindir}/{oc,kubectl}-* > /tmp/cli-listxxxxxx.txt
+
+  # Remove versions to maintain from the generated list
+  for cluster in $(ls ${__clustersdir});do
+    VERSION="$(grep -Po '(?<=OpenShift Installer )[v0-9.]*' ${__clustersdir}/${cluster}/.openshift_install.log 2>/dev/null| head -n 1 | tr -d v)" 
+    grep -v ${VERSION} /tmp/cli-listxxxxxx.txt > /tmp/cli-listxxxxxxAPPO.txt
+    mv -f /tmp/cli-listxxxxxxAPPO.txt /tmp/cli-listxxxxxx.txt
+  done
+  # Remove all not used versions
+  out "→ Cleaning up all unused CLI clients..."
+  cat /tmp/cli-listxxxxxx.txt |xargs rm -f > /dev/null 2>&1 && success "CLI clients removed!"
+  
+  # Remove the list
+  rm -f /tmp/cli-listxxxxxx.txt
+
+  out "→ Showing actual filesystem occupation."
+  df -h "${__bindir}"
 }
 
 # create install_config.yaml
@@ -562,8 +596,10 @@ validate_options() {
     init)
       require_option platform
       ;;
+    cleantools)
+      ;;
     *)
-      die "Error: Missing action. Please use --help, --init, --install, --customize, --destroy or --list."
+      die "Error: Missing action. Please use --help, --init, --install, --customize, --destroy, --list or --clean-tools."
       ;;
   esac
 }
@@ -625,6 +661,7 @@ main() {
       --customize)   shift; ACTION=customize; SCRIPTS="${1}";;
       --list)        ACTION=list;;
       --list-csv)    ACTION=list; LISTFORMAT="csv";;
+      --clean-tools) ACTION=cleantools ;;
 
       --force)       FORCE=1;;
       --dry-run)     DRY_RUN=1;;
@@ -676,6 +713,9 @@ main() {
       ;;
     init)
       create_cloud_credentials
+      ;;
+    cleantools)
+       cleantools
       ;;
   esac
 }
