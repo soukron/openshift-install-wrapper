@@ -117,9 +117,11 @@ spec:
   name: "servicemeshoperator"
 EOF
 
-out "→ Waiting 30 seconds for the operator installation."
-sleep 30
-
+out "→ Waiting up to 90 seconds for the operator installation."
+sleep 15 #give 15 seconds for waiting the deployment to be created
+oc rollout status deploy/istio-operator -n openshift-operators --timeout=65s > /dev/null 2>&1 || die "Operator installation not completed."
+oc wait --for=condition=ContainersReady pod -n openshift-operators -l name=istio-operator --timeout=5s > /dev/null 2>&1 || die "Operator installation not completed."
+sleep 5 # 5 additional seconds to wait for the weebhook to start
 else
   success "Service Mesh operator already installed."
 fi
@@ -164,15 +166,9 @@ spec:
     type: Jaeger
   version: v${version:-2.0}
 EOF
-  count=0
-  while [[ "$(oc get apiservice v1.maistra.io -o jsonpath='{.status.conditions[?(@.type=="Available")].status}')" != "True" ]];do
-    sleep 1
-    count=$(( ${count} + 1 ))
-    if [[ ${count} -eq 90 ]];then
-      die "Not able to start SM Control Plane in 3 minutes."
-    fi
-  done
-  success "Service Mesh control plane started in ${count}s."
+  out "→ Waiting up to 3 minutes for the Control Plane to start."
+  oc wait smcp basic -n ${namespace:-istio-system} --for condition=Ready=True --timeout=180s > /dev/null 2>&1 || die "Service Mesh control plane NOT Ready."
+  success "Service Mesh control plane Ready."
 else
   success "Service Mesh control plane already present."
 fi
@@ -204,8 +200,8 @@ if [[ "${add_sample:-false}" == "true" ]];then
   oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/platform/kube/bookinfo.yaml > /dev/null 2>&1
   oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/networking/bookinfo-gateway.yaml > /dev/null 2>&1
   oc apply -n bookinfo -f https://raw.githubusercontent.com/Maistra/istio/maistra-2.0/samples/bookinfo/networking/destination-rule-all-mtls.yaml > /dev/null 2>&1
-  out "→ Waiting 30 seconds for pod start."
-  sleep 30
+  out "→ Waiting up to 90 seconds for pod start."
+  oc rollout status deploy/productpage-v1 -n bookinfo --timeout=90s > /dev/null 2>&1 || die "Bookinfo deploy not started."
   export GATEWAY_URL=$(oc -n ${namespace:-istio-system} get route istio-ingressgateway -o jsonpath='{.spec.host}')
   APPresponse=$(curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage)
   [[ "${APPresponse}" == "200" ]] && success "Service Mesh operator installed with example in bookinfo namespace!"
