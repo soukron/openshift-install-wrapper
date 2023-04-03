@@ -120,7 +120,7 @@ EOF
 out "→ Waiting up to 90 seconds for the operator installation."
 sleep 15 #give 15 seconds for waiting the deployment to be created
 oc rollout status deploy/istio-operator -n openshift-operators --timeout=65s > /dev/null 2>&1 || die "Operator installation not completed."
-oc wait --for=condition=ContainersReady pod -n openshift-operators -l name=istio-operator --timeout=5s
+oc wait --for=condition=ContainersReady pod -n openshift-operators -l name=istio-operator --timeout=5s > /dev/null 2>&1 || die "Operator installation not completed."
 sleep 5 # 5 additional seconds to wait for the weebhook to start
 else
   success "Service Mesh operator already installed."
