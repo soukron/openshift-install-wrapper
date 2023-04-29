@@ -10,7 +10,7 @@ main() {
   
   ### Patch the imageregistry to be managed and have emptyDir as storage
   oc patch configs.imageregistry.operator.openshift.io cluster --type merge \
-  --patch '{"spec":{"storage":{"emptyDir":{}},"managementState":"Managed"}}' 2>&1 /dev/null 
+  --patch '{"spec":{"storage":{"emptyDir":{}},"managementState":"Managed"}}' 2>&1 > /dev/null 
 
   ### Check the last exited code to correctly comunicate the status
   if [[ $? -eq 0 ]]; then
