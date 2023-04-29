@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Optional fields
+# script name: configure-registry
+# script description: Configure internal image-registry with emptyDir storage
+
+# Mandatory function
+# start main - do not remove this line and do not change the function name
+main() {
+  
+  ### Patch the imageregistry to be managed and have emptyDir as storage
+  oc patch configs.imageregistry.operator.openshift.io cluster --type merge \
+  --patch '{"spec":{"storage":{"emptyDir":{}},"managementState":"Managed"}}' 2>&1 /dev/null 
+
+  ### Check the last exited code to correctly comunicate the status
+  if [[ $? -eq 0 ]]; then
+    success "Image registry successfully configured with emptyDir."
+  else
+    err "Error while configuring the image registry. For troubleshooting try to run: \"oc get configs.imageregistry.operator.openshift.io cluster -oyaml\""
+  fi
+
+}
+# end main - do not remove this line
+
+# Optionally, keep this if you want to run your script manually or for testing.
+main $@
