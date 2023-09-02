@@ -502,7 +502,6 @@ get_cluster_version() {
 
   out "→ Finding version in cluster directory..."
   verbose "  Directory: ${clusterdir}"
-  #INSTALLOPTS[version]=$(grep -Po '(?<=OpenShift Installer )[v0-9.]*' ${clusterdir}/.openshift_install.log 2>/dev/null| head -n 1 | tr -d v)
   INSTALLOPTS[version]=$(grep '="OpenShift Installer ' ${clusterdir}/.openshift_install.log 2>/dev/null |head -1 |tr -d '"'|awk '{ print $(NF) }')
   success "Version detected: ${INSTALLOPTS[version]}."
 
