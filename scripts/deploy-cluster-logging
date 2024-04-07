@@ -88,9 +88,7 @@ kind: OperatorGroup
 metadata:
   name: cluster-logging
   namespace: openshift-logging
-spec:
-  targetNamespaces:
-  - openshift-logging
+spec: {}
 EOF
 
   # Create a subscription for Cluster Logging operator
@@ -156,10 +154,7 @@ spec:
           memory: ${curator_memory}
       schedule: "*/5 * * * *"
   collection:
-    logs:
-      type: "fluentd"
-      fluentd:
-        resources: {}
+    type: "vector"
 EOF
 }
 # end main - do not remove this line
