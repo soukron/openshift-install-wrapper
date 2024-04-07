@@ -155,9 +155,7 @@ spec:
       schedule: "*/5 * * * *"
   collection:
     logs:
-      type: "fluentd"
-      fluentd:
-        resources: {}
+      type: "vector"
 EOF
 }
 # end main - do not remove this line
