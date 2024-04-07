@@ -88,9 +88,7 @@ kind: OperatorGroup
 metadata:
   name: cluster-logging
   namespace: openshift-logging
-spec:
-  targetNamespaces:
-  - openshift-logging
+spec: {}
 EOF
 
   # Create a subscription for Cluster Logging operator
