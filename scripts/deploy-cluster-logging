@@ -154,8 +154,7 @@ spec:
           memory: ${curator_memory}
       schedule: "*/5 * * * *"
   collection:
-    logs:
-      type: "vector"
+    type: "vector"
 EOF
 }
 # end main - do not remove this line
