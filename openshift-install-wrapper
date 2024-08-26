@@ -35,7 +35,6 @@ CONFIGFILES[aws]="${HOME}/.aws/credentials;W2RlZmF1bHRdCmF3c19hY2Nlc3Nfa2V5X2lkI
 CONFIGFILES[azure]="${HOME}/.azure/osServicePrincipal.json;eyJzdWJzY3JpcHRpb25JZCI6IjEyMzQ1YWJjLTEyYWItMTJhYi0xMmFiLTEyMzQ1NmFiY2RlZiIsImNsaWVudElkIjoiMTIzNGFiY2QtMTJhYi0xMmFiLTEyYWItMTIzNDU2YWJjZGVmIiwiY2xpZW50U2VjcmV0IjoiMUFfMTIzNDU2YWJjZGVmZzEyMzQ1NTZhYmMuW1x1MDAzY1x1MDAyNmRAWkoja1x1MDAzZSIsInRlbmFudElkIjoiMTIzNDVhYmMtMTJhYi0xMmFiLTEyYWItMTIzNDU2YWJjZGVmIn0K"
 CONFIGFILES[ovirt]="${HOME}/.ovirt/ovirt-config.yaml;b3ZpcnRfdXJsOiBodHRwczovL09WSVJUX0ZRRE4vb3ZpcnQtZW5naW5lL2FwaQpvdmlydF91c2VybmFtZTogYWRtaW5AaW50ZXJuYWwKb3ZpcnRfcGFzc3dvcmQ6IHNlY3JldFBhc3N3b3JkCm92aXJ0X2luc2VjdXJlOiB0cnVlCg=="
 CONFIGFILES[openstack]="${HOME}/.config/openstack/clouds.yaml;Y2xvdWRzOgogIHNoaWZ0c3RhY2s6CiAgICBhdXRoOgogICAgICBhdXRoX3VybDogaHR0cDovLzEwLjEwLjE0LjQyOjUwMDAvdjMKICAgICAgcHJvamVjdF9uYW1lOiBzaGlmdHN0YWNrCiAgICAgIHVzZXJuYW1lOiBzaGlmdHN0YWNrX3VzZXIKICAgICAgcGFzc3dvcmQ6IFhYWAogICAgICB1c2VyX2RvbWFpbl9uYW1lOiBEZWZhdWx0CiAgICAgIHByb2plY3RfZG9tYWluX25hbWU6IERlZmF1bHQK"
-# see `gcloud init` documentation (https://cloud.google.com/sdk/gcloud/reference/init) for proper instructions
 CONFIGFILES[gcp]="${HOME}/.gcp/osServiceAccount.json;ewogICJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsCiAgInByb2plY3RfaWQiOiAicHJvamVjdC1pZCIsCiAgInByaXZhdGVfa2V5X2lkIjogImtleS1pZCIsCiAgInByaXZhdGVfa2V5IjogIi0tLS0tQkVHSU4gUFJJVkFURSBLRVktLS0tLVxucHJpdmF0ZS1rZXlcbi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS1cbiIsCiAgImNsaWVudF9lbWFpbCI6ICJzZXJ2aWNlLWFjY291bnQtZW1haWwiLAogICJjbGllbnRfaWQiOiAiY2xpZW50LWlkIiwKICAiYXV0aF91cmkiOiAiaHR0cHM6Ly9hY2NvdW50cy5nb29nbGUuY29tL28vb2F1dGgyL2F1dGgiLAogICJ0b2tlbl91cmkiOiAiaHR0cHM6Ly9hY2NvdW50cy5nb29nbGUuY29tL28vb2F1dGgyL3Rva2VuIiwKICAiYXV0aF9wcm92aWRlcl94NTA5X2NlcnRfdXJsIjogImh0dHBzOi8vd3d3Lmdvb2dsZWFwaXMuY29tL29hdXRoMi92MS9jZXJ0cyIsCiAgImNsaWVudF94NTA5X2NlcnRfdXJsIjogImh0dHBzOi8vd3d3Lmdvb2dsZWFwaXMuY29tL3JvYm90L3YxL21ldGFkYXRhL3g1MDkvc2VydmljZS1hY2NvdW50LWVtYWlsIgp9Cgo="
 
 # install-config templates
@@ -166,6 +165,8 @@ Options:
   --install                         - install the cluster
   --destroy                         - destroy the cluster
   --customize <actions>             - customize the cluster with some post-install actions
+  --use                             - sets KUBECONFIG and/or env vars to use a given cluster
+  --login                           - uses the default kubeadmin password to login in a given cluster
   --list                            - lists all existing clusters
   --list-csv                        - lists all existing clusters in CSV format
   --clean-tools                     - removes unecessary CLI clients and all installers
@@ -246,10 +247,10 @@ download_tools() {
 cleantools() {
   out "→ Showing actual filesystem occupation."
   df -h "${__bindir}"
-  
+
   out "→ Cleaning up all installer binaries..."
   rm -f ${__bindir}/openshift-install-[0-9]* 2> /dev/null && success "All installer removed!"
-  
+
   [ $(ls ~/.cache/openshift-installer/image_cache/*.ova 2> /dev/null |wc -l) -ge 1 ] && \
   out "→ Removing OVA images..." && \
   rm -f ~/.cache/openshift-installer/image_cache/*.ova && success "All OVA images removed!"
@@ -259,14 +260,14 @@ cleantools() {
 
   # Remove versions to maintain from the generated list
   for cluster in $(ls ${__clustersdir});do
-    VERSION="$(grep -Po '(?<=OpenShift Installer )[v0-9.]*' ${__clustersdir}/${cluster}/.openshift_install.log 2>/dev/null| head -n 1 | tr -d v)" 
-    grep -v ${VERSION} /tmp/cli-listxxxxxx.txt > /tmp/cli-listxxxxxxAPPO.txt
+    CLUSTER_VERSION="$(grep -Po '(?<=OpenShift Installer )[v0-9.]*' ${__clustersdir}/${cluster}/.openshift_install.log 2>/dev/null| head -n 1 | tr -d v)" 
+    grep -v ${CLUSTER_VERSION} /tmp/cli-listxxxxxx.txt > /tmp/cli-listxxxxxxAPPO.txt
     mv -f /tmp/cli-listxxxxxxAPPO.txt /tmp/cli-listxxxxxx.txt
   done
   # Remove all not used versions
   out "→ Cleaning up all unused CLI clients..."
   cat /tmp/cli-listxxxxxx.txt |xargs rm -f > /dev/null 2>&1 && success "CLI clients removed!"
-  
+
   # Remove the list
   rm -f /tmp/cli-listxxxxxx.txt
 
@@ -357,8 +358,6 @@ create_install_config() {
 	verbose "Editing install-config with ${WRAPPER_EDITOR}"
 	${WRAPPER_EDITOR} "${clusterdir}/install-config.yaml"
   fi
-
-
 }
 
 # verify cloud credentials
@@ -408,7 +407,7 @@ create_cluster() {
 
   verbose "  Saving a copy of install-config.yaml file."
   cp ${clusterdir}/install-config.yaml ${clusterdir}/install-config.yaml.orig
-  
+
   if [[ ${EDIT_INSTALL_MANIFESTS} -eq 1 ]]; then
     out "→ Running \"openshift-install\" to create manifests..."
     ${installer} create manifests --dir=${clusterdir}
@@ -456,6 +455,24 @@ destroy_cluster() {
   rm -fr ${clusterdir}
 }
 
+# use a cluster
+use_cluster() {
+  local clusterdir=${__clustersdir}/${INSTALLOPTS[name]}.${INSTALLOPTS[domain]}
+
+  echo "export KUBECONFIG=${clusterdir}/auth/kubeconfig"
+  echo "export OCP4_VERSION=${INSTALLOPTS[version]}"
+}
+
+# login into a cluster with default kubeadmin
+login_cluster() {
+  local clusterdir=${__clustersdir}/${INSTALLOPTS[name]}.${INSTALLOPTS[domain]}
+  local password=$( cat ${clusterdir}/auth/kubeadmin-password )
+  local client=${__bindir}/oc-${INSTALLOPTS[version]}
+
+  export OCP4_VERSION=${INSTALLOPTS[version]}
+  ${client} login --insecure-skip-tls-verify=false --username kubeadmin --password ${password} --server https://api.${INSTALLOPTS[name]}.${INSTALLOPTS[domain]}:6443
+}
+
 # list clusters
 list_clusters() {
   echo "NAME;VERSION;PLATFORM;STATUS;KUBEADMIN_PASSWORD;CONSOLE" > /tmp/list.$$
@@ -468,8 +485,8 @@ list_clusters() {
     NAME=$((cut -d, -f1 ${clusterdir}/metadata.json 2> /dev/null || echo "Unknown") |cut -d: -f2 |sed s/"[{,},\"]"//g)
     ADMINPWD=$(cat ${clusterdir}/auth/kubeadmin-password 2> /dev/null || echo "Unknown" )
     STATUS=$(curl -m 5 -k https://${APISERVER}:6443/healthz 2> /dev/null || echo "Unhealthy")
-    VERSION=$(grep -Po '(?<=OpenShift Installer )[v0-9.]*' ${clusterdir}/.openshift_install.log 2>/dev/null| head -n 1 | tr -d v)
-    echo "${NAME};${VERSION};${PLATFORM};${STATUS};${ADMINPWD};${CONSOLE}" >> /tmp/list.$$
+    CLUSTER_VERSION=$(grep -Po '(?<=OpenShift Installer )[v0-9.]*' ${clusterdir}/.openshift_install.log 2>/dev/null| head -n 1 | tr -d v)
+    echo "${NAME};${CLUSTER_VERSION};${PLATFORM};${STATUS};${ADMINPWD};${CONSOLE}" >> /tmp/list.$$
   done
   if [[ ${LISTFORMAT} == "csv" ]]; then
     cat /tmp/list.$$
@@ -587,7 +604,7 @@ validate_options() {
        verify_cloud_credentials
       fi
       ;;
-    customize)
+    customize|use|login)
       require_option name
       require_option domain
       get_cluster_version
@@ -601,7 +618,7 @@ validate_options() {
     cleantools)
       ;;
     *)
-      die "Error: Missing action. Please use --help, --init, --install, --customize, --destroy, --list or --clean-tools."
+      die "Error: Missing action. Please use --help, --init, --install, --customize, --destroy, --use, --login, --list or --clean-tools."
       ;;
   esac
 }
@@ -612,17 +629,17 @@ main() {
   while [[ ${1} = -?* ]]; do
     key="${1}"
     case ${key} in
-      --name)        shift; INSTALLOPTS[name]="${1}";;
-      --domain)      shift; INSTALLOPTS[domain]="${1}";;
-      --version)     shift; INSTALLOPTS[version]="${1}";;
-      --platform)    shift; INSTALLOPTS[platform]="${1}";;
+      --name)                 shift; INSTALLOPTS[name]="${1}";;
+      --domain)               shift; INSTALLOPTS[domain]="${1}";;
+      --version)              shift; INSTALLOPTS[version]="${1}";;
+      --platform)             shift; INSTALLOPTS[platform]="${1}";;
 
-      --region)              shift; INSTALLOPTS[region]="${1}";;
-      --master-replicas)     shift; INSTALLOPTS[master-replicas]="${1}";;
-      --worker-replicas)     shift; INSTALLOPTS[worker-replicas]="${1}";;
-      --network-type)        shift; INSTALLOPTS[network-type]="${1}";;
-      --machine-network)     shift; INSTALLOPTS[machine-network]="${1}";;
-      --tags)                shift; INSTALLOPTS[tags]+=",${1}";;
+      --region)               shift; INSTALLOPTS[region]="${1}";;
+      --master-replicas)      shift; INSTALLOPTS[master-replicas]="${1}";;
+      --worker-replicas)      shift; INSTALLOPTS[worker-replicas]="${1}";;
+      --network-type)         shift; INSTALLOPTS[network-type]="${1}";;
+      --machine-network)      shift; INSTALLOPTS[machine-network]="${1}";;
+      --tags)                 shift; INSTALLOPTS[tags]+=",${1}";;
       --edit-install-config) EDIT_INSTALL_CONFIG=1;;
       --edit-install-manifests) EDIT_INSTALL_MANIFESTS=1;;
 
@@ -631,12 +648,12 @@ main() {
 
       --azure-resource-group) shift; INSTALLOPTS[azure-resource-group]="${1}";;
 
-      --ovirt-cluster)       shift; INSTALLOPTS[ovirt-cluster]="${1}";;
-      --ovirt-storagedomain) shift; INSTALLOPTS[ovirt-storagedomain]="${1}";;
-      --ovirt-network)       shift; INSTALLOPTS[ovirt-network]="${1}";;
-      --ovirt-vip-api)       shift; INSTALLOPTS[ovirt-vip-api]="${1}";;
-      --ovirt-vip-ingress)   shift; INSTALLOPTS[ovirt-vip-ingress]="${1}";;
-      --ovirt-vip-dns)       shift; INSTALLOPTS[ovirt-vip-dns]="${1}";;
+      --ovirt-cluster)        shift; INSTALLOPTS[ovirt-cluster]="${1}";;
+      --ovirt-storagedomain)  shift; INSTALLOPTS[ovirt-storagedomain]="${1}";;
+      --ovirt-network)        shift; INSTALLOPTS[ovirt-network]="${1}";;
+      --ovirt-vip-api)        shift; INSTALLOPTS[ovirt-vip-api]="${1}";;
+      --ovirt-vip-ingress)    shift; INSTALLOPTS[ovirt-vip-ingress]="${1}";;
+      --ovirt-vip-dns)        shift; INSTALLOPTS[ovirt-vip-dns]="${1}";;
 
       --vsphere-vcenter)      shift; INSTALLOPTS[vsphere-vcenter]="${1}";;
       --vsphere-username)     shift; INSTALLOPTS[vsphere-username]="${1}";;
@@ -662,6 +679,8 @@ main() {
       --install)     ACTION=install;;
       --destroy)     ACTION=destroy;;
       --customize)   shift; ACTION=customize; SCRIPTS="${1}";;
+      --use)         ACTION=use; QUIET=1;;
+      --login)       ACTION=login; QUIET=1;;
       --list)        ACTION=list;;
       --list-csv)    ACTION=list; LISTFORMAT="csv";;
       --clean-tools) ACTION=cleantools ;;
@@ -711,6 +730,16 @@ main() {
       download_tools client
       customize_cluster
       ;;
+    use)
+      get_cluster_version
+      download_tools client
+      use_cluster
+      ;;
+    login)
+      get_cluster_version
+      download_tools client
+      login_cluster
+      ;;
     list)
       list_clusters
       ;;
@@ -718,7 +747,7 @@ main() {
       create_cloud_credentials
       ;;
     cleantools)
-       cleantools
+      cleantools
       ;;
   esac
 }

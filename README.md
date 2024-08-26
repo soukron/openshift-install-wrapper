@@ -75,6 +75,8 @@ Options:
   --install                  - install the cluster
   --destroy                  - destroy the cluster
   --customize                - customize the cluster with some post-install actions
+  --use                      - sets KUBECONFIG and/or env vars to use a given cluster
+  --login                    - uses the default kubeadmin password to login in a given cluster
   --list                     - lists all existing clusters
 
   --verbose                  - shows more information during the execution
@@ -133,6 +135,21 @@ $ openshift-install-wrapper --customize delete-kubeadmin-user \
  ✔  Client binaries for 4.4.7 are found. Continuing.
 → Running delete-kubeadmin-user...
 secret "kubeadmin" deleted
+```
+
+### Use/login into a cluster with default KUBECONFIG/kubeadmin
+For login, use the script as usual:
+```
+$ openshift-install-wrapper --login \
+                            --name sgarcia-ocp447 \
+                            --domain aws.gmbros.net
+````
+
+For direct KUBECONFIG access, use the script with the $() syntax:
+```
+$ $( openshift-install-wrapper --use \
+                            --name sgarcia-ocp447 \
+                            --domain aws.gmbros.net )
 ```
 
 ### Troubleshooting
