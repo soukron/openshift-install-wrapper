@@ -24,23 +24,32 @@ version: ## Output the current version.
 # INSTALL #
 ###########
 .ONESHELL:
-merge-scripts: ## Merge the scripts in the main script
+merge-scripts: create-main-wrapper ## Merge the scripts in the main script
 	@echo Merging scripts into openshift-install-wrapper
-	cd scripts && ./.merge-scripts
+	cd src/scripts && ./.merge-scripts
 
-install: ## Installs the script
+create-main-wrapper: ## Creates the wrapper with all the src/ content
+	@echo "Combining source files into openshift-install-wrapper"
+	@cat src/control/00_init.sh src/config/*.sh src/helpers/*.sh src/actions/*.sh src/control/99_execute.sh > openshift-install-wrapper
+	@chmod +x openshift-install-wrapper
+
+create-binary-wrappers: ## Install helper wrappers for oc, kubectl, openshift-install
 	@echo Preparing wrappers...
 	@sed -i 's/^VERSION=.*/VERSION=$(VERSION)/' openshift-install-wrapper
 	@sed -i "s|^__basedir=.*|__basedir=$(TARGETDIR)|" openshift-install-wrapper
 	@sed -i "s|^WRAPPER_BASEDIR=.*|WRAPPER_BASEDIR=$(TARGETDIR)/bin|" bin/openshift-install
 	@sed -i "s|^WRAPPER_BASEDIR=.*|WRAPPER_BASEDIR=$(TARGETDIR)/bin|" bin/oc
 	@sed -i "s|^WRAPPER_BASEDIR=.*|WRAPPER_BASEDIR=$(TARGETDIR)/bin|" bin/kubectl
-	@echo Merging customization scripts...
-	cd scripts && ./.merge-scripts && cd - &>/dev/null
+
+create-dirs: ## Create directories
 	@echo Creating target directory $(TARGETDIR)...
 	@mkdir -p $(TARGETDIR)/{bin,clusters,config}
+
+copy-binary-wrappers: ## Copy wrappers to binaries directory
 	@echo Copying wrappers...
-	@cp -f scripts/openshift-install-wrapper $(TARGETDIR)/bin
+	@mv -f openshift-install-wrapper $(TARGETDIR)/bin
 	@cp -f bin/* $(TARGETDIR)/bin
 	@chmod 755 $(TARGETDIR)/bin/openshift-install-wrapper
 	@echo "Wrappers installed in $(TARGETDIR)/bin. Please remember to add this location to your PATH to use it."
+
+install: create-dirs create-main-wrapper create-binary-wrappers merge-scripts copy-binary-wrappers ## Installs the script

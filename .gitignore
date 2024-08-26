@@ -1,3 +1,4 @@
-scripts/functions
-scripts/openshift-install-wrapper
-scripts/names
+.vscode
+openshift-install-wrapper
+src/scripts/functions
+src/scripts/names

@@ -283,8 +283,8 @@ $ openshift-install-wrapper --customize add-htpasswd-idp=admin=adminpwd:user1=us
 Finally, after adding your new script in the directory, remember to run `make install` in order to install a new version of `openshift-install-wrapper` with your script embedded on it.
 
 ## TODO
-- Read cluster version and cluster platform from install directory for `--customize`, and `--destroy` operations
-- Add GCP support
+- ~~Read cluster version and cluster platform from install directory for `--customize`, and `--destroy` operations~~
+- ~~Add GCP support~~
 - Improve `--list` output
 - Improve console output (ie. include timestamps)
 - Implement `--expire` parameter to delete (using cron) a cluster after a certain time

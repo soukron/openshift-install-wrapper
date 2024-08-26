@@ -28,7 +28,10 @@ for _file in *; do
 done
 
 # replace the custom scripts marker with the functions file content
-sed -e '/\#__CUSTOM_SCRIPTS__/{r functions' -e 'd}' ../openshift-install-wrapper > openshift-install-wrapper
+sed -e '/\#__CUSTOM_SCRIPTS__/{r functions' -e 'd}' ../../openshift-install-wrapper > openshift-install-wrapper
 
 # replace the custom scripts names marker with the names file content
 sed -e '/\#__CUSTOM_SCRIPTS_NAMES__/{r names' -e 'd}' -i openshift-install-wrapper
+
+# replace original wrapper with included content
+mv -f openshift-install-wrapper ../../openshift-install-wrapper
