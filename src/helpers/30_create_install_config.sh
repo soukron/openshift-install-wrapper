@@ -15,7 +15,30 @@ create_install_config() {
 
   mkdir -p ${clusterdir}
   out "→ Creating install-config.yaml file..."
-  echo ${INSTALLTEMPLATES[${INSTALLOPTS[platform]}-default]} | base64 -d > ${clusterdir}/install-config.yaml
+  key=${INSTALLOPTS[platform]}-${INSTALLOPTS[version]}
+  if [[ -n "${INSTALLTEMPLATES[$key]}" ]]; then
+    success "Using specific install-config template for ${key}..."
+    installtemplate="${INSTALLTEMPLATES[$key]}"
+  else
+    minor_version="${INSTALLOPTS[version]%.*}"
+    key="${INSTALLOPTS[platform]}-${minor_version}"
+
+    if [[ -n "${INSTALLTEMPLATES[$key]}" ]]; then
+      success "Using specific install-config template for ${key}..."
+      installtemplate="${INSTALLTEMPLATES[$key]}"
+    else
+      key="${INSTALLOPTS[platform]}-default"
+      
+      if [[ -n "${INSTALLTEMPLATES[$key]}" ]]; then
+        success "Using default install-config template for ${INSTALLOPTS[platform]}..."
+        installtemplate="${INSTALLTEMPLATES[$key]}"
+      else
+        die "Unable to find a valid install-config template for the given platform/version."
+      fi
+    fi
+  fi
+
+  echo ${installtemplate} | base64 -d > ${clusterdir}/install-config.yaml
 
   sed -i "s/NAME/${INSTALLOPTS[name]}/g;" ${clusterdir}/install-config.yaml
   sed -i "s/DOMAIN/${INSTALLOPTS[domain]}/g;" ${clusterdir}/install-config.yaml

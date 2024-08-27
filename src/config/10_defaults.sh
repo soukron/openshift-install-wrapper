@@ -2,7 +2,7 @@
 __baseurl=https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
 # defaults
-VERSION=1.6.0
+VERSION=1.7.0
 VERBOSE=0
 QUIET=0
 FORCE=0
