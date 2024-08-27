@@ -1,0 +1,31 @@
+apiVersion: v1
+baseDomain: DOMAIN
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  platform: {}
+  replicas: WORKER-REPLICAS
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  platform: {}
+  replicas: MASTER-REPLICAS
+metadata:
+  creationTimestamp: null
+  name: NAME
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: MACHINE-NETWORK
+  networkType: NETWORK-TYPE
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  azure:
+    baseDomainResourceGroupName: RESOURCEGROUP
+    region: REGION
+publish: External

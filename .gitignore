@@ -2,3 +2,4 @@
 openshift-install-wrapper
 src/scripts/functions
 src/scripts/names
+src/config/30_templates.sh

@@ -1,0 +1,44 @@
+apiVersion: v1
+baseDomain: DOMAIN
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  platform: 
+    vsphere: 
+      osDisk:
+        diskSizeGB: VSPHERE-DISK-SIZE-GB 
+  replicas: WORKER-REPLICAS
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  platform: 
+    vsphere: 
+      osDisk:
+        diskSizeGB: VSPHERE-DISK-SIZE-GB 
+  replicas: MASTER-REPLICAS
+metadata:
+  creationTimestamp: null
+  name: NAME
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: MACHINE-NETWORK
+  networkType: NETWORK-TYPE
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  vsphere:
+    apiVIP: VSPHERE-VIP-API
+    cluster: VSPHERE-CLUSTER
+    datacenter: VSPHERE-DATACENTER
+    defaultDatastore: VSPHERE-DATASTORE
+    ingressVIP: VSPHERE-VIP-INGRESS
+    network: VSPHERE-NETWORK
+    password: VSPHERE-PASSWORD
+    username: VSPHERE-USER
+    vCenter: VSPHERE-VCENTER
+publish: External

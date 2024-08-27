@@ -26,7 +26,11 @@ version: ## Output the current version.
 .ONESHELL:
 merge-scripts: create-main-wrapper ## Merge the scripts in the main script
 	@echo Merging scripts into openshift-install-wrapper
-	cd src/scripts && ./.merge-scripts
+	cd src/scripts && ./.merge-scripts.sh
+	
+merge-templates: ## Merge the install-config templates in the templates file
+	@echo Merging install-config templates into variables file
+	cd src/config/templates && ./.merge-templates.sh
 
 create-main-wrapper: ## Creates the wrapper with all the src/ content
 	@echo "Combining source files into openshift-install-wrapper"
@@ -52,4 +56,4 @@ copy-binary-wrappers: ## Copy wrappers to binaries directory
 	@chmod 755 $(TARGETDIR)/bin/openshift-install-wrapper
 	@echo "Wrappers installed in $(TARGETDIR)/bin. Please remember to add this location to your PATH to use it."
 
-install: create-dirs create-main-wrapper create-binary-wrappers merge-scripts copy-binary-wrappers ## Installs the script
+install: create-dirs merge-templates create-main-wrapper create-binary-wrappers merge-scripts copy-binary-wrappers ## Installs the script
