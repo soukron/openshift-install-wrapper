@@ -4,7 +4,7 @@ WRAPPER_NAME=kubectl
 WRAPPER_VERSION_VAR=KUBECTL_VERSION
 WRAPPER_BASEDIR=~/.local/ocp4/bin
 
-# Don't	need to	edit anything after this line
+# Don't need to edit anything after this line
 WRAPPER_VERSION=${!WRAPPER_VERSION_VAR:-${OCP4_VERSION:-"default"}}
 WRAPPER_CMD=`basename $0`-${WRAPPER_VERSION}
 
@@ -24,6 +24,17 @@ if [ "$1" == "--wrapper-info" ]; then
     fi
     echo
   done
+
+  exit
+fi
+
+# Helper to set the default version
+if [ "$1" == "--wrapper-set-default" ]; then
+  if [ ! -f ${WRAPPER_BASEDIR}/${WRAPPER_NAME}-${2} ]; then
+    echo "Error: unable to set as default a non-existant version"
+  else
+    ln -sf ${WRAPPER_NAME}-${2} ${WRAPPER_BASEDIR}/${WRAPPER_NAME}-default
+  fi
 
   exit
 fi
