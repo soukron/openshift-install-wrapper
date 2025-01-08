@@ -38,6 +38,7 @@ Options:
   --ovirt-vip-dns <ip>              - IP address for the cluster's dns
 
   --vsphere-vcenter <name>          - fqdn or IP address of vCenter
+  --vsphere-vcenter-port <port>     - port of vCenter
   --vsphere-username <username>     - username to login to vCenter
   --vsphere-password <password>     - password to login to vCenter
   --vsphere-cluster <name>          - vCenter cluster name

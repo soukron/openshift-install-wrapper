@@ -31,6 +31,7 @@ main() {
       --ovirt-vip-dns)        shift; INSTALLOPTS[ovirt-vip-dns]="${1}";;
 
       --vsphere-vcenter)      shift; INSTALLOPTS[vsphere-vcenter]="${1}";;
+      --vsphere-vcenter-port) shift; INSTALLOPTS[vsphere-vcenter-port]="${1}";;
       --vsphere-username)     shift; INSTALLOPTS[vsphere-username]="${1}";;
       --vsphere-password)     shift; INSTALLOPTS[vsphere-password]="${1}";;
       --vsphere-cluster)      shift; INSTALLOPTS[vsphere-cluster]="${1}";;

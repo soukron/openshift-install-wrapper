@@ -28,7 +28,7 @@ create_install_config() {
       installtemplate="${INSTALLTEMPLATES[$key]}"
     else
       key="${INSTALLOPTS[platform]}-default"
-      
+
       if [[ -n "${INSTALLTEMPLATES[$key]}" ]]; then
         success "Using default install-config template for ${INSTALLOPTS[platform]}..."
         installtemplate="${INSTALLTEMPLATES[$key]}"
@@ -63,6 +63,7 @@ create_install_config() {
     sed -i "s/VSPHERE-NETWORK/${INSTALLOPTS[vsphere-network]}/g;" ${clusterdir}/install-config.yaml
     sed -i "s/VSPHERE-PASSWORD/${INSTALLOPTS[vsphere-password]}/g;" ${clusterdir}/install-config.yaml
     sed -i "s/VSPHERE-USER/${INSTALLOPTS[vsphere-username]}/g;" ${clusterdir}/install-config.yaml
+    sed -i "s/VSPHERE-VCENTER-PORT/${INSTALLOPTS[vsphere-vcenter-port]}/g;" ${clusterdir}/install-config.yaml
     sed -i "s/VSPHERE-VCENTER/${INSTALLOPTS[vsphere-vcenter]}/g;" ${clusterdir}/install-config.yaml
     sed -i "s/VSPHERE-DISK-SIZE-GB/${INSTALLOPTS[vsphere-disk-size-gb]:-120}/g;" ${clusterdir}/install-config.yaml
   fi

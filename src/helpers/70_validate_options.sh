@@ -25,6 +25,7 @@ validate_options() {
           ;;
         vsphere)
           require_option vsphere-vcenter
+          require_option vsphere-vcenter-port
           require_option vsphere-username
           require_option vsphere-password
           require_option vsphere-cluster

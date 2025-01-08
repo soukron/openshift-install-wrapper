@@ -1,0 +1,59 @@
+additionalTrustBundlePolicy: Proxyonly
+apiVersion: v1
+baseDomain: DOMAIN
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  platform:
+    vsphere:
+      osDisk:
+        diskSizeGB: VSPHERE-DISK-SIZE-GB 
+  replicas: WORKER-REPLICAS
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  platform:
+    vsphere:
+      osDisk:
+        diskSizeGB: VSPHERE-DISK-SIZE-GB
+  replicas: MASTER-REPLICAS
+metadata:
+  creationTimestamp: null
+  name: NAME
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: MACHINE-NETWORK
+  networkType: OVNKubernetes
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  vsphere:
+    apiVIPs:
+    - VSPHERE-VIP-API
+    failureDomains:
+    - name: generated-failure-domain
+      region: generated-region
+      server: VSPHERE-VCENTER
+      topology:
+        computeCluster: /VSPHERE-DATACENTER/host/VSPHERE-CLUSTER
+        datacenter: VSPHERE-DATACENTER
+        datastore: /VSPHERE-DATACENTER/datastore/VSPHERE-DATASTORE
+        networks:
+        - VSPHERE-NETWORK
+        resourcePool: /VSPHERE-DATACENTER/host/VSPHERE-CLUSTER//Resources
+      zone: generated-zone
+    ingressVIPs:
+    - VSPHERE-VIP-INGRESS
+    vcenters:
+    - datacenters:
+      - VSPHERE-DATACENTER
+      password: VSPHERE-PASSWORD
+      port: VSPHERE-VCENTER-PORT
+      server: VSPHERE-VCENTER
+      user: VSPHERE-USER
+publish: External
