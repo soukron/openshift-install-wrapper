@@ -15,12 +15,13 @@ main() {
       --network-type)         shift; INSTALLOPTS[network-type]="${1}";;
       --machine-network)      shift; INSTALLOPTS[machine-network]="${1}";;
       --tags)                 shift; INSTALLOPTS[tags]+=",${1}";;
-      --edit-install-config) EDIT_INSTALL_CONFIG=1;;
+      --edit-install-config)  EDIT_INSTALL_CONFIG=1;;
       --edit-install-manifests) EDIT_INSTALL_MANIFESTS=1;;
 
-      --dev-preview) __baseurl=${__baseurl/\/ocp/\/ocp-dev-preview};;
-      --baseurl)     shift; __baseurl="${1}";;
-
+      --dev-preview)          __baseurl=${__baseurl/\/ocp/\/ocp-dev-preview};;
+      --baseurl)              shift; __baseurl="${1}";;
+      --custom-release-image) shift; INSTALLOPTS[custom-release-image]="${1}";;
+      
       --azure-resource-group) shift; INSTALLOPTS[azure-resource-group]="${1}";;
 
       --ovirt-cluster)        shift; INSTALLOPTS[ovirt-cluster]="${1}";;

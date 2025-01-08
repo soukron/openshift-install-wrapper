@@ -24,6 +24,8 @@ Options:
   --dev-preview                     - required to install any dev-preview release
   --baseurl <url>                   - sets the baseurl to download the binaries (overrides the use of --dev-preview)
                                       default: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp
+  --custom-release-image <url>      - uses a custom release image to extract the binaries from there. 
+                                      Requires a working oc binary in the PATH and pull secret with credentials for CI registry.
 
   --tags <key>=<value>[,key=value]  - optionally, sets tags on the resources it creates (only implemented for platform=aws)
                                       use multiple options for multiple tags or comma-separated key/value pairs
