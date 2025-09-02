@@ -45,7 +45,7 @@ create_install_config() {
   sed -i "s/REGION/${INSTALLOPTS[region]}/g;" ${clusterdir}/install-config.yaml
   sed -i "s/WORKER-REPLICAS/${INSTALLOPTS[worker-replicas]:-3}/g;" ${clusterdir}/install-config.yaml
   sed -i "s/MASTER-REPLICAS/${INSTALLOPTS[master-replicas]:-3}/g;" ${clusterdir}/install-config.yaml
-  sed -i "s/NETWORK-TYPE/${INSTALLOPTS[network-type]:-OpenShiftSDN}/g;" ${clusterdir}/install-config.yaml
+  sed -i "s/NETWORK-TYPE/${INSTALLOPTS[network-type]:-OVNKubernetes}/g;" ${clusterdir}/install-config.yaml
   sed -i "s#MACHINE-NETWORK#${INSTALLOPTS[machine-network]:-10.0.0.0/16}#g;" ${clusterdir}/install-config.yaml
   if [[ ${INSTALLOPTS[platform]} == "aws" ]]; then
     sed -i "/TAGS/ {
