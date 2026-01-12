@@ -1,0 +1,70 @@
+#!/bin/bash
+
+# Optional fields
+# script name: deploy-nmstate
+# script description: Installs Kubernetes NMState operator and deploys an instance
+
+# Mandatory function
+# start main - do not remove this line and do not change the function name
+main() {
+  # default values
+  namespace=openshift-nmstate
+  channel=stable
+
+  # parse arguments from ${1}, if any, and export them as variables
+  parse_args_as_variables "${1}"
+
+  # Create the namespace to deploy the operator
+  oc create namespace ${namespace} \
+      && success "Namespace rhsso created successfully." \
+      || err "Error creating the Namespace. It probably already exists. Continuing..."
+
+  # Create the operatorgroup
+  cat <<EOF | oc apply -f - \
+                  && success "OperatorGroup created succesfully." \
+                  || die "Error creating the OperatorGroup."
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: openshift-nmstate
+  namespace: ${namespace}
+spec:
+  targetNamespaces:
+  - ${namespace}
+EOF
+
+  # Create the subscription
+  cat <<EOF | oc apply -f - \
+                  && success "Subscription created succesfully." \
+                  || die "Error creating the Subscription."
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: kubernetes-nmstate-operator
+  namespace: ${namespace}
+spec:
+  channel: ${channel}
+  installPlanApproval: Automatic
+  name: kubernetes-nmstate-operator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+EOF
+
+  # Wait for a few seconds
+  verbose "Pausing fo 120 seconds..."
+  sleep 120
+
+  # Create the NMState instance
+  cat <<EOF | oc apply -f - \
+                  && success "NMState instance created successfully." \
+                  || err "Error creating NMState instance. You might need to install it manually."
+apiVersion: nmstate.io/v1
+kind: NMState
+metadata:
+  name: nmstate
+EOF
+}
+# end main - do not remove this line
+
+# Optionally, keep this if you want to run your script manually or for testing.
+main $@
