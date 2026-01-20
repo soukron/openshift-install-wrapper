@@ -60,7 +60,8 @@ main() {
       --login)       ACTION=login; QUIET=1;;
       --list)        ACTION=list;;
       --list-csv)    ACTION=list; LISTFORMAT="csv";;
-      --clean-tools) ACTION=cleantools ;;
+      --list-fields) shift; ACTION=list; LISTFIELDS="${1}";;
+      --clean-tools) ACTION=cleantools;;
 
       --force)       FORCE=1;;
       --dry-run)     DRY_RUN=1;;

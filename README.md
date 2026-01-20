@@ -286,7 +286,7 @@ Finally, after adding your new script in the directory, remember to run `make in
 ## TODO
 - ~~Read cluster version and cluster platform from install directory for `--customize`, and `--destroy` operations~~
 - ~~Add GCP support~~
-- Improve `--list` output
+- ~~Improve `--list` output~~
 - Improve console output (ie. include timestamps)
 - Implement `--expire` parameter to delete (using cron) a cluster after a certain time
 

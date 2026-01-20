@@ -12,9 +12,9 @@ Options:
   --platform <name>                 - cloud provider
 
   --region <name>                   - sets the region in the cloud provider
-  --master-replicas <number>        - optionally, sets the number of master nodes to deploy
-  --worker-replicas <number>        - optionally, sets the number of worker nodes
-  --network-type <network type>     - optionally, sets network type: OpenShiftSDN or OVNKubernetes
+  --master-replicas <number>        - optionally, sets the number of master nodes to deploy (default: 3)
+  --worker-replicas <number>        - optionally, sets the number of worker nodes (default: 2)
+  --network-type <network type>     - optionally, sets network type: OpenShiftSDN or OVNKubernetes (default: OVNKubernetes)
   --machine-network                 - optionally, sets machineNetwork (default: 10.0.0.0/16)
   --edit-install-config             - optionally, allows to edit the install-config.yaml before starting installation
   --edit-install-manifests          - optionally, allows to edit the install manifests. After generating the manifests, 
@@ -68,6 +68,9 @@ Options:
   --login                           - uses the default kubeadmin password to login in a given cluster
   --list                            - lists all existing clusters
   --list-csv                        - lists all existing clusters in CSV format
+  --list-fields <fields>            - lists all existing clusters with the given fields only (comma-separated list of fields)
+                                      available fields: NAME, VERSION, PLATFORM, STATUS, ADMINPWD, APISERVER, CONSOLE
+                                      can be set from running environment by setting LISTFIELDS environment variable
   --clean-tools                     - removes unecessary CLI clients and all installers
 
   --force                           - force installation (cleanup files if required)
