@@ -153,6 +153,21 @@ $ $( openshift-install-wrapper --use \
                             --domain aws.gmbros.net )
 ```
 
+### Pre-Loading options
+You can also pre-load options from a file by setting `INSTALLOPTS_ENV_FILE` before running the wrapper.
+
+Example:
+```
+$ cat /home/user/src//vsphere.env
+declare -A INSTALLOPTS
+INSTALLOPTS[vsphere-vcenter]="vcenter.example.local"
+INSTALLOPTS[vsphere-vcenter-port]="443"
+INSTALLOPTS[vsphere-username]="administrator@example.local"
+INSTALLOPTS[vsphere-password]="*****"
+
+$ export INSTALLOPTS_ENV_FILE=/home/user/src/vsphere.env
+```
+
 ### Troubleshooting
 - Use `--verbose` to get extra information during the execution, including the full output of `openshift-install`
 - Review `$HOME/.local/ocp4/clusters/<cluster_name>/.openshift_install_wrapper.log` for useful output

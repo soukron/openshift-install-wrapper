@@ -1,5 +1,8 @@
 # main function
 main() {
+  # import INSTALLOPTS from env file (if present)
+  load_installopts_env_file
+
   # parse arguments from commandline
   while [[ ${1} = -?* ]]; do
     key="${1}"

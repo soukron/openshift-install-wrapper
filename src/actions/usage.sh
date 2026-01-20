@@ -79,6 +79,9 @@ Options:
   --quiet                           - quiet mode (no output at all)
   --help|-h                         - shows this message
 
+Environment:
+  INSTALLOPTS_ENV_FILE=<path>        - load INSTALLOPTS from a shell file
+
 Available customizations:
 #__CUSTOM_SCRIPTS_NAMES__
 EOF
